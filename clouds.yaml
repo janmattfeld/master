@@ -6,13 +6,16 @@
 # If values include special characters, use single quotes.
 # Double quotes do not work here, as they are interpreted.
 #
-#- text: Amazon EC2 (dev-aws@janmattfeld.de)
+
+#- id: amazonec2
+#  text: Amazon EC2 (dev-aws@janmattfeld.de)
 #  provider: ec2
 #  auth:
 #    username: dev-aws-2017-06-11-oIcY69Fz@janmattfeld.de
 #    password: tnbC1z3kY6u33oeXKKMJ
 
-- text: Docker CE (localhost)
+- id: dockerce
+  text: Docker CE (localhost)
   provider: docker
   auth:
     host: localhost
@@ -25,7 +28,8 @@
   cost: 1
   secure: False
 
-#- text: DevStack (Masterprojekt/172.20.5.51)
+#- id: devstack
+#  text: DevStack (Masterprojekt/172.20.5.51)
 #  provider: openstack
 #  auth:
 #    auth_url: http://172.17.0.2/identity/v3

@@ -7,31 +7,35 @@ import utils
 class Template:
     """Jinja2 dict/YAML template for app deployment"""
 
-    def __init__(self, id, template):
-        self._id = id
+    def __init__(self, name, template):
+        self.id = name
         self._template = template
-        self._path = './deployments/{id}.yaml'.format(id=self._id)
+        self._path = './deployments/{id}.yaml'.format(id=self.id)
 
-        self.save()
-        self.update({'app_id': self._id})
+        self._save_yaml()
+        self.update({'app_id': self.id})
 
-    def save(self, path=None):
+    def __get__(self, instance, owner):
+        return self._template
+
+    def __getitem__(self, item):
+        return self._template[item]
+
+    def __repr__(self):
+        return self._template
+
+    def _save_yaml(self, path=None):
         """Persist template to disk as YAML"""
         with open(path or self._path, 'w') as f:
             yaml.YAML().dump(self._template, f)
 
-    def get(self):
-        """Return dict representation of template"""
-        return self._template
-
-    def update(self, update=None, persist=True):
-        """Update template and optionally save it to disk"""
-
-        if update is None:
-            update = {}
+    def update(self, value=None, persist=True):
+        """Update Template"""
+        if value is None:
+            value = {}
 
         class IgnoreMissingAttribute(jinja2.DebugUndefined):
-            """Ignores missing objects or attributes, preserving placeholders"""
+            """Preserve placeholders, ignore missing objects or attributes"""
 
             def __getattr__(self, name):
                 return u'{{ %s.%s }}' % (self._undefined_name, name)
@@ -39,11 +43,11 @@ class Template:
         # Load and update the last saved yaml as new template
         env = jinja2.Environment(loader=jinja2.FileSystemLoader('.'), undefined=IgnoreMissingAttribute)
         template = env.get_template(self._path)
-        updated_template = yaml.YAML().load(template.render(update))
+        updated_template = yaml.YAML().load(template.render(value))
 
         if persist:
             self._template = updated_template
-            self.save()
+            self._save_yaml()
 
         return updated_template
 
@@ -51,7 +55,7 @@ class Template:
 class App:
     #
     # Apps consist of a global dispatcher, 0..1 master and 0..n replica nodes.
-    # These are described in a Service Template.
+    # These are described in a Service Template (YAML).
     #
     # Constraints during deployment planning:
     #  - Service Dependencies -> Handled here
@@ -59,8 +63,8 @@ class App:
     #  - Soft Constraints (Availability, Performance, Price) -> Scheduler
     #
     def __init__(self, template, sla, cloud):
-        self._id = utils.create_uuid(template['name'])
-        self._template = Template(self._id, template)
+        self.id = utils.create_uuid(template['name'])
+        self._template = Template(self.id, template)
         self._sla = sla
         self._services = []
         # Not really, should be defined by scheduler
@@ -69,16 +73,16 @@ class App:
         self._deploy_services()
 
     def _get_service_by_role(self, role):
-        """Returns ONE service of a given role"""
+        """Return ONE service of a given role"""
         return next((srv for srv in self._services if srv.get_role() == role), None)
 
     def _get_services_by_role(self, role):
-        """Returns ALL services of a given role"""
+        """Return ALL services of a given role"""
         return [srv for srv in self._services if srv.get_role() == role]
 
     def _deploy_services(self):
 
-        _queued_services = self._template.get()['services']
+        _queued_services = self._template['services']
 
         def _is_global():
             """Only one instance of this service shall exist within a cluster"""
@@ -123,16 +127,19 @@ class App:
                     if _role_is_deployed():
                         _queued_services.remove(srv)
 
+    def __repr__(self):
+        return "<{name}: id={id}>".format(name=__name__, id=self.id)
+
 
 class Service:
     """A service instance is deployed within a scheduled cloud, according to its template"""
 
     def __init__(self, template, cloud):
-        self._id = utils.create_uuid(template['role'])
+        self.id = utils.create_uuid(template['role'])
         self._role = template['role']
         self._cloud = cloud
         self._template = template
-        self._instance = cloud.deploy_template(self._id, template)
+        self._instance = cloud.deploy_template(self.id, template)
 
     def get_role(self):
         return self._role
@@ -142,3 +149,6 @@ class Service:
 
     def get_ip(self):
         pass
+
+    def __repr__(self):
+        return "<{name}: id={id}>".format(name=__name__, id=self.id)

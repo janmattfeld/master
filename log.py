@@ -98,10 +98,11 @@ def ignored(*exceptions):
 
     """
     import logging
+    import pprint
     try:
         yield
     except exceptions:
-        logging.warning(exceptions[0])
+        logging.warning(pprint.pformat(exceptions[0]))
         pass
 
 

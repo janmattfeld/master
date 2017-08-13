@@ -53,7 +53,6 @@ def deploy_app(id='hyrise'):
 def destroy_app(id='hyrise'):
     """Remove all Instances of an Application"""
     # TODO: Find all instances of specific app
-    _destroy_all_containers()
 
 
 def get_inventory():
