@@ -1,0 +1,137 @@
+#
+# Place this file in your cloud management ./services directory
+#   - Included apps will be initialized automatically.
+#   - Available meta information is used for scheduling.
+#
+# If values include special characters, use single quotes.
+# Double quotes do not work here, as they are interpreted.
+# Reference service values with Jinja2 curly brace syntax.
+#
+
+schema-version: 1
+
+name: Hyrise-R
+description: HYRISE-R is a lazy master replication system for the in-memory database HYRISE.
+website: https://hpi.de/plattner/projects/hyrise.html
+logo: https://avatars0.githubusercontent.com/u/3465095
+vcs-url: https://github.com/hyrise
+license: MIT
+
+service-author: Jan Mattfeld
+service-vcs-url: https://github.com/janmattfeld
+service-version: 0.0.1
+service-date: 2017-07-23
+
+services:
+
+  - role: dispatcher
+    labels:
+      - de.hpi.hyrise.description: Hyrise-R Dispatcher
+      - de.hpi.hyrise.role: dispatcher
+      - de.janmattfeld.cloud.app.id: '{{app_id}}'
+    depends_on:
+      - None
+    deploy:
+      mode: global
+      constraints:
+          - node.role == manager
+      resources:
+        limits:
+          cpus: 0.001
+          memory: 50M
+        reservations:
+          cpus: 0.0001
+          memory: 20M
+    networks:
+      - frontend
+      - backend
+    healthcheck: # TODO: Use throughput URL
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+    restart_policy:
+      condition: on-failure
+      delay: 5s
+      max_attempts: 3
+      window: 120s
+    docker:
+      image: hyrise/dispatcher:docker
+      command:
+        - ./start_dispatcher
+        - '{{dispatcher.port}}'
+        - settings.json
+      cap_add:
+        - None
+
+  - role: master
+    labels:
+      - de.hpi.hyrise.description: Hyrise-R Master
+      - de.hpi.hyrise.role: master
+      - de.janmattfeld.cloud.app.id: '{{app_id}}'
+    depends_on:
+      - dispatcher
+    deploy:
+      mode: global
+      constraints:
+          - node.role == master
+      resources:
+        reservations:
+          cpus: 0.0001
+          memory: 2000M
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 1m30s
+      timeout: 10s
+    restart_policy:
+      condition: on-failure
+      delay: 5s
+      max_attempts: 3
+      window: 120s
+    docker:
+      image: janmattfeld/hyrise_r:latest
+      command:
+        - '--dispatcherurl={{dispatcher.ip}}'
+        - '--dispatcherport={{dispatcher.port}}'
+        - '--port={{master.port}}'
+        - --nodeId=0
+      cap_add:
+        - None
+
+  - role: replica
+    labels:
+      - de.hpi.hyrise.description: Hyrise-R Replica
+      - de.hpi.hyrise.role: replica
+      - de.janmattfeld.cloud.app.id: '{{app_id}}'
+    depends_on:
+      - dispatcher
+      - master
+    deploy:
+      mode: replicated
+      replicas: 3
+      resources:
+        reservations:
+          cpus: 0.0001
+          memory: 2000M
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 1m30s
+      timeout: 10s
+    restart_policy:
+      condition: on-failure
+      delay: 5s
+      max_attempts: 3
+      window: 120s
+    docker:
+      image: janmattfeld/hyrise_r:latest
+      command:
+        - '--dispatcherurl={{dispatcher.ip}}'
+        - '--dispatcherport={{dispatcher.port}}'
+        - '--port={{replica.port}}'
+        - '--nodeId={{replica.id}}'
+      cap_add:
+        - None

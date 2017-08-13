@@ -1,0 +1,43 @@
+#
+# Place this clouds.yaml file in your cloud management root
+#   - Included clouds will be initialized automatically.
+#   - Available meta information is used for scheduling.
+#
+# If values include special characters, use single quotes.
+# Double quotes do not work here, as they are interpreted.
+#
+#- text: Amazon EC2 (dev-aws@janmattfeld.de)
+#  provider: ec2
+#  auth:
+#    username: dev-aws-2017-06-11-oIcY69Fz@janmattfeld.de
+#    password: tnbC1z3kY6u33oeXKKMJ
+
+- text: Docker CE (localhost)
+  provider: docker
+  auth:
+    host: localhost
+    port: 4243
+    username:
+    password:
+  location:
+    country: de
+  availability: 0.97
+  cost: 1
+  secure: False
+
+#- text: DevStack (Masterprojekt/172.20.5.51)
+#  provider: openstack
+#  auth:
+#    auth_url: http://172.17.0.2/identity/v3
+#    username: admin
+#    password: secret
+#    project_id: c98733f4294a438abeb391dcc431514b
+#    project_name: admin
+#    user_domain_name: Default
+#    region_name: RegionOne
+#    identity_api_version: 3
+#  auth_url: http://172.20.5.51:5000/v2.0/
+#  costs:
+#  features:
+#  security:
+#  availability:
