@@ -3,7 +3,7 @@
 
 import ruamel.yaml as yaml
 
-from cloud import Cloud
+from cloud import Cloud, AmazonCloud, OpenStackCloud
 from log import traced, init
 
 init('DEBUG')
@@ -63,12 +63,12 @@ def get_inventory():
 def get_throughput():
     from query_hyrise import benchmark
     dispatcher_ip = '127.0.0.1'
-    dispatcher_port = 6666
+    dispatcher_port = 5099
     return benchmark(dispatcher_ip, dispatcher_port, './queries/q1.json', num_threads=2, num_queries=4)
 
 
 _init_clouds()
 deploy_app('hyrise')
-# get_throughput()
+get_throughput()
 # destroy_app('hyrise')
 _clouds[0]._destroy_all_containers()

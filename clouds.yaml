@@ -11,8 +11,9 @@
 #  text: Amazon EC2 (dev-aws@janmattfeld.de)
 #  provider: ec2
 #  auth:
-#    username: dev-aws-2017-06-11-oIcY69Fz@janmattfeld.de
-#    password: tnbC1z3kY6u33oeXKKMJ
+#    region: us-east-1
+#    access_id: AKIAIDOJJPUWARE6EECA
+#    password: /nLlpN2KGt8oMtKHN4yIJsneof4VdX18hbFvpgHi
 
 - id: dockerce
   text: Docker CE (localhost)
@@ -32,16 +33,15 @@
 #  text: DevStack (Masterprojekt/172.20.5.51)
 #  provider: openstack
 #  auth:
-#    auth_url: http://172.17.0.2/identity/v3
+#    url: http://172.20.5.51/identity/v2.0/tokens
+#    version: 2.0_password
+#    region_name: RegionOne
 #    username: admin
 #    password: secret
-#    project_id: c98733f4294a438abeb391dcc431514b
-#    project_name: admin
-#    user_domain_name: Default
-#    region_name: RegionOne
-#    identity_api_version: 3
-#  auth_url: http://172.20.5.51:5000/v2.0/
-#  costs:
+#    tenant_name: admin
+#  location:
+#    country: de
+#  cost:
 #  features:
 #  security:
 #  availability:

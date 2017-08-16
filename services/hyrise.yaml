@@ -126,6 +126,10 @@ services:
       delay: 5s
       max_attempts: 3
       window: 120s
+    openstack:
+      image: hyrise_r
+      flavor: m1.large
+      cloud_init:
     docker:
       image: janmattfeld/hyrise_r:latest
       command:

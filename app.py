@@ -12,7 +12,7 @@ class Template:
         self._template = template
         self._path = './deployments/{id}.yaml'.format(id=self.id)
 
-        self._save_yaml()
+        self.__save_yaml()
         self.update({'app_id': self.id})
 
     def __get__(self, instance, owner):
@@ -24,7 +24,7 @@ class Template:
     def __repr__(self):
         return self._template
 
-    def _save_yaml(self, path=None):
+    def __save_yaml(self, path=None):
         """Persist template to disk as YAML"""
         with open(path or self._path, 'w') as f:
             yaml.YAML().dump(self._template, f)
@@ -47,7 +47,7 @@ class Template:
 
         if persist:
             self._template = updated_template
-            self._save_yaml()
+            self.__save_yaml()
 
         return updated_template
 

@@ -1,6 +1,8 @@
 from multiprocessing.dummy import Pool
 
 from libcloud.container.drivers.docker import DockerContainerDriver
+from libcloud.container.drivers.ecs import ElasticContainerDriver
+from libcloud.compute.drivers.openstack import OpenStackNodeDriver
 
 from log import traced, ignored
 
@@ -89,11 +91,41 @@ class Cloud:
         return "<{name}: id={id}>".format(name=__name__, id=self.id)
 
 
-class AmazonCloud(Cloud):
+class AmazonCloud:
+    """This currently fails because of a libcloud error:
+    requests.exceptions.ConnectionError: HTTPSConnectionPool(host='ecs.%s.amazonaws.com', port=443): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.VerifiedHTTPSConnection object at 0x7f40f7135668>: Failed to establish a new connection: [Errno -2] Name or service not known',))
+    """
+
+    @traced('text')
+    def __init__(self, cfg):
+        pass
+        # from libcloud.container.types import Provider
+        # from libcloud.container.providers import get_driver
+        #
+        # from libcloud.container.utils.docker import HubClient
+        #
+        # """Initialize Cloud"""
+        # self._cfg = cfg
+        # cls = get_driver(Provider.ECS)
+        # hub = HubClient()
+        #
+        # image = hub.get_image('ubuntu', 'latest')
+        # print(image)
+        # conn = cls(access_id=cfg['auth']['access_id'],
+        #            secret=cfg['auth']['password'],
+        #            region=cfg['auth']['region'])
+        # self.id = self._cfg['id']
+        #
+        # for cluster in conn.list_clusters():
+        #     print(cluster.name)
+
+
+        # We start in a clean cloud environment
+        # self._destroy_all_containers()
+
+
+class DockerCloud:
     pass
-
-
-class DockerCloud(Cloud):
     """
     # Docker
     #
@@ -102,26 +134,30 @@ class DockerCloud(Cloud):
     #
     # Instead of None, we need to pass empty strings for key and secret, apache/libcloud/pull/1067
     """
-    pass
 
 
-class OpenStackCloud(Cloud):
-    pass
+class OpenStackCloud:
+    @traced('text')
+    def __init__(self, cfg):
+        """Initialize Cloud"""
+        self._cfg = cfg
+        self._conn = OpenStackNodeDriver(cfg['auth']['username'],
+                                         cfg['auth']['password'],
+                                         ex_tenant_name=cfg['auth']['tenant_name'],
+                                         ex_force_auth_url=cfg['auth']['url'],
+                                         ex_force_auth_version=cfg['auth']['version'],
+                                         ex_force_service_region=cfg['auth']['region_name'])
+
+        self.id = self._cfg['id']
+        self.availability = self._cfg['availability']
+        self.cost = self._cfg['cost']
+        self.location = self._cfg['location']['country']
+
+        print("asd")
+        print(self._conn .list_images())
 
 # OpenStack
-# from libcloud.compute.providers import get_driver as compute_get_driver
-# from libcloud.compute.types import Provider as compute_provider
 #
-# USER_NAME = 'admin'
-# PASSWORD = 'secret'
-# TENANT_NAME = 'admin'
-# AUTH_URL = 'http://172.20.5.51/identity'
-# region_name = 'RegionOne'
+# DO NOT CREATE VOLUME WHEN DEPLOYING INSTANCE
 #
-# driver = compute_get_driver(compute_provider.OPENSTACK)(
-#     USER_NAME, PASSWORD, ex_tenant_name=TENANT_NAME,
-#     ex_force_auth_url="http://172.20.5.51/identity/v2.0/tokens",
-#     ex_force_auth_version='2.0_password',
-#     ex_force_service_region=region_name)
 #
-# logging.info(driver.list_images())
