@@ -1,5 +1,6 @@
 from multiprocessing.dummy import Pool
 
+import libcloud
 from libcloud.container.drivers.docker import DockerContainerDriver
 from libcloud.container.drivers.ecs import ElasticContainerDriver
 from libcloud.compute.drivers.openstack import OpenStackNodeDriver
@@ -153,11 +154,79 @@ class OpenStackCloud:
         self.cost = self._cfg['cost']
         self.location = self._cfg['location']['country']
 
-        print("asd")
-        print(self._conn .list_images())
+        # DevStack: DO NOT create Volume when deploying
+        print(self._conn.list_images())
 
-# OpenStack
-#
-# DO NOT CREATE VOLUME WHEN DEPLOYING INSTANCE
-#
-#
+
+class PowerVcCloud:
+    @traced('text')
+    def __init__(self, cfg):
+        """Initialize Cloud"""
+
+        # The PowerVC certificate is self-signed
+        # libcloud.security.VERIFY_SSL_CERT = False
+
+        import libcloud.security
+        libcloud.security.CA_CERTS_PATH = ['/home/tmp/PycharmProjects/untitled2/powervc.crt']
+
+        # The API endpoint returns host 'powervc', which is unknown to the FSOC DNS
+        # Add to /etc/hosts: 192.168.42.252 powervc
+        # OR use ex_force_base_url: https://192.168.42.252:8774/v2.1
+
+        self._cfg = cfg
+        self._conn = OpenStackNodeDriver(cfg['auth']['username'],
+                                         cfg['auth']['password'],
+                                         ex_tenant_name=cfg['auth']['tenant_name'],
+                                         ex_force_auth_url=cfg['auth']['url'],
+                                         # ex_force_base_url=cfg['auth']['base_url'],
+                                         ex_force_auth_version=cfg['auth']['version'],
+                                         ex_force_service_region=cfg['auth']['region_name'])
+
+        self.id = self._cfg['id']
+        self.availability = self._cfg['availability']
+        self.cost = self._cfg['cost']
+        self.location = self._cfg['location']['country']
+
+        from pprint import pprint
+
+        # node = self._conn.create_node(name='jan-test',
+        #                               image=self._get_image('Ubuntu1604LE'),
+        #                               size=self._get_size('m1.large'))
+
+
+        pprint(self.nodes)
+        pprint(self._get_node('jan-test'))
+
+        # Failsave: Only shut down machines .startswith("jan")
+
+    @property
+    def images(self):
+        """List Images"""
+        return self._conn.list_images()
+
+    def _get_image(self, name):
+        """Get Image by Name"""
+        existing_image = next((i for i in self.images if i.name == name), None)
+        return existing_image  # or self._install_image(path)
+
+    @property
+    def sizes(self):
+        """List Sizes"""
+        # PowerVC lists options here than on the Web Interface
+        return self._conn.list_sizes()
+
+    def _get_size(self, name):
+        """Get Size by Name"""
+        return next((s for s in self.sizes if s.name == name), None)
+
+    @property
+    def nodes(self):
+        """List Nodes"""
+        # Node data misses the ip address.
+        # Check Hardware Management Console (HMT) at 192.168.42.251
+        return self._conn.list_nodes()
+
+    def _get_node(self, name):
+        """Get Node by Name"""
+        #root:power8
+        return next((n for n in self.nodes if n.name == name), None)

@@ -3,7 +3,7 @@
 
 import ruamel.yaml as yaml
 
-from cloud import Cloud, AmazonCloud, OpenStackCloud
+from cloud import Cloud, AmazonCloud, OpenStackCloud, PowerVcCloud
 from log import traced, init
 
 init('DEBUG')
@@ -23,7 +23,7 @@ def _get_cloud_config(path='clouds.yaml'):
 def _init_clouds(filter='all'):
     """Create Clouds from Config"""
     for cfg in _get_cloud_config('clouds.yaml'):
-        _clouds.append(Cloud(cfg))
+        _clouds.append(PowerVcCloud(cfg))
 
 
 @traced()
@@ -68,7 +68,7 @@ def get_throughput():
 
 
 _init_clouds()
-deploy_app('hyrise')
-get_throughput()
+# deploy_app('hyrise')
+# get_throughput()
 # destroy_app('hyrise')
-_clouds[0]._destroy_all_containers()
+# _clouds[0]._destroy_all_containers()
