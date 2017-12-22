@@ -1,0 +1,90 @@
+\chapter{Die Cloud und ihre Herausforderungen}
+
+Dieses Kapitel definiert die grundlegenden Charakteristika eines Cloud-Dienstes, die verschiedenen Service-Ebenen, Liefermodelle, Akteure und ihre Verantwortlichkeiten. Aus diesen Definitionen entwickeln sich zwei grundlegende Herausforderungen der Cloud-Nutzung:
+
+\begin{enumerate}
+	\item Datenschutz/Vertraulichkeit
+	\item Portabilität
+\end{enumerate}
+
+% Unternehmens-Nutzers auf der PaaS-Ebene
+\noindent Je nach Cloud-Nutzung ergeben sich hierfür verschiedene Lösungsansätze, die im weiteren Verlauf gegeneinander abgegrenzt werden.
+
+\section{Eigenschaften eines Cloud-Dienstes}
+
+Unabhängig von Liefer- und Servicemodell zeichnet sich ein Cloud-Dienst durch bestimmte Merkmale aus. Konkret definieren übereinstimmend \emph{NIST Cloud Computing Reference Architecture}, \emph{IETF} und \emph{BSI-Grundschutzkatalog} folgende Eigenschaften:
+% http://ws680.nist.gov/publication/get_pdf.cfm?pub_id=909505 
+% https://www.bsi.bund.de/DE/Themen/ITGrundschutz/ITGrundschutzKataloge/Inhalt/_content/m/m04/m04446.html?nn=6604968
+% https://www.ietf.org/archive/id/draft-khasnabish-cloud-reference-framework-08.txt
+
+\begin{description}
+
+	\item[On-demand Self-service] Ressourcen werden vom Cloud-Kunden selbstständig über ein Portal oder eine Web-Schnittstelle angefordert und anschließend automatisch provisioniert.
+	
+	\item[Breitbandzugriff] Die gemieteten Ressourcen werden über ein Netzwerk, typischerweise das Internet, bereitgestellt. Der Zugriff erfolgt über Standard-Schnittstellen wie HTTP; kann also von überall erfolgen und ist im Regelfall nicht auf bestimmte Geräte oder Software beschränkt.
+	
+	\item[Geteilte Infrastruktur] Die zugrundeliegenden physikalischen Ressourcen werden virtualisiert und flexibel unter mehreren Kunden aufgeteilt. Die vorhandene Hardware wird so möglichst optimal ausgelastet. Gleichzeitig ergeben sich hierdurch Datenschutzbedenken; die Daten einzelner Mandaten müssen streng getrennt sein.
+	
+	\item[Elastizität] Durch einen hohen Grad an Automatisierung werden Ressourcen zeitnah zur Verfügung gestellt. Lastspitzen können so ohne manuelle Eingriffe abgefangen werden.
+
+	\item[Messbarkeit] Die Ressourcennutzung ist messbar und wird kontinuierlich überwacht. Abgerechnet wird zum Beispiel nach CPU-Zeit, Speicherkapazität oder Anzahl genutzter IP-Adressen.
+	
+\end{description}
+
+\noindent Von klassischem IT-Outsourcing grenzt es sich durch Self-Service, Skalierbarkeit und geteilte Infrastruktur ab. Diese Eigenschaften bieten Kunden theoretisch Flexibilität und Kostenvorteile. In der Lösungssuche sollen diese positiven Aspekte möglichst erhalten bleiben.
+
+
+\section{Service-Ebenen}
+
+Je nach Auswahl des Cloud-Angebots lassen sich verschiedene Kernebenen unterscheiden. Diese bauen aufeinander auf und verbergen die Komplexität der darunterliegenden Ebenen vor dem Kunden. Je weiter sich die Abstraktion von der physikalischen Ebene entfernt, desto weniger lässt sich das Angebot durch den Kunden anpassen:
+
+\begin{description}
+	
+	\item[Infrastructure as a Service (IaaS)] Die klassische Bereitstellung von Infrastruktur wie virtuellen Maschinen, Speicherplatz und Netzwerkdienstleistungen. Der Kunde ist hier selbst für die Administration zuständig, muss also Einrichtung und Wartung von Betriebssystemen, Treibern und Middleware selbst verantworten.
+	
+	\item[Platform as a Service (PaaS)] Hier übernimmt der Cloud Provider die Bereitstellung der zuvor genannten Bestandteile. Der Kunde betreibt auf dieser Ebene eine selbst erstellte Anwendungssoftware. Über Bibliotheken und Schnittstellen des Cloud Providers greift er auf Laufzeitumgebungen, Datenbanken und Entwicklungswerkzeuge zu.
+	
+	\item[Software as a Service (SaaS)] Eine bestehende Anwendungssoftware wird komplett vom Cloud Provider bezogen. Die Verantwortlichkeit des Kunden beschränkt sich meist auf kleinere Anpassungen, Nutzerverwaltung und das Einspielen eigener Daten.
+	
+\end{description}
+
+\noindent
+Darüber hinaus ist das Stichwort \emph{Serverless Computing} populär: Entgegen des Namens arbeiten auch hier noch Server, diese sind für den Kunden jedoch weitestgehend unsichtbar. Es stellt eine Evolution des PaaS-Modells dar und ist besser als Function as a Service (FaaS) beschrieben -- der Kunde lädt nur noch Quellcode in die Cloud. Dieser wird nun Ereignis-getrieben ausgeführt, skaliert und abgerechnet. Im Gegensatz zu vielen PaaS-Angeboten fallen im Ruhebetrieb keine weiteren Kosten an.
+%https://www.crisp-research.com/serverless-infrastructure-der-schmale-grat-zwischen-einfachheit-und-kontrollverlust/
+
+Weitere Hilfsdiesnte. später mit abhängigkeiten udn geteilten. verantwortlichkeiten.
+
+
+
+
+Was wird angeboten? Worauf beziehe ich mich im Folgenden? PaaS
+Eigene Software hyrise-R. WIrd klassisch über libraries an eine bestimmte CLoud angepasst. hier: docker.
+
+Rollen: Mehrere Rollen. Wir betrachten Cloud Provider und Consumer.
+Eigene Rolle: Consumer. AGBs und SLAs meist nicht verhandelbar. Geteilte Verantwortung: Das beste daraus machen!
+
+Interoperability nicht wichtig, da PaaS. Eigen Anwendung kümmert sich!
+
+Weitere Aufgaben (Management)
+
+Vergleich mit BSI-Architektur
+
+Service-Taxonomy / Cloud-Typen
+
+
+Risiken
+
+
+Anforderungen
+
+Verwaltung über automatisierte Tools zur Orchestrierung.
+Kleine Marktübersicht?
+
+
+WAS IST EIN BROKER IN DIESEM KONTEXT?
+- Nicht Nutzerdaten werden geroutet.
+- Bestandteile verteilter Anwendungen.
+- Begründen.
+
+Klassifizierung der Broker.
+Ngrozev

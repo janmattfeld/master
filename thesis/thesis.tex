@@ -1,0 +1,59 @@
+\documentclass{scrreprt} % <= Druckversion: "scrbook", Bildschirmversion: "scrreprt"
+\newcommand\bcor{12mm} % <= Bindungskorrektur für Druckversion
+\usepackage{osm-thesis}
+
+% ABOUT
+\newcommand{\hpitype}{Masterarbeit}
+\newcommand{\hpiauthor}{Jan-Henrich Mattfeld}
+\newcommand{\hpititle}{Eine einheitliche Middleware zur Policy-Durchsetzung in Multi-Cloud-Infrastrukturen}
+\newcommand{\hpititleother}{A Unified Middleware for Policy Enforcement in Multi-Cloud Infrastructures} % <= das Studienreferat verlangt einen deutschen UND englischen Titel
+\newcommand{\hpisupervisor}{Max Plauth, Prof.\,Dr.\,Andreas Polze}
+\newcommand{\hpichair}{Fachgebiet für Betriebssysteme und Middleware}
+\newcommand{\hpiexternalsupervisor}{}
+\newcommand{\hpiexternal}{}
+\newcommand{\hpidate}{\today}
+
+% DOCUMENT
+%\KOMAoption{draft}{true} % <= z.B. zum "Debuggen" der Overfull-Boxes
+\bibliography{bibliography}
+
+\begin{document}
+	\selectlanguage{ngerman}
+
+	% Einband
+	\pagenumbering{alph}
+	\ifisbook\include{content/coverpage}\fi
+	\ifisbook\cleardoubleemptypage\fi
+
+	% (Haupt-)Titelseite, Abstract, ggf. Danksagung & Inhaltsverzeichnis
+	\pagenumbering{roman}
+	\include{content/titlepage}
+%	\ifisbook\cleardoubleemptypage\fi\include{content/abstract}
+	%\ifisbook\cleardoubleemptypage\fi\include{content/dedication}
+%	\tableofcontents
+	\cleardoublepage
+
+	% Textteil
+	\pagenumbering{arabic}
+	\include{content/0_einleitung}
+	\include{content/1_grundlagen}
+	\include{content/2_relatedwork}
+	\include{content/3_loesung}
+	\include{content/4_implementierung}
+	\include{content/5_fazit}
+	\include{content/chapter1} % example
+	\include{content/chapter2} % example
+%	\include{content/chapter3} % example
+
+	% ggf. Anhang
+%	\appendix\include{content/appendix} % example
+
+	% Bibliographie
+%	\ifisbook\cleardoubleemptypage\fi
+%	\phantomsection\addcontentsline{toc}{chapter}{\refname}
+%	\printbibliography[category=cited]
+
+	% Eigenständigkeitserklärung
+	\ifisbook\pagestyle{plain}\cleardoubleemptypage\include{content/disclaimer}\fi
+
+\end{document}
