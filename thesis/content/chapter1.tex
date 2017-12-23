@@ -1,4 +1,4 @@
-\chapter{Die Cloud und ihre Herausforderungen}
+\chapter{Die Cloud -- Chancen und Herausforderungen}
 
 Dieses Kapitel definiert die grundlegenden Charakteristika eines Cloud-Dienstes, die verschiedenen Service-Ebenen, Liefermodelle, Akteure und ihre Verantwortlichkeiten. Aus diesen Definitionen entwickeln sich zwei grundlegende Herausforderungen der Cloud-Nutzung:
 
@@ -36,7 +36,7 @@ Unabhängig von Liefer- und Servicemodell zeichnet sich ein Cloud-Dienst durch b
 
 \section{Service-Ebenen}
 
-Je nach Auswahl des Cloud-Angebots lassen sich verschiedene Kernebenen unterscheiden. Diese bauen aufeinander auf und verbergen die Komplexität der darunterliegenden Ebenen vor dem Kunden. Je weiter sich die Abstraktion von der physikalischen Ebene entfernt, desto weniger lässt sich das Angebot durch den Kunden anpassen:
+Je nach Auswahl des Cloud-Angebots lassen sich verschiedene Kernebenen unterscheiden. Diese bauen jeweils aufeinander auf und verbergen die Komplexität der darunterliegenden Ebenen. Je weiter sich die Abstraktion von der physikalischen Ebene entfernt, desto weniger lässt sich das Angebot durch den Kunden anpassen:
 
 \begin{description}
 	
@@ -44,47 +44,68 @@ Je nach Auswahl des Cloud-Angebots lassen sich verschiedene Kernebenen untersche
 	
 	\item[Platform as a Service (PaaS)] Hier übernimmt der Cloud Provider die Bereitstellung der zuvor genannten Bestandteile. Der Kunde betreibt auf dieser Ebene eine selbst erstellte Anwendungssoftware. Über Bibliotheken und Schnittstellen des Cloud Providers greift er auf Laufzeitumgebungen, Datenbanken und Entwicklungswerkzeuge zu.
 	
+	\item[Function as a Service (FaaS)] Auch als \emph{Serverless Computing} populär: Entgegen des Namens arbeiten auch hier noch Server, diese sind für den Kunden jedoch weitestgehend unsichtbar. Es stellt eine Evolution des PaaS-Modells dar und ist besser als FaaS beschrieben -- der Kunde lädt nur noch Quellcode in die Cloud. Dieser wird nun Ereignis-getrieben ausgeführt, skaliert und abgerechnet. Im Gegensatz zu vielen PaaS-Angeboten fallen im Ruhebetrieb keine weiteren Kosten an.
+	%https://www.crisp-research.com/serverless-infrastructure-der-schmale-grat-zwischen-einfachheit-und-kontrollverlust/
+	
 	\item[Software as a Service (SaaS)] Eine bestehende Anwendungssoftware wird komplett vom Cloud Provider bezogen. Die Verantwortlichkeit des Kunden beschränkt sich meist auf kleinere Anpassungen, Nutzerverwaltung und das Einspielen eigener Daten.
 	
 \end{description}
 
 \noindent
-Darüber hinaus ist das Stichwort \emph{Serverless Computing} populär: Entgegen des Namens arbeiten auch hier noch Server, diese sind für den Kunden jedoch weitestgehend unsichtbar. Es stellt eine Evolution des PaaS-Modells dar und ist besser als Function as a Service (FaaS) beschrieben -- der Kunde lädt nur noch Quellcode in die Cloud. Dieser wird nun Ereignis-getrieben ausgeführt, skaliert und abgerechnet. Im Gegensatz zu vielen PaaS-Angeboten fallen im Ruhebetrieb keine weiteren Kosten an.
-%https://www.crisp-research.com/serverless-infrastructure-der-schmale-grat-zwischen-einfachheit-und-kontrollverlust/
+Besonders interessant für eigene Entwicklungen im Rahmen des aktuellen Forschungskontextes sind dabei die Ebenen IaaS und PaaS. Sie bieten genug Flexibilität um die Fragestellung mit folgenden Produkten zu erproben:
 
-Weitere Hilfsdiesnte. später mit abhängigkeiten udn geteilten. verantwortlichkeiten.
+\begin{enumerate}
+	\item OpenStack als zentraler Infrastrukturprovider
+	\item Die verteilte Forschungsdatenbank Hyrise-R als Beispielanwendung
+\end{enumerate}
 
+\noindent
+Cloud Provider bieten darüber hinaus weitere Hilfs- und Verwaltungsdienste. Diese betreffen vor allem Konfiguration, Provisionierung, Monitoring und Abrechnung. Hierzu zählen aber auch Sicherheit, Vertraulichkeit und Portabilität. Diese drei Querschnittsthemen sollen im Zusammenhang mit den Dienstebenen weiter untersucht werden.
 
+Die NIST-Klassifizierung unterscheidet hier speziell weitere, teils externe, Akteure wie Cloud-Auditoren und -Carrier. Dieser Einteilung möchte ich nicht weiter folgen. Stattdessen konzentriert sich die Arbeit auf die direkte Beziehung zwischen Cloud-Kunden und -Provider. Beide haben Risiken und Verantwortlichkeiten, die im nächsten Abschnitt besprochen werden.
 
+\section{Risiken}
 
-Was wird angeboten? Worauf beziehe ich mich im Folgenden? PaaS
-Eigene Software hyrise-R. WIrd klassisch über libraries an eine bestimmte CLoud angepasst. hier: docker.
+Abhängig vom Einsatzzweck der Cloud. Welche Informationen und Prozesse müssen geschützt werden, welche Bedrohungen sind zu erwarten?
 
-Rollen: Mehrere Rollen. Wir betrachten Cloud Provider und Consumer.
-Eigene Rolle: Consumer. AGBs und SLAs meist nicht verhandelbar. Geteilte Verantwortung: Das beste daraus machen!
+Konzentration auf die Risiken, die direkt von Cloud-Kunden und -Providern beeinflusst werden können. So ist die Sicherheit der Client-Geräte, von den aus auf die Cloud-Dienste zugegriffen wird zwar entscheidend, aber nicht Teil dieser Betrachtung.
 
-Interoperability nicht wichtig, da PaaS. Eigen Anwendung kümmert sich!
+Taxonomy einführen: Menschlich/Hardware/Software
+CSA/ENISA aus BSI
 
-Weitere Aufgaben (Management)
-
-Vergleich mit BSI-Architektur
-
-Service-Taxonomy / Cloud-Typen
-
-
-Risiken
+\section{Policy und SLA}
 
 
-Anforderungen
-
-Verwaltung über automatisierte Tools zur Orchestrierung.
-Kleine Marktübersicht?
 
 
-WAS IST EIN BROKER IN DIESEM KONTEXT?
-- Nicht Nutzerdaten werden geroutet.
-- Bestandteile verteilter Anwendungen.
-- Begründen.
+\section{Bereitstellungsmodelle und Multi-Cloud-Architekturen}
 
-Klassifizierung der Broker.
-Ngrozev
+
+
+Fazit: Cloud-Nutzungsprozess wie in BSI "Sicher Nutzung von Cloud-Diensten" S.26\todo{Vergleichs-grafik zum neuen Prozess}, aber nicht Einweg, sondern kontinuierlich: Während des Betriebs kontinuierlich an neue Rahmenbedingungen anpassen, automatisch erkennen und migrieren. Daher: Cloud Broker ;-)
+\section{Cloud-Broker}
+
+
+\section{Related Work}
+% 
+%Eigene Rolle: Consumer. AGBs und SLAs meist nicht verhandelbar. Geteilte Verantwortung: Das beste daraus machen!
+%
+%Service-Taxonomy / Cloud-Typen
+%
+%
+%Risiken
+%
+%
+%Anforderungen
+%
+%Verwaltung über automatisierte Tools zur Orchestrierung.
+%Kleine Marktübersicht?
+%
+%
+%WAS IST EIN BROKER IN DIESEM KONTEXT?
+%- Nicht Nutzerdaten werden geroutet.
+%- Bestandteile verteilter Anwendungen.
+%- Begründen.
+%
+%Klassifizierung der Broker.
+%Ngrozev
