@@ -4,7 +4,7 @@ Dieses Kapitel definiert die grundlegenden Charakteristika eines Cloud-Dienstes,
 
 \begin{enumerate}
 	\item Datenschutz/Vertraulichkeit
-	\item Portabilität
+	\item Portabilität von Daten und Anwendungen
 \end{enumerate}
 
 % Unternehmens-Nutzers auf der PaaS-Ebene
@@ -62,27 +62,51 @@ Besonders interessant für eigene Entwicklungen im Rahmen des aktuellen Forschun
 \noindent
 Cloud Provider bieten darüber hinaus weitere Hilfs- und Verwaltungsdienste. Diese betreffen vor allem Konfiguration, Provisionierung, Monitoring und Abrechnung. Hierzu zählen aber auch Sicherheit, Vertraulichkeit und Portabilität. Diese drei Querschnittsthemen sollen im Zusammenhang mit den Dienstebenen weiter untersucht werden.
 
-Die NIST-Klassifizierung unterscheidet hier speziell weitere, teils externe, Akteure wie Cloud-Auditoren und -Carrier. Dieser Einteilung möchte ich nicht weiter folgen. Stattdessen konzentriert sich die Arbeit auf die direkte Beziehung zwischen Cloud-Kunden und -Provider. Beide haben Risiken und Verantwortlichkeiten, die im nächsten Abschnitt besprochen werden.
+Die NIST-Klassifizierung unterscheidet hier speziell weitere, teils externe, Akteure wie Cloud-Auditoren und -Carrier. Dieser Einteilung folgt die Arbeit nicht. Stattdessen konzentriert sie sich auf die direkte Beziehung zwischen Cloud-Kunden und -Provider. Beide haben Risiken und Verantwortlichkeiten, die im nächsten Abschnitt besprochen werden.
 
 \section{Risiken}
 
 Abhängig vom Einsatzzweck der Cloud. Welche Informationen und Prozesse müssen geschützt werden, welche Bedrohungen sind zu erwarten?
 
-Konzentration auf die Risiken, die direkt von Cloud-Kunden und -Providern beeinflusst werden können. So ist die Sicherheit der Client-Geräte, von den aus auf die Cloud-Dienste zugegriffen wird zwar entscheidend, aber nicht Teil dieser Betrachtung.
+Konzentration auf die Risiken, die direkt von Cloud-Kunden und -Providern beeinflusst werden können. So ist zum Beispiel die Sicherheit der Client-Geräte, von den aus auf die Cloud-Dienste zugegriffen wird zwar entscheidend, aber nicht Teil dieser Betrachtung. Diese Arbeit konzentriert sich auf Risiken von Cloud-Diensten der Ebenen IaaS und PaaS.
 
 Taxonomy einführen: Menschlich/Hardware/Software
+
+Fazit: Das Bedrohungsszenario hängt stark vom Bereitstellungsmodell ab. 
+
 CSA/ENISA aus BSI
 
-\section{Policy und SLA}
+%\section{Policy und SLA}
 
 
 
 
 \section{Bereitstellungsmodelle und Multi-Cloud-Architekturen}
 
+Cloud-Angeboten können von öffentlichen Anbietern oder intern bereitgestellt werden. Weiter klassifizieren lassen sich die Angebote nach Nutzerkreis, mit dem die Infrastruktur geteilt wird und Anzahl der Clouds:
 
+\begin{description}
+	
+	\item[Public Cloud] Alle Leistungen werden von einem öffentlichem Anbieter bezogen. Dies sind zum Beispiel Amazon, Microsoft und Google. Die Infrastruktur wird unter mehreren Kunden flexibel aufgeteilt.
+	
+	\item[Private Cloud] Eine eigen- oder fremd-betriebene Infrastruktur mit exklusivem Zugriff für einen Kunden. Wird die Private Cloud im eigenen Datencenter betrieben, erhalten Kunden größtmögliche Vertraulichkeit. Gleichzeitig müssen aber Überkapazitäten vorgehalten werden, wodurch der Kostenvorteil kleiner als bei Nutzung öffentlicher Angebote ausfallen kann.
+	
+	\item[Hybird Cloud] Heterogene Infrastruktur mit Bestandteilen in privaten und öffentlichen Cloud-Umgebungen. Die öffentliche Cloud übernimmt hier oft die Speicherung großer Datenmengen und das Abfangen von Lastspitzen.
+	
+	\item[Community Cloud] Ein Zusammenschluss von Unternehmen, Behörden oder Forschungseinrichtungen, die gemeinsam eine Cloud-Infrastruktur betreiben. Die beteiligten Cloud-Anbieter bilden eine freiwillige \emph{Föderation} der gemeinsamen Ressourcen.
+	
+	\item[Multi-Cloud] Eine Erweiterung der Hybrid Cloud: Die Leistungen werden nicht nur aus einer privaten und einer öffentlichen Cloud bezogen, sondern explizit aus mehreren. Wichtiger Unterschied zur Föderation: Die Multi-Cloud-Umgebung wird vom Cloud-Anwender initiiert und verwaltet. Beteiligte Cloud-Provider wirken nicht aktiv mit und sind sich ihrer Partizipation meist nicht einmal bewusst.
+	
+\end{description}
 
-Fazit: Cloud-Nutzungsprozess wie in BSI "Sicher Nutzung von Cloud-Diensten" S.26\todo{Vergleichs-grafik zum neuen Prozess}, aber nicht Einweg, sondern kontinuierlich: Während des Betriebs kontinuierlich an neue Rahmenbedingungen anpassen, automatisch erkennen und migrieren. Daher: Cloud Broker ;-)
+\noindent
+Von allen beschriebenen Bereitstellungsmodellen ist die Multi-Cloud am flexibelsten. Je nach technischen und nicht-funktionalen Anforderungen können Bestandteile der Cloud-Anwendungen in einer möglichst passenden Umgebung ausgeführt werden. Der Aufwand ist in diesem Modell allerdings auch am höchsten, denn der Auswahlprozess für einen Cloud-Provider muss für alle Anbieter einzeln durchlaufen werden.
+
+Hierbei werden die Rahmenbedingungen geprüft, zum Beispiel Kosten, Standort der Rechenzentren und anwendbare Gesetzesgrundlage. Hinzu kommen technische Herausforderungen, da die Portabilität von Daten und Anwendungen zwischen verschiedenen Cloud-Providern oft eingeschränkt ist.
+
+Fazit: Cloud-Nutzungsprozess wie in BSI "Sicher Nutzung von Cloud-Diensten" S.26\todo{Vergleichs-grafik zum neuen Prozess}, aber nicht Einweg, sondern kontinuierlich: Während des Betriebs kontinuierlich an neue Rahmenbedingungen anpassen, automatisch erkennen und migrieren. Daher: Cloud Broker.
+
+Projektübergreifende Nutzung des Brokers. 
 \section{Cloud-Broker}
 
 
