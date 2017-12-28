@@ -66,11 +66,45 @@ Die NIST-Klassifizierung unterscheidet hier speziell weitere, teils externe, Akt
 
 \section{Risiken}
 
-Abhängig vom Einsatzzweck der Cloud. Welche Informationen und Prozesse müssen geschützt werden, welche Bedrohungen sind zu erwarten?
+Moderne IT-Infrastruktur ist hochkomplex. Allein hierdurch ergibt sich ein großes Potential für Bedrohungen. Im Cloud Computing steigt das Risiko durch gemietete und geteilte Infrastruktur weiter. Zusätzlich zu allgemeinen Risiken sollen mögliche Auswirkungen auf folgende Eigenschaften beschrieben werden:
 
-Konzentration auf die Risiken, die direkt von Cloud-Kunden und -Providern beeinflusst werden können. So ist zum Beispiel die Sicherheit der Client-Geräte, von den aus auf die Cloud-Dienste zugegriffen wird zwar entscheidend, aber nicht Teil dieser Betrachtung. Diese Arbeit konzentriert sich auf Risiken von Cloud-Diensten der Ebenen IaaS und PaaS.
+\begin{enumerate}
+	\item Verfügbarkeit
+	\item Vertraulichkeit
+	\item Integrität
+	\item Portabilität
+\end{enumerate}
 
-Taxonomy einführen: Menschlich/Hardware/Software
+\noindent
+Abhängig vom Einsatzzweck des geplanten Cloud-Services resultieren die Fragen: Welche Informationen und Prozesse müssen geschützt werden, welche Bedrohungen sind zu erwarten? Damit ist nicht nur Sicherheit gemeint, sondern alle Risiken, die den Erfolg eines Cloud-Projektes oder einer Organisation darüber hinaus bedrohen.
+
+Dabei hilft, den möglichen Schaden im Voraus zu berechnen. Zu verarbeitende Daten sollten kategorisiert werden; dem BSI folgend sind diese vier Abstufungen denkbar:
+
+\begin{enumerate}
+	\item Privat- , Geschäfts- und Dienstgeheimnisse gemäß §§\,203 und 353\,b StGB
+	\item Personenbezogene Daten gemäß §\,3 Absatz\,1 BDSG
+	\item Verschlusssachen
+	\item Sonstige Daten (weder Kategorie 1, noch 2, noch 3)	
+\end{enumerate}
+
+\noindent
+Verschlusssachen der Kategorie drei meint hier alle Daten, deren Verlust, Veränderung oder unrechtmäßige Herausgabe sich nachteilig auswirken könnte. Die Abgrenzung der letzten beiden Kategorien erscheint oft schwierig, muss jedoch für jeden betriebenen Cloud-Service abgewogen werden. 
+
+Aus der Datenkategorie ergeben sich Anforderungen an die Risikoanalyse. Je höher und je wahrscheinlicher ein potentieller Schaden, desto aufwendiger und teurer sollte die Absicherung ausfallen. Grundsätzlich lassen sich zwei Kategorien von Risikofaktoren unterscheiden (Quelle):
+% https://www.researchgate.net/publication/308691801_Taxonomy_for_Identification_of_Security_Issues_in_Cloud_Computing_Environments
+\begin{itemize}
+	\item Menschlich
+	\item Technisch
+\end{itemize}
+
+\noindent
+Menschliche Fehlhandlungen sind entweder absichtlich oder unabsichtlich. Dies können zum Beispiel Fehlinterpretation von SLAs, Manipulation, Angriffe durch Social Engineering oder schlicht Inkompetenz sein. Auch Gesetzesänderungen zählen zu diesen Risiken. Viele lassen sich durch passende Standard-Prozesse, Notfallpläne, Rechtemanagement und Audits absichern.
+
+Technisch Klassiker der IT wie . Speziell auf Cloud-Projekte bezogen 
+
+Konzentration auf die Risiken, die direkt von Cloud-Kunden und -Providern auf den Ebenen IaaS und PaaS beeinflusst werden können. So ist zum Beispiel die Sicherheit der Client-Geräte, von den aus auf die Cloud-Dienste zugegriffen wird zwar entscheidend, aber nicht Teil dieser Betrachtung.
+
+Diese durch SLAs und Policys abbilden. Sollten maschinenlesbar sein, um automatisiert angewandt und überprüft zu werden.
 
 Fazit: Das Bedrohungsszenario hängt stark vom Bereitstellungsmodell ab. 
 
@@ -107,10 +141,10 @@ Hierbei werden die Rahmenbedingungen geprüft, zum Beispiel Kosten, Standort der
 Fazit: Cloud-Nutzungsprozess wie in BSI "Sicher Nutzung von Cloud-Diensten" S.26\todo{Vergleichs-grafik zum neuen Prozess}, aber nicht Einweg, sondern kontinuierlich: Während des Betriebs kontinuierlich an neue Rahmenbedingungen anpassen, automatisch erkennen und migrieren. Daher: Cloud Broker.
 
 Projektübergreifende Nutzung des Brokers. 
-\section{Cloud-Broker}
+%\section{Cloud-Broker}
 
 
-\section{Related Work}
+%\section{Related Work}
 % 
 %Eigene Rolle: Consumer. AGBs und SLAs meist nicht verhandelbar. Geteilte Verantwortung: Das beste daraus machen!
 %
