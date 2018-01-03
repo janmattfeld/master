@@ -88,7 +88,9 @@ Dabei hilft, den möglichen Schaden im Voraus zu berechnen. Zu verarbeitende Dat
 \end{enumerate}
 
 \noindent
-Verschlusssachen der Kategorie drei meint hier alle Daten, deren Verlust, Veränderung oder unrechtmäßige Herausgabe sich nachteilig auswirken könnte. Die Abgrenzung der letzten beiden Kategorien erscheint oft schwierig, muss jedoch für jeden betriebenen Cloud-Service abgewogen werden. 
+Verschlusssachen der Kategorie drei meint hier alle Daten, deren Verlust, Veränderung oder unrechtmäßige Herausgabe sich nachteilig auswirken könnte. Die Abgrenzung der letzten beiden Kategorien erscheint oft schwierig, muss jedoch für jeden betriebenen Cloud-Service abgewogen werden.
+
+Diese Arbeit konzentriert sich auf die Risiken, die direkt von Cloud-Kunden und -Providern auf den Ebenen IaaS und PaaS beeinflusst werden können. So ist zum Beispiel die Sicherheit der Client-Geräte, von den aus auf die Cloud-Dienste zugegriffen wird entscheidend, aber nicht Teil dieser Betrachtung.
 
 Aus der Datenkategorie ergeben sich Anforderungen an die Risikoanalyse. Je höher und je wahrscheinlicher ein potentieller Schaden, desto aufwendiger und teurer sollte die Absicherung ausfallen. Grundsätzlich lassen sich zwei Kategorien von Risikofaktoren unterscheiden (Quelle):
 % https://www.researchgate.net/publication/308691801_Taxonomy_for_Identification_of_Security_Issues_in_Cloud_Computing_Environments
@@ -97,27 +99,22 @@ Aus der Datenkategorie ergeben sich Anforderungen an die Risikoanalyse. Je höhe
 	\item Technisch
 \end{itemize}
 
-\noindent
-Menschliche Fehlhandlungen sind entweder absichtlich oder unabsichtlich. Dies können zum Beispiel Fehlinterpretation von SLAs, Manipulation, Angriffe durch Social Engineering oder schlicht Inkompetenz sein. Auch Gesetzesänderungen zählen zu diesen Risiken. Viele lassen sich durch passende Standard-Prozesse, Notfallpläne, Rechtemanagement und Audits absichern.
+\noindent Menschliche Fehlhandlungen sind entweder absichtlich oder unabsichtlich. Dies können Fehlinterpretation von SLAs, Manipulationen, Angriffe durch Social Engineering oder schlicht Inkompetenz sein. Im Cloud Computing treten diese Risiken verstärkt auf, da die Infrastruktur von Dritten betreut wird. Auch Gesetzesänderungen zählen zu diesen Risiken. Viele lassen sich durch passende Standard-Prozesse, Notfallpläne, Rechtemanagement und Audits vermindern.
 
-Technisch Klassiker der IT wie . Speziell auf Cloud-Projekte bezogen 
+Technisch gilt Ähnliches: Klassische Risiken wie der Ausfall von Hardware wird vom Cloud-Provider vor dem Kunden verborgen. Speziell auf Cloud-Projekte bezogen eröffnen sich aber auch neue Angriffsflächen wie die Cloud-Plattform selbst. Die Virtualisierungsebene kann durch mangelhafte Mandanten-Trennung Datenlecks öffnen. Viele Cloud-Provider arbeiten mit proprietären Protokollen, die Portabilität ist also eingeschränkt. Umso herausfordernder wird ein Notfallplan, der den Ausfall des Anbieters abfangen soll.
 
-Konzentration auf die Risiken, die direkt von Cloud-Kunden und -Providern auf den Ebenen IaaS und PaaS beeinflusst werden können. So ist zum Beispiel die Sicherheit der Client-Geräte, von den aus auf die Cloud-Dienste zugegriffen wird zwar entscheidend, aber nicht Teil dieser Betrachtung.
-
-Diese durch SLAs und Policys abbilden. Sollten maschinenlesbar sein, um automatisiert angewandt und überprüft zu werden.
-
-Fazit: Das Bedrohungsszenario hängt stark vom Bereitstellungsmodell ab. 
-
-CSA/ENISA aus BSI
+All diese Risiken müssen durch SLAs und Policys abgebildet werden. Diese sollten maschinenlesbar sein, um automatisiert angewandt und überprüft zu werden. Detaillierte Leitfäden hierzu bieten BSI, CSA. Insgesamt hängt das Risiko stark vom Bereitstellungsmodell ab, also von Standort und Nutzerkreis der Infrastruktur.
+% Sichere Nutzung von Cloud-Diensten | Der sichere Weg in die Cloud
+% IT-Grundschutz: M 2.535 Erstellung einer Sicherheitsrichtlinie für die Cloud-Nutzung
+% BSI: Testierung nach BSI Anforderungskatalog Cloud Computing C5
+% ISO/IEC 27001:2013, Information securitymanagement [13]
+%Cloud Security Alliance (CSA) Security, Test & Assurance Registry (STAR): STAR Self Assess- ment, STAR Certification, STAR Attestation, C-STAR Assessment
 
 %\section{Policy und SLA}
 
-
-
-
 \section{Bereitstellungsmodelle und Multi-Cloud-Architekturen}
 
-Cloud-Angeboten können von öffentlichen Anbietern oder intern bereitgestellt werden. Weiter klassifizieren lassen sich die Angebote nach Nutzerkreis, mit dem die Infrastruktur geteilt wird und Anzahl der Clouds:
+Cloud-Angeboten können von öffentlichen Anbietern oder intern bereitgestellt werden. Weiter klassifizieren lassen sich die Angebote nach Nutzerkreis, mit dem die Infrastruktur geteilt wird und Anzahl der genutzten Clouds:
 
 \begin{description}
 	
@@ -142,6 +139,9 @@ Fazit: Cloud-Nutzungsprozess wie in BSI "Sicher Nutzung von Cloud-Diensten" S.26
 
 Projektübergreifende Nutzung des Brokers. 
 %\section{Cloud-Broker}
+
+% Föderierte Cloud-Architekuren: Auch eine geteilte Nutzung zentraler Komponenten ist denkbar. In OpenStack teilen sich die verschiedenen Multi-Site-Clouds mindestens den Authentifizierungs-Service Keystone. Je nach Varainte (Cells, Regions, Availability Zones oder Host Aggregates) sind auch Dienste wie die Admin-Oberfläche oder Speicher nur einmal vorhanden. Diese Architektur spart Overhead, erfordert allerdings spezielle Anpassungen innerhalb der Cloud. Auch gehen einige Vorteile wie Ausfallsicherheit und Unabhängigkeit der zentralen Dienste wieder verloren. Eine Kombination mit weiteren Cloud-Providern ist denkbar, bleibt hier auf Grund der aufwändigen Einrichtung aber außen vor.
+
 
 
 %\section{Related Work}

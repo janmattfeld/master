@@ -27,22 +27,22 @@
 
 	% (Haupt-)Titelseite, Abstract, ggf. Danksagung & Inhaltsverzeichnis
 	\pagenumbering{roman}
-	\include{content/titlepage}
+%	\include{content/titlepage}
 %	\ifisbook\cleardoubleemptypage\fi\include{content/abstract}
 	%\ifisbook\cleardoubleemptypage\fi\include{content/dedication}
 %	\tableofcontents
-	\cleardoublepage
+%	\cleardoublepage
 
 	% Textteil
 	\pagenumbering{arabic}
 	\include{content/0_einleitung}
 	\include{content/1_grundlagen}
-	\include{content/2_relatedwork}
 	\include{content/3_loesung}
-	\include{content/4_implementierung}
 	\include{content/5_fazit}
 	\include{content/chapter1} % example
-	\include{content/chapter2} % example
+	\include{content/2_relatedwork}
+	\include{content/4_implementierung}
+%	\include{content/chapter2} % example
 %	\include{content/chapter3} % example
 
 	% ggf. Anhang

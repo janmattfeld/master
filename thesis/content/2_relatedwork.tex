@@ -1,2 +1,27 @@
-\chapter{Related Work}
+\chapter{Multi-Cloud-Anwendungs-Broker}
 
+Um eine Anwendung automatisiert auf verschiedene Clouds zu verteilen ist ein Broker-Mechanismus nötig. Dieser sollte nach verschiedenen, festzulegenden Kriterien vorgehen. Konkret erfüllt ein Broker in der Regel folgende Aufgaben:
+
+\begin{enumerate}
+	\item Bereitstellen der Ressourcen für eine Applikation. Also zum Beispiel das Starten einer virtuellen Maschine oder die Reservierung von Speicherplatz
+	\item Starten der Anwendung auf den vorher reservierten Ressourcen
+	\item Verteilen eingehender Anfragen auf die reservierten Ressourcen
+	\item Management der Ressourcen
+\end{enumerate}
+
+\noindent In einer Community Cloud ist denkbar, dass die Cloud-Provider selbst einen Mechanismus zum Brokering oder zumindest offene APIs bereitstellen. Der Broker wäre also Teil der Cloud. Möglich sind entweder ein zentraler Broker, der direkt auf Cloud-Interna zugreift, aber auch ein Peer-to-Peer-Verbund.
+
+Für Multi-Clouds kommen diese Lösungen nicht infrage: sie bestehen aus mehreren unabhängigen, meist privaten, Cloud-Providern. Aufgrund gegenläufiger Geschäftsinteressen sind diese nicht an einer Föderation mit anderen Anbietern interessiert. Sie werden also weder Interna ihrer Cloud-Plattform anpassen, noch einheitliche APIs bereitstellen.
+
+Stattdessen muss der Broker in einer Multi-Cloud-Umgebung extern bereitgestellt werden. In diesem Fall kann er entweder als eigenständiger Service in Form einer \emph{Cloud Management Platform} angelegt sein, oder von der verteilten Anwendung selbst implementiert werden. Selbst entwickelte CMPs oder integrierte Broker setzen oft auf Multi-Cloud-Bibliotheken wie Apache libcloud. Kapitel \todo{Link} bietet dazu einen Vergleich. Der folgende Abschnitt gibt eine Übersicht der bisherigen Forschung zu Inter- und Multi-Cloud-Brokern.
+
+\section{Related Work}
+
+Die vorgestellten Lösungen unterschieden sich in Architektur, Flexibilität und Funktionsumfang. Die vier Basiseigenschaften werden nicht von allen Arbeiten in vollem Umfang erfüllt. Zusätzlich denkbar ist das automatische Re-provisionieren anhand von 
+
+\begin{enumerate}
+	\item Lastspitzen
+	\item Ausfällen von Hardware und Netzwerkressourcen
+	\item Geänderten Umfeldparametern wie der Gesetzgebung, Preise oder AGBs
+	\item Nutzeränderungen
+\end{enumerate}
