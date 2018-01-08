@@ -2,29 +2,34 @@
 
 \section{Testumgebung: OpenStack, Docker \& Hyrise-R}
 
-Hyrise is an in-memory research database developed by the
-Enterprise Platform and Integration Concepts (EPIC) group at
-Hasso Plattner Institute Potsdam 3 . It shares several features
-with SAP HANA. These include a delta store, column-based
-storage, dictionary encoding, several compression techniques
-as well as an insert-only approach. Hyrise also features a
-remarkable OLAP performance and optimizations for OLTP
-tasks [1].
+Hyrise\footnote{\url{https://hpi.de/plattner/projects/hyrise.html}} ist eine In-Memory-Forschungsdatenbank der Fachgruppe \emph{Enterprise Platform and Integration Concepts} (EPIC) am Hasso-Plattner-Institut. Die Datenbank teilt sich einige Eigenschaften mit \emph{SAP HANA}: Ein \emph{Delta Store}, Spalten-basierte Speicherung, Wörterbuch-Kodierung und weitere Komprimierungstechniken sowie den \emph{Insert-Only}-Ansatz und Partitionierung. Herausragend ist die OLAP-Performance, enthalten sind aber auch Optimierungen für OLTP-Aufgaben.\todo{Hyrise-(R)-Architektur und Paper}
 
-Following the scale-out paradigm, Hyrise-R extends the
-base project to a cloud-based in-memory solution. Figure 2
-shows the architecture consisting of a Hyrise master node,
-several replicas and one dispatcher [2]. Within SSICLOPS,
-privacy and security concerns as well as performance and
-reliability of such setups will be evaluated [3].
+%[1] M. Grund, J. Krueger, H. Plattner, A. Zeier, P. Cudre-Mauroux, S. Mad-
+%den HYRISE: a main memory hybrid storage engine VLDB, 2011.
+%[2] D. Schwalb, J. Kossmann, S. Klauck, M. Faust, H. Plattner Hyrise-
+%R: Scale-out and Hot-Standby through Lazy Master Replication for
+%Enterprise Applications IMDM/VLDB, 2015.
+%[3] F. Eberhardt, J. Hiller, O. Hohlfeld et. al. Design of Inter-Cloud Security
+%Policies, Architecture, and Annotations for Data Storage
+%Technical
+%Report, Aachen/Potsdam, Germany, 2016.
+%[4]J. Eschrig, S. Knebel, N. Kunzmann Dependable Cloud Computing with
+%OpenStack Master Project Report, Potsdam, Germany, 2015.
+%[5]M. Keller, P. Pajak, F. Rsler, R. Schfer Dependable Cloud Computing
+%with OpenStack Master Project Report, Potsdam, Germany, 2015/2016.
 
-http://hpi.de/plattner/projects/hyrise.html
+Hyrise-R ist eine Erweiterung des Basisprojektes um Replikation. Es folgt dabei dem \emph{Scale-Out}-Ansatz: Alle Schreibenden Operationen werden auf einem einzigen Master-Node durchgeführt. Dessen Datensatz wird in weniger als einer Sekunde (\emph{lazy}) mit beliebig vielen Replica-Nodes abgeglichen. Diese Spiegelungen bearbeiten alle reinen Leseanfragen und machen den Verbund so skalierbar. Nach dem \emph{CAP-Theorem} sind Verfügbarkeit und Partitionstoleranz hier also wichtiger als Konsistenz.
+
+Durch die verteilte Architektur is Hyrise-R ein potentieller Kandidat als Test-Anwendung innerhalb der Multi-Cloud-Umgebung. [SSICLOPS] [Masterarbeit] untersuchten bereits Zuverlässigkeit, Performance, Datensicherheit und Vertraulichkeit in einer privaten OpenStack-Föderation \todo{Ergebnisse?}. 
+
+Im Rahmen dieser Arbeiten sind einige Infrastrukturteile als Code veröffentlicht: So existiert zum Beispiel eine Docker-Teststellung mit grafischem Cluster-Manager, um die Performance bei verschiedenen Replikationsstufen zu prüfen. Diese Infrastruktur wurde in [Masterprojekt] weiter angepasst, um Hyrise-R-KVM-Images in OpenStack bereitzustellen. Möglicherweise können Teile dieser Arbeiten weiterentwickelt werden.
+
 
 \section{Multi-Cloud-Bibliotheken}
 
 Ziel ist die Implementierung eines externen Broker-Services oder die Aufwertung einer verteilten Anwendung für den automatischen Betrieb in mehreren Clouds. Da unabhängige Cloud-Provider keine einheitlichen APIs anbieten, stellt dieses Kapitel verschiedene Bibliotheken vor, um möglichst viel der zusätzlichen Komplexität zu verbergen.
 
-Ohne weitere Bibliotheken müsste für jede zu berücksichtigende Cloud das jeweilige SDK eingebunden werden. Auch Namensgebung, Architektur und Prozesse unterscheiden sich von Anbieter zu Anbieter. 
+Ohne weitere Bibliotheken müsste für jede zu berücksichtigende Cloud das jeweilige SDK eingebunden werden. Auch Namensgebung, Architektur und Prozesse unterscheiden sich von Anbieter zu Anbieter. \todo{Mention Standard Cloud API OASIS TOSCA}
 
 Durch den Einsatz einer Dritt-Bibliothek ergibt sich allerdings eine potentielle Schwachstelle. Falls diese fehlerhaft ist, oder gar nicht weiter entwickelt wird, gefährdet dies das ganze Projekt. Historie und Zukunftschancen spielen bei der Auswahl eine zentrale Rolle. Im Optimalfall abstrahiert die Bibliothek Änderungen der Provider-SDKs. Ob und wie groß die Arbeitserleichterung ausfällt, prüft der Praxisteil.
 
@@ -72,23 +77,14 @@ Im Folgenden untersuchen wir die Eignung der populärsten Bibliotheken. Wichtigs
 
 \noindent Libcloud fasst die verschiedenen Cloud-Angebote nicht nur in gemeinsamen Namensräumen zusammen, sondern normalisiert auch Leistungsklassen. Python erleichtert außerdem den Einstieg und fügt sich in viele Python-basierte Systemautomatisierungen ein. Diese Multi-Cloud-Bibliothek wird also im weiteren Verlauf der Arbeit erprobt.
 
-%young open source project, python, integrates SDKs instead of REST API, minimal set of features, unstable, OpenStack + AWS
 
 \section{OpenStack-Testbed}
 
-Als Beispiel für eine Private Cloud -- als Teil unseres Multi-Cloud-Setups -- soll OpenStack dienen. Es ist das populärste Open Source-Projekt um eigene Infrastruktur als Service aufzubauen. 
+Als Beispiel für eine Private Cloud -- als Teil unseres Multi-Cloud-Setups -- soll OpenStack dienen. Es ist das populärste Open Source-Projekt um eigene Infrastruktur als Service aufzubauen. Gesponsort wird es von Großunternehmen wie HPE, IBM, Canonical, Red Hat und anderen.
 
-%Einführung hardware resources, create software-defined networks, com-
-%pute nodes and storages. Users can manage the framework
-%via a graphical dashboard (see Figure 1), a REST API or
-%command line tools. OpenStack development is supported by
-%large corporations such as HPE, IBM, AMD, Intel, Canonical,
-%Red Hat, SUSE and more.
-%Today, the OpenStack project is the foundation of multiple
-%large private cloud environments. These include business (e. g.
-%Open Telekom Cloud) as well as non
+OpenStack setzt aus verschiedenen Teilprojekten zusammen, die jeweils einen Dienst entwickeln und bereitstellen. Ein Minimal-Setup besteht aus \emph{Nova} (Computing), \emph{Key\-stone} (Authentifizierung), \emph{Neutron} (Netzwerk) und \emph{Glance} (Images). Verbreitet sind außerdem \emph{Cinder} (Blockspeicher) und \emph{Horizon} (Dash\-board). Diese sollen auch in unserem Beispiel genutzt werden. Denkbar ist darüber hinaus die Integration eines Container-Dienstes. Der Zugriff auf die Infrastruktur erfolgt entweder über das Dahsboard, Kommandozeilentools oder eine REST-API.
 
-Multi-Cloud-Setups: Möglichkeiten und Entscheidung dagegen: Multi-Cloud, keine Föderation. Einrichtung aufwändig, Erkenntnisgewinn vermutlich gerin. Föderation auch nicht sinnvoll: da Ausfallsicherheit geringer.\todo{}
+Grundsätzlich wäre auch der Aufbau einer OpenStack-Föderation wie in [SCICLOPS] denkbar. Föderierte Cloud-Architekuren teilen sich zentrale Komponenten, in OpenStack mindestens den Authentifizierungs-Service Keystone. Je nach Föderations-Variante (\emph{Cells}, \emph{Regions}, \emph{Availability Zones} oder \emph{Host Aggregates}) sind auch Dienste wie die Dashboard oder Speicher nur einmal vorhanden. Diese Architektur spart Overhead, erfordert allerdings spezielle Anpassungen innerhalb der Cloud. Auch gehen einige Vorteile wie Ausfallsicherheit und Unabhängigkeit der zentralen Dienste wieder verloren. Eine Kombination mit weiteren Cloud-Providern im Rahmen unseres Multi-Cloud-Setups ist denkbar, bleibt auf Grund der aufwändigen Einrichtung aber außen vor. Auch wäre der zusätzliche Erkenntnisgewinn vermutlich gering.
 
 Selbst ein minimales OpenStack-Testsetup ist durch die diversen Dienste komplex. Denkbar wäre also auch die Nutzung von externen OpenStack-Angeboten. In diesem Projekt gibt es hierfür grundsätzlich drei mögliche Bereitstellungsmodelle:
 
@@ -111,9 +107,7 @@ Speziell für lokale Test- und Entwicklungsumgebungen existiert DevStack\footnot
 
 \section{DevStack virtualisiert inkl. Container-Support}
 
-
 Während der Installation nimmt DevStack tiefgreifende Veränderungen am Hostsystem vor. Es müsste also auf einem separaten Server installiert werden. Dieser Abschnitt beschreibt den Versuch einen virtualisierten, reproduzierbaren DevStack-Testaufbau zu erstellen. Außerdem soll Zun integriert werden. 
-
 
 Ziel ist DevStack in einem Container auszuführen, genauso wie die darin gestarteten Compute-Nodes ebenso in einem nun verschachtelten Container bereitgestellt werden sollen. Die Gründe hierfür sind zusammengefasst:
 
@@ -167,4 +161,9 @@ Anpassbar sind im Skript OpenStack-Services und -Versionen, da DevStack direkt a
 
 Als Proof-of-Concept ist die Integration von Docker, DevStack und Zun bisher einmalig. Der Code ist daher auf GitHub\footnote{\url{https://github.com/janmattfeld/DockStack}} veröffentlicht und zeigt einige Best Practices und Lessons Learned in Bezug auf die genannten Projekte.
 
-Letztendlich greifen wir auf eine lokale Mirantis-OpenStack-Installation aus einem anderen Projekt zurück. Die Infrastruktur ist virtuell und wird durch \emph{Fuel} zuverlässig wieder aufgebaut. Die Zun-Container-Dienste sind nicht enthalten; dafür aber alle anderen Kernfunktionen und APIs.
+Letztendlich\todo{PowerVM} greifen wir auf eine lokale Mirantis-OpenStack-Installation aus einem anderen Projekt zurück. Die Infrastruktur ist virtuell und wird durch \emph{Fuel} zuverlässig wieder aufgebaut. Die Zun-Container-Dienste sind nicht enthalten; dafür aber alle anderen Kernfunktionen und APIs.
+
+% Hyrise-R-OpenStack- und Docker-Images, wie ersxtellt?
+% Tatsächliche Broker Architektur
+% Code-Eigenheiten
+% Tests
