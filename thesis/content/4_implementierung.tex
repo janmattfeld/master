@@ -75,7 +75,11 @@ Im Folgenden untersuchen wir die Eignung der populärsten Bibliotheken. Wichtigs
 
 \end{description}
 
-\noindent Libcloud fasst die verschiedenen Cloud-Angebote nicht nur in gemeinsamen Namensräumen zusammen, sondern normalisiert auch Leistungsklassen. Python erleichtert außerdem den Einstieg und fügt sich in viele Python-basierte Systemautomatisierungen ein. Diese Multi-Cloud-Bibliothek wird also im weiteren Verlauf der Arbeit erprobt.
+\noindent Vielversprechend war außerdem das Apache DeltaCloud-Projekt: Aufbauend auf Ruby stellt es nicht nur eine einheitliche API nach \emph{Cloud Infrastructure Management Interface}-Standard\footnote{\url{https://www.dmtf.org/standards/cloud}} für die Kernfunktionen der wichtigsten Cloud-Provider, sondern auch zusätzliche Client-Libraries und Mock-Funktionen. Seit 2013 erfolgt allerdings keine Weiterentwicklung mehr aufgrund des plötzlichen Rückzugs von Red Hat\footnote{\url{http://mail-archives.apache.org/mod_mbox/deltacloud-dev/201305.mbox/\%3C518D0F79.4000901\%40redhat.com\%3E}}. Dieses Beispiel zeigt die Wichtigkeit nicht-funktionaler Betrachtungen bei der Auswahl einer Bibliothek. Auch Apache-Top-Level-Projekte haben nicht unbedingt eine sichere, vorhersagbare Zukunft.
+
+Darüber hinaus existieren spezialisierte Bibliotheken wie SimpleCloud\footnote{\url{https://framework.zend.com/manual/1.11/de/zend.cloud.html}} auf PHP-Basis, das allerdings eine feste Komponente im Zend Framework ist. Auch gibt es neue Entwicklungen wie CloudBridge\footnote{\url{https://github.com/gvlproject/cloudbridge}} auf Python-Basis. Besonderheit hier: die Abstraktionsschicht nutzt die nativen SDKs der Cloud-Provider. CloudBridge ist leider noch in einem frühen Entwicklungsstadium und als experimentell gekennzeichnet.
+
+Libcloud fasst die verschiedenen Cloud-Angebote nicht nur in gemeinsamen Namensräumen zusammen, sondern normalisiert auch Leistungsklassen. Python erleichtert außerdem den Einstieg und fügt sich in viele Python-basierte Systemautomatisierungen ein. Diese Multi-Cloud-Bibliothek wird also im weiteren Verlauf der Arbeit erprobt.
 
 
 \section{OpenStack-Testbed}
@@ -164,6 +168,15 @@ Als Proof-of-Concept ist die Integration von Docker, DevStack und Zun bisher ein
 Letztendlich\todo{PowerVM} greifen wir auf eine lokale Mirantis-OpenStack-Installation aus einem anderen Projekt zurück. Die Infrastruktur ist virtuell und wird durch \emph{Fuel} zuverlässig wieder aufgebaut. Die Zun-Container-Dienste sind nicht enthalten; dafür aber alle anderen Kernfunktionen und APIs.
 
 % Hyrise-R-OpenStack- und Docker-Images, wie ersxtellt?
+% Capgemini Whitepaper Trend 2018, From Boring to sexy
+% App->Cloud-Ntive S. 16
+
+%% Hyrise-R 
+%Bestehende verteilte Anwendungen für den EInsatz in der CLoud vorbereiten, STichwort CLoud Native.
+%Ausgangslage? Git-Repository mit teilautmatisierten Shell-Skripten und Makefiles. Automatisierung der Build, Test und Produktions-Infrastruktur, Ubuntu 16.04 auf Bare-Metal, VM und (Docker)Container.
+%Integrieren der bestehenden Tests in diese Umgebungen.
+%Packen des Geamtpakets aus Ausführungsumgebung, Programm und (Test-)Daten. auch automatisiert. Die Konfiguration ist variabel. SIe wird schematisch in der App-Konfiguration vorgegeben und dann von der CMP während der initialen Bereitstellung oder späteren Re-Deployments angepasst und ausgeführt.
+
 % Tatsächliche Broker Architektur
 % Code-Eigenheiten
 % Tests

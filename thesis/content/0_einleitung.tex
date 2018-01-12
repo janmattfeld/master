@@ -8,41 +8,83 @@ Besonders gefragt sind Infrastrukturdienste, wie Rechenleistung und Speicher. Gl
 Der Trend zur Cloud wird sich vermutlich fortsetzen: So vervierfacht sich das prognostizierte Marktvolumen mit Cloud-Services bis 2020 auf über sechzehn Milliarden Euro allein im deutschen B2B-Markt. %
 %https://de.statista.com/statistik/daten/studie/165458/umfrage/prognostiziertes-marktvolumen-fuer-cloud-computing-in-deutschland/
 
-Die Cloud-Angebote sind für Unternehmen aller Größen attraktiv: Die Anschaffung eigener Infrastruktur entfällt, genauso wie deren Wartung durch eigenes Personal. Stattdessen lassen sich Ressourcen und Anwendungen einfach per Self-Service buchen und sind anschließend über das Internet von überall erreichbar. Der Umfang der gebuchten Leistungen lässt sich meist frei skalieren. Da die Angebote oft in kleinem Takt und verbrauchsgenau abgerechnet werden, ergeben sich so theoretisch Vorteile bei Flexibilität und Kosteneffizienz.
+Cloud-Angebote sind für Unternehmen aller Größen attraktiv: Die Anschaffung eigener Infrastruktur entfällt, genauso wie deren Wartung durch eigenes Personal. Stattdessen lassen sich Ressourcen und Anwendungen einfach per Self-Service buchen und sind anschließend über das Internet von überall erreichbar. Der Umfang gebuchter Leistungen lässt sich meist frei skalieren. Da die Angebote oft in kleinem Takt und verbrauchsgenau abgerechnet werden, ergeben sich so theoretisch Vorteile bei Flexibilität und Kosteneffizienz.
 
-Demgegenüber stehen Vorbehalte bezüglich Datenschutz, denn die gemietete Infrastruktur teilen sich mehrere Kunden. Zugleich fordert aktuelle Gesetzgebung wie die Datenschutz-Grundverordnung unter anderem die Verarbeitung von personenbezogenen Daten europäischer Kunden ausschließlich innerhalb der EU. %http://data.consilium.europa.eu/doc/document/ST-12399-2016-INIT/en/pdf %Anbieter sind in der Pflicht. Haftung auch Gegenüber Endkunden, mit denen eigentlich keine direkte Geschäftsbeziehung besteht. Löschpflicht. Wo sind die Daten physikalisch? Portabilität Cloud->Kund und Cloud->Cloud
-%Weitere Anforderungen Diese Regelungen sind keineswegs auf Europa begrenzt. Gleiches in der USA (Amazon Gov CLoud)
-Gut neunzig Prozent aller Unternehmen achteten dementsprechend bei der Auswahl eines Cloud-Providers auf Rechts- und Server-Standorte in Deutschland. Für gut fünfzig Prozent außerdem unabdingbar: Hybrid-Cloud-Lösungen und individuelle SLAs.
-%https://de.statista.com/statistik/daten/studie/545924/umfrage/kriterien-bei-der-auswahl-eines-cloud-providers-in-deutschen-unternehmen/
-
-Portabilität? Weiter nicht-funktionale Anforderungen
-Privat und geschäftlich führt kaum ein Weg an Google, Amazon und Microsoft vorbei. 
-
-
-Dies lässt jedoch einige der weltweit größten Cloud-Anbieter außen vor. Amazon und Microsoft teilen seit 2016 über fünfzig Prozent des weltweiten Umsatzes mit Infrastrukturdiensten. %https://de.statista.com/statistik/daten/studie/754647/umfrage/marktanteile-am-umsatz-mit-infrastructure-as-a-service-weltweit/
-
-%https://aws.amazon.com/security/security-bulletins/AWS-2018-013/ Intel-Prozessor-Bug, durch den geschützte Speicherbereiche angreifbar werden. Nach aktuellem Stand existierte diese Lücke mehr als ein halbes Jahr in fast jedem x86-System, und damit in fast jeder Cloud. Eine sichere Mandantentrennung war also nicht mehr gewährleistet.
-
+Demgegenüber stehen Vorbehalte bezüglich Datenschutz, denn die gemietete Infrastruktur teilen sich mehrere Kunden. Technische Fehler wie der 
+%https://aws.amazon.com/security/security-bulletins/AWS-2018-013/
+% Mittelgroße Provider wurden gar nicht erst informiert: https://techcrunch.com/2018/01/06/how-tier-2-cloud-vendors-banded-together-to-cope-with-spectre
+Intel-Prozessor-Bug lassen eigentlich geschützte Speicherbereiche angreifbar werden. Nach aktuellem Stand existierte diese Lücke mehr als ein halbes Jahr in fast jedem x86-System, und damit in fast jeder Cloud. Eine sichere Mandantentrennung war also nicht mehr gewährleistet. Aber auch durch Unachtsamkeit werden Cloud-Datenspeicher immer wieder der Öffentlichkeit zugänglich.
 %Amazon S3 Datenlecks
 
-% Mittelgroße Provider wurden gar nicht erst informiert: https://techcrunch.com/2018/01/06/how-tier-2-cloud-vendors-banded-together-to-cope-with-spectre
+Zugleich fordert aktuelle Gesetzgebung wie die Datenschutz-Grundverordnung unter anderem die Verarbeitung von personenbezogenen Daten europäischer Kunden ausschließlich innerhalb der EU. %http://data.consilium.europa.eu/doc/document/ST-12399-2016-INIT/en/pdf %Anbieter sind in der Pflicht. Haftung auch Gegenüber Endkunden, mit denen eigentlich keine direkte Geschäftsbeziehung besteht. Löschpflicht. Wo sind die Daten physikalisch? Portabilität Cloud->Kund und Cloud->Cloud
+%Weitere Anforderungen Diese Regelungen sind keineswegs auf Europa begrenzt. Gleiches in der USA (Amazon Gov CLoud)
+Gut neunzig Prozent aller Unternehmen achteten dementsprechend bei der Auswahl eines Cloud-Providers auf Rechts- und Server-Standorte in Deutschland. 
+
+Auch vorhandene Softwarelizenzen können den Umzug verhindern. Zum Beispiel Oracle oder Microsoft-OEM-Lizenzen erlauben die Übertragung in eine Cloud-Umgebung nicht. So müssen möglicherweise Teile der Infrastruktur lokal vorgehalten werden.
+
+
+
+Für gut fünfzig Prozent der interessierten Unternehmen außerdem unabdingbar: individuelle SLAs.
+%https://de.statista.com/statistik/daten/studie/545924/umfrage/kriterien-bei-der-auswahl-eines-cloud-providers-in-deutschen-unternehmen/
+Dies lässt jedoch einige der weltweit größten Cloud-Anbieter außen vor -- Amazon und Microsoft teilen sich seit 2016 über fünfzig Prozent des weltweiten Umsatzes mit Infrastrukturdiensten. Die Vertragsbedingungen beider Anbieter sind jedoch meist nicht verhandelbar. %https://de.statista.com/statistik/daten/studie/754647/umfrage/marktanteile-am-umsatz-mit-infrastructure-as-a-service-weltweit/
+
+Laut Gartner wollen daher 70 Prozent aller Unternehmen bis 2019 eine Multi-Cloud-Strategie umsetzen. Zusätzlich zu einer privaten Cloud werden hierbei auch Dienste aus weiteren öffentlichen Angeboten genutzt. Vorteil ist eine höhere Flexibilität, um für jede Anforderung die passendste Cloud wählen zu können. Kriterien sind zum Beispiel die Einhaltung gesetzlicher Anforderungen, spezielle SLAs, höhere Ausfallsicherheit und die Preisgestaltung der Anbieter. Multi-Cloud birgt aber auch einige Herausforderungen:
 
 % XKCD https://xkcd.com/1938/
 
-Lösung: Immer mehr Anwendungen laufen vollständig oder teilweise (hybrid) in der Cloud. Wie können die Vorteile der Cloudservices mit aktuellem Datenschutz zusammengebracht werden? Die Verwaltung der verteilten Applikationen sollte weiterhin automatische (Cloud Native) erfolgen.
 
-Zeigen: 
-- Eine Übersicht aktueller Cloudangebote und Datenschutzanforderungen.
-- Related work: Gegenüberstellung Verschiedener kommerzieller und akademischer Projekte mit ähnlicher Zielsetzung. Fehlende Eigenschaften
+% Capgemini WHitepaper "from boring to sexy" Multi Cloud ist Trend."
+%
+%https://www.computerwoche.de/a/migration-in-die-cloud-so-vermeiden-sie-fehler,3327477
+%
+%https://www.computerwoche.de/a/der-trend-geht-zur-multi-cloud,3332352
+%
+%https://www.computerwoche.de/a/mit-der-multi-cloud-zur-digitalen-infrastruktur,3331691
+%
+%https://www.computerwoche.de/a/was-ist-multi-cloud-der-naechste-schritt-im-cloud-computing,3331658
+%
+%https://www.gartner.com/doc/reprints?id=1-4KKGOTA&ct=171115&st=sb%3fsrc=so_5703fb3d92c20&cid=70134000001M5td
 
-Hyrise-R und OpenStack als Grundlage im Rahmen von SSCICLOPS
+\begin{itemize}
+	\item Portabilität eigener Anwendungen
+	\item Cloud-Provider-spezifisches Know-How
+	\item Höherer IT-Verwaltungsaufwand der Ressourcen
+	\item Keine oder geringere (preisliche) Skaleneffekte
+	\item Managementaufwand, wie der Vergleich der Compliance-Richtlinien
+	\item Überwachung der heterogenen Cloud-Landschaft
+	\item Durchsetzung der eigenen Sicherheits- und Datenschutzrichtlinien
+\end{itemize}
 
-Organisationen und Unternehmen als Cloud-Nutzer emanzipieren. Da SLAs und weitere Rahmenbedingungen oft nicht verhandelbar sind, muss die Optimierung der Cloud-Nutzung in Eigenregie erfolgen.
+\noindent
+Um diese Herausforderungen automatisiert abzumildern, eignet sich eine Cloud Management Plattform (CMP). Deren Marktsituation ist allerdings unübersichtlich und in großer Bewegung. Bereits im letzten Jahr wurden einige vielversprechende Lösungen von Cloud-Infrastruktur-Providern aufgekauft. Die CMPs sind nun selbst Software-as-a-Service-Angebote und proprietär. Die eigentlichen Vorteile Flexibilität und Unabhängigkeit werden so ad absurdum geführt.
 
-Verantwortung übernehmen: Große Datenlecks aus ungesicherten Amazon-S3-Speichern.
+Tatsächlich unabhängige Lösungen sind mehrheitlich ausgelaufene akademische Forschungsprojekte. Auf den aktuellen Cloud-Markt und technische Neuerungen wie Container sind diese nicht mehr anwendbar. Aufgrund der vorherigen Forschungsergebnisse ergibt sich jedoch folgende Hypothese:
 
-- Vorschlag eines eigens entwickelten Multi-Cloud-Brokers, der auch nicht cloud-native Anwendungen über verschiedene Cloud-Provider verteilt. Dabei beachtet er SLAs und Datenschutzanforderungen.
-- Technische Betrachtung des Prototypen.
-- Future Work und Bewertung des Prototypen
+%CMPs ändern sich ständig. selbst während dieser arbeit sind anbieter ausgeschieden, aufgekauft oder grundlegend verändert. cost als neues feature. kein echtes brokering, sondern self-service und monitoring.
 
-Wie nützlich ist Apache libcloud (oder generell eine Multi-Cloud Library? Vergleich!)
+\begin{verse}
+{Eine unabhängige, auf offenen Standards basierende CMP kann die Vorteile der Cloud mit aktuellem Datenschutz zu vereinen.}
+\end{verse}
+
+\noindent Die Verwaltung der verteilten Applikationen sollte weiterhin automatisch erfolgen. Da SLAs und weitere Rahmenbedingungen oft nicht verhandelbar sind, muss die Optimierung der Cloud-Nutzung in Eigenregie erfolgen. Dabei sollen Organisationen und Unternehmen als Cloud-Nutzer emanzipiert werden. Die vorgestellte CMP erlaubt die Nutzung bestimmter Anbieter, obwohl SLAs  nicht eingehalten werden: zum Beispiel lässt sich eine höhere Ausfallsicherheit durch Kombination mehrerer Anbieter erreichen. Nebenbei entsteht so ein Notfallplan zum Weiterbetrieb bei Ausfall oder Kündigung eines Cloud-Providers.
+
+Das folgende Kapitel klassifiziert Cloud-Angebote anhand bestimmter Eigenschaften und Service-Ebenen. Außerdem geben wir eine Einführung in datenschutzrechtliche Fragen und Risiken in Zusammenhang mit Cloud-Bereit\-stel\-lungs\-model\-len.
+
+Anschließend entwickeln wir passende Policies und entsprechende Schemata. Diese sollen von einem eigens entwickelten Multi-Cloud-Broker verwendet werden. Er verteilt auch nicht cloud-native Legacy-Anwendungen über verschiedene Cloud-Provider auf IaaS- und CaaS-Ebenen und optimiert die Cloud-Landschaft anschließend fortlaufend. Dabei beachtet er SLAs und Datenschutzanforderungen. Für diesen Vorschlag bewerten wir akademische und kommerzielle Projekte mit ähnlicher Zielsetzung.
+
+Der Implementierungsteil vergleicht verschiedene Multi-Cloud-Bibliotheken. Auf Basis von Apache libcloud entwickeln wir eine CMP, die das Multi-Cloud-Brokering übernimmt. Auch Implemtierungshürden und Besonderheiten der verschiedenen Clouds werden beschrieben. Als Beispielanwendung dient dabei die verteilte Forschungsdatenbank Hyrise-R. Auch die Entstehung des OpenStack-Testbeds als Beispiel einer Private-Cloud wird besprochen.
+
+Es folgt eine abschließende Bewertung des Konzepts -- kann eine unabhängige CMP die Hürden der Cloud-Nutzung durch einen Multi-Cloud-Ansatz senken?
+
+%- Klassifizierung von Cloud-Angebote und Risiken
+%- Datenschutzrechtliche Bewertung von Daten 
+%- Portabilität von Anwendungen für einfache Cloud-übergreifende Migrationen
+%- Entwicklung von entsprechenden Policies und einem Schema
+%- Vorschlag eines eigens entwickelten Multi-Cloud-Brokers, der auch nicht cloud-native Anwendungen über verschiedene Cloud-Provider auf IaaS, CaaS und PaaS-Ebenen in Hybriden Umgebungen verteilt und managt. Dabei beachtet er SLAs und Datenschutzanforderungen.
+%- Related work: Gegenüberstellung Verschiedener kommerzieller und akademischer Projekte mit ähnlicher Zielsetzung. Fehlende Eigenschaften
+%Wie nützlich ist Apache libcloud (oder generell eine Multi-Cloud Library? Vergleich!)
+%- Einbindung bisher nicht cloud-nativer Anwendungen am Beispiel von hyrise-R
+%- Technische Betrachtung des Prototypen mit Hyrise-R und OpenStack als Grundlage im Rahmen von SSCICLOPS
+%- Future Work und Bewertung des Prototypen
+%
+%Nur Teile einer CMP umgesetzt. Identity spielt hier z.\,B. keine Rolle. 
