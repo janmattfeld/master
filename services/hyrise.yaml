@@ -55,14 +55,22 @@ services:
       delay: 5s
       max_attempts: 3
       window: 120s
-    docker:
-      image: hyrise/dispatcher:docker
-      command:
-        - ./start_dispatcher
-        - '{{dispatcher.port}}'
-        - settings.json
-      cap_add:
-        - None
+    provider:
+      docker:
+        image: hyrise/dispatcher:docker
+        command:
+          - ./start_dispatcher
+          - '{{dispatcher.port}}'
+          - settings.json
+        cap_add:
+          - None
+      openstack:
+        image: Hyrise-R Dispatcher
+        command: |
+            #cloud-config
+            runcmd:
+                - cd /home/ubuntu/hyrise_dispatcher/dispatcher
+                - ./start_dispatcher {{dispatcher.port}} settings.json
 
   - role: master
     labels:
@@ -90,15 +98,23 @@ services:
       delay: 5s
       max_attempts: 3
       window: 120s
-    docker:
-      image: janmattfeld/hyrise_r:latest
-      command:
-        - '--dispatcherurl={{dispatcher.ip}}'
-        - '--dispatcherport={{dispatcher.port}}'
-        - '--port={{master.port}}'
-        - --nodeId=0
-      cap_add:
-        - None
+    provider:
+      docker:
+        image: janmattfeld/hyrise_r:latest
+        command:
+          - '--dispatcherurl={{dispatcher.ip}}'
+          - '--dispatcherport={{dispatcher.port}}'
+          - '--port={{master.port}}'
+          - --nodeId=0
+        cap_add:
+          - None
+      openstack:
+        image: Hyrise-R
+        command: |
+            #cloud-config
+            runcmd:
+                - cd /home/ubuntu/hyrise/hyrise_nvm/build
+                - ./hyrise-server_release --corecount=2 --dispatcherurl={{dispatcher.ip}} --dispatcherport={{dispatcher.port}} --port={{master.port}} --nodeId=0
 
   - role: replica
     labels:
@@ -126,16 +142,21 @@ services:
       delay: 5s
       max_attempts: 3
       window: 120s
-    openstack:
-      image: hyrise_r
-      flavor: m1.large
-      cloud_init:
-    docker:
-      image: janmattfeld/hyrise_r:latest
-      command:
-        - '--dispatcherurl={{dispatcher.ip}}'
-        - '--dispatcherport={{dispatcher.port}}'
-        - '--port={{replica.port}}'
-        - '--nodeId={{replica.id}}'
-      cap_add:
-        - None
+    provider:
+      docker:
+        image: janmattfeld/hyrise_r:latest
+        command:
+          - '--dispatcherurl={{dispatcher.ip}}'
+          - '--dispatcherport={{dispatcher.port}}'
+          - '--port={{replica.port}}'
+          - '--nodeId={{replica.id}}'
+        cap_add:
+          - None
+      openstack:
+        image: Hyrise-R
+        command: |
+            #cloud-config
+            runcmd:
+                - cd /home/ubuntu/hyrise/hyrise_nvm/build
+                - ./hyrise-server_release --corecount=2 --dispatcherurl={{dispatcher.ip}} --dispatcherport={{dispatcher.port}} --port={{replica.port}} --nodeId={{replica.id}}
+

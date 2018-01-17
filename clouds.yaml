@@ -7,19 +7,19 @@
 # Double quotes do not work here, as they are interpreted.
 #
 
-#- id: amazonec2
-#  text: Amazon EC2 (dev-aws@janmattfeld.de)
-#  provider: ec2
-#  auth:
-#    region: us-east-1
-#    access_id: AKIAIDOJJPUWARE6EECA
-#    password: /nLlpN2KGt8oMtKHN4yIJsneof4VdX18hbFvpgHi
+- id: amazonec2
+  text: Amazon EC2 (dev-aws@janmattfeld.de)
+  provider: ec2
+  auth:
+    region: us-east-1
+    access_id: AKIAIDOJJPUWARE6EECA
+    password: /nLlpN2KGt8oMtKHN4yIJsneof4VdX18hbFvpgHi
 
 #- id: dockerce
 #  text: Docker CE (localhost)
 #  provider: docker
 #  auth:
-#    host: localhost
+#    host: 127.0.0.1
 #    port: 4243
 #    username:
 #    password:
@@ -46,20 +46,38 @@
 #  security:
 #  availability:
 
-- id: powervc
-  text: PowerVC (Future SOC Lab)
+- id: openstack
+  text: OpenStack (Future SOC Lab)
   provider: powervc
   auth:
-    url: https://powervc:5000/v3/auth/tokens
-    base_url: https://192.168.42.252:8774/v2.1
+    url: http://192.168.200.11:5000/v3/auth/tokens
+    base_url: http://192.168.200.11:8774/v2.1
     version: 3.x_password
     region_name: RegionOne
-    username: jan.mattfeld
-    password: wu2AiX5a
-    tenant_name: ibm-default
+    username: admin
+    password: admin
+    tenant_name: admin
   location:
     country: de
   cost:
   features:
   security:
   availability:
+
+#- id: powervc
+#  text: PowerVC (Future SOC Lab)
+#  provider: powervc
+#  auth:
+#    url: https://powervc:5000/v3/auth/tokens
+#    base_url: https://192.168.42.252:8774/v2.1
+#    version: 3.x_password
+#    region_name: RegionOne
+#    username: jan.mattfeld
+#    password: wu2AiX5a
+#    tenant_name: ibm-default
+#  location:
+#    country: de
+#  cost:
+#  features:
+#  security:
+#  availability:

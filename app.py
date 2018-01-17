@@ -2,6 +2,7 @@ import jinja2
 import ruamel.yaml as yaml
 
 import utils
+import scheduler
 
 
 class Template:
@@ -62,23 +63,25 @@ class App:
     #  - Hard Constraints (Hardware, Features) -> Scheduler
     #  - Soft Constraints (Availability, Performance, Price) -> Scheduler
     #
-    def __init__(self, template, sla, cloud):
+    def __init__(self, template, sla, clouds):
         self.id = utils.create_uuid(template['name'])
         self._template = Template(self.id, template)
         self._sla = sla
+        self._clouds = clouds
         self._services = []
-        # Not really, should be defined by scheduler
-        self._next_free_port = 5099
-        self._cloud = cloud
         self._deploy_services()
+
+    # def __del__(self):
+    #     """Remove all of the app's service instances"""
+    #     del self._services[:]
 
     def _get_service_by_role(self, role):
         """Return ONE service of a given role"""
-        return next((srv for srv in self._services if srv.get_role() == role), None)
+        return next((srv for srv in self._services if srv.role == role), None)
 
     def _get_services_by_role(self, role):
         """Return ALL services of a given role"""
-        return [srv for srv in self._services if srv.get_role() == role]
+        return [srv for srv in self._services if srv.role == role]
 
     def _deploy_services(self):
 
@@ -108,21 +111,26 @@ class App:
             for srv in _queued_services:
                 while not _role_is_deployed() and _dependencies_fulfilled():
 
-                    run_config = {
-                        'ip': '127.0.0.1',
-                        'port': self._next_free_port,
-                        'id': self._next_free_port
-                    }
-                    self._next_free_port += 1
+                    # Ask scheduler for a suitable cloud
+                    scheduled_cloud = scheduler.place(self._clouds, srv, self._sla)
+                    # TODO Fail if None
 
-                    # we have to update the service template before deploying (--ip and --port)
+                    scheduled_port = scheduled_cloud.request_port()
+                    run_config = {
+                        'ip': scheduled_cloud.request_ip(),
+                        'port': scheduled_port,
+                        'id': scheduled_port
+                    }
+
+                    # We have to update the service template before deploying (--ip and --port)
+                    # Without Consul/ZooKeeper, the included app may depend on this IP/Port information
                     # A non-global service will be changed again, so there is no need to persist it
                     updated_app_template = self._template.update({srv['role']: run_config}, persist=_is_global())
 
                     # Get updated template for this service
                     srv_template = next((s for s in updated_app_template['services'] if s['role'] == srv['role']), None)
 
-                    self._services.append(Service(srv_template, self._cloud))
+                    self._services.append(Service(srv_template, scheduled_cloud, run_config))
 
                     if _role_is_deployed():
                         _queued_services.remove(srv)
@@ -134,21 +142,31 @@ class App:
 class Service:
     """A service instance is deployed within a scheduled cloud, according to its template"""
 
-    def __init__(self, template, cloud):
+    def __init__(self, template, cloud, run_config):
         self.id = utils.create_uuid(template['role'])
         self._role = template['role']
         self._cloud = cloud
         self._template = template
-        self._instance = cloud.deploy_template(self.id, template)
+        self._run_config = run_config
+        self._instance = cloud.deploy_template(self.id, template, run_config)
 
-    def get_role(self):
+    # def __del__(self):
+    #     self._instance.destroy()
+
+    @property
+    def role(self):
         return self._role
 
-    def get_port(self):
-        pass
+    @property
+    def port(self):
+        # TODO get this dynamically (impossible for docker)
+        # That is why we really need something like Consul/Zookeeper
+        return self._run_config['port']
 
-    def get_ip(self):
-        pass
+    @property
+    def ip(self):
+        # TODO get this dynamically (impossible for docker)
+        return self._run_config['ip']
 
     def __repr__(self):
         return "<{name}: id={id}>".format(name=__name__, id=self.id)
