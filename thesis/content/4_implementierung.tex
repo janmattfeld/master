@@ -10,7 +10,7 @@ Hyrise\footnote{\url{https://hpi.de/plattner/projects/hyrise.html}} ist eine In-
 %R: Scale-out and Hot-Standby through Lazy Master Replication for
 %Enterprise Applications IMDM/VLDB, 2015.
 %[3] F. Eberhardt, J. Hiller, O. Hohlfeld et. al. Design of Inter-Cloud Security
-%Policies, Architecture, and Annotations for Data Storage
+%Policys, Architecture, and Annotations for Data Storage
 %Technical
 %Report, Aachen/Potsdam, Germany, 2016.
 %[4]J. Eschrig, S. Knebel, N. Kunzmann Dependable Cloud Computing with
@@ -42,11 +42,11 @@ Im Folgenden untersuchen wir die Eignung der populärsten Bibliotheken. Wichtigs
 	\ra{1.3}
 	\begin{tabularx}{\textwidth}{>{\centering}XXXr} \toprule
 		Projekt & Cloud-Provider & Cloud-Services & Cost\,/\,Geo\\ \midrule
-		Apache Libcloud (Python)\footnotemark & OpenStack, AWS, Azure, GCP, Docker & Compute, Container, DNS, Load Balancer, Storage, Backup & $x$\,/\,$x$\\
-		Apache jclouds (Java)\footnotemark & OpenStack, AWS, Azure$*$, GCP, Docker & Compute, Container, Load Balancer$*$, Storage & $x$\,/\,$x$\\
-		PkgCloud (Node.js)\footnotemark & OpenStack, AWS, Azure & Compute, Load Balancer, Storage$*$, DNS$*$ & --\,/\,--\\
-		Libretto (Go)\footnotemark & OpenStack, AWS, Azure, GCP & Compute & --\,/\,--\\
-		Fog (Ruby)\footnotemark & OpenStack, AWS, GCP & Compute, DNS, Storage & $x*$\,/\,--\\
+		Apache Libcloud (Python)\footnotemark & AWS, Azure, OpenStack, GCP, Docker & Compute, Container, DNS, Load Balancer, Storage, Backup & $x$\,/\,$x$\\
+		Apache jclouds (Java)\footnotemark & AWS, Azure, Open\-Stack$*$, GCP, Docker & Compute, Container, Load Balancer$*$, Storage & $x$\,/\,$x$\\
+		PkgCloud (Node.js)\footnotemark & AWS, Azure, OpenStack& Compute, Load Balancer, Storage$*$, DNS$*$ & --\,/\,--\\
+		Libretto (Go)\footnotemark & AWS, Azure, OpenStack, GCP & Compute & --\,/\,--\\
+		Fog (Ruby)\footnotemark & AWS, OpenStack, GCP & Compute, DNS, Storage & $x*$\,/\,--\\
 		\bottomrule
 	\end{tabularx}
 	\label{tab:bibliotheken}
@@ -86,7 +86,7 @@ Libcloud fasst die verschiedenen Cloud-Angebote nicht nur in gemeinsamen Namensr
 
 Als Beispiel für eine Private Cloud -- als Teil unseres Multi-Cloud-Setups -- soll OpenStack dienen. Es ist das populärste Open Source-Projekt um eigene Infrastruktur als Service aufzubauen. Gesponsort wird es von Großunternehmen wie HPE, IBM, Canonical, Red Hat und anderen.
 
-OpenStack setzt aus verschiedenen Teilprojekten zusammen, die jeweils einen Dienst entwickeln und bereitstellen. Ein Minimal-Setup besteht aus \emph{Nova} (Computing), \emph{Key\-stone} (Authentifizierung), \emph{Neutron} (Netzwerk) und \emph{Glance} (Images). Verbreitet sind außerdem \emph{Cinder} (Blockspeicher) und \emph{Horizon} (Dash\-board). Diese sollen auch in unserem Beispiel genutzt werden. Denkbar ist darüber hinaus die Integration eines Container-Dienstes. Der Zugriff auf die Infrastruktur erfolgt entweder über das Dahsboard, Kommandozeilentools oder eine REST-API.
+OpenStack setzt sich aus verschiedenen Teilprojekten zusammen, die jeweils einen Dienst entwickeln und bereitstellen. Ein Minimal-Setup besteht aus \emph{Nova} (Computing), \emph{Key\-stone} (Authentifizierung), \emph{Neutron} (Netzwerk) und \emph{Glance} (Images). Verbreitet sind außerdem \emph{Cinder} (Blockspeicher) und \emph{Horizon} (Dash\-board). Diese sollen auch in unserem Beispiel genutzt werden. Denkbar ist darüber hinaus die Integration eines Container-Dienstes. Der Zugriff auf die Infrastruktur erfolgt entweder über das Dahsboard, Kommandozeilentools oder eine REST-API.
 
 Grundsätzlich wäre auch der Aufbau einer OpenStack-Föderation wie in [SCICLOPS] denkbar. Föderierte Cloud-Architekuren teilen sich zentrale Komponenten, in OpenStack mindestens den Authentifizierungs-Service Keystone. Je nach Föderations-Variante (\emph{Cells}, \emph{Regions}, \emph{Availability Zones} oder \emph{Host Aggregates}) sind auch Dienste wie die Dashboard oder Speicher nur einmal vorhanden. Diese Architektur spart Overhead, erfordert allerdings spezielle Anpassungen innerhalb der Cloud. Auch gehen einige Vorteile wie Ausfallsicherheit und Unabhängigkeit der zentralen Dienste wieder verloren. Eine Kombination mit weiteren Cloud-Providern im Rahmen unseres Multi-Cloud-Setups ist denkbar, bleibt auf Grund der aufwändigen Einrichtung aber außen vor. Auch wäre der zusätzliche Erkenntnisgewinn vermutlich gering.
 
@@ -179,4 +179,4 @@ Letztendlich\todo{PowerVM} greifen wir auf eine lokale Mirantis-OpenStack-Instal
 
 % Tatsächliche Broker Architektur
 % Code-Eigenheiten
-% Tests
+% Tests/KPIs/Validierung der Hypothese

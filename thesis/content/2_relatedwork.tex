@@ -3,7 +3,7 @@
 Um eine Anwendung automatisiert auf verschiedene Clouds zu verteilen ist ein Broker-Mechanismus nötig. Dieser sollte nach verschiedenen, festzulegenden Kriterien vorgehen. Konkret erfüllt ein Broker in der Regel folgende Aufgaben:
 
 \begin{enumerate}
-	\item Bereitstellen der Ressourcen für eine Applikation. Also zum Beispiel das Starten einer virtuellen Maschine oder die Reservierung von Speicherplatz
+	\item Bereitstellen der Ressourcen für eine Applikation; starten einer virtuellen Maschine oder Reservierung von Speicherplatz
 	\item Starten der Anwendung auf den vorher reservierten Ressourcen
 	\item Verteilen eingehender Anfragen auf die reservierten Ressourcen
 	\item Management der Ressourcen
@@ -20,8 +20,24 @@ Stattdessen muss der Broker in einer Multi-Cloud-Umgebung extern bereitgestellt 
 Die vorgestellten Lösungen unterschieden sich in Architektur, Flexibilität und Funktionsumfang. Die vier Basiseigenschaften werden nicht von allen Arbeiten in vollem Umfang erfüllt. Zusätzlich denkbar ist das automatische Re-provisionieren anhand von 
 
 \begin{enumerate}
-	\item Lastspitzen
-	\item Ausfällen von Hardware und Netzwerkressourcen
+	\item Lastspitzen oder Ausfällen von Hardware und Netzwerkressourcen (Monitoring)
 	\item Geänderten Umfeldparametern wie der Gesetzgebung, Preise oder AGBs
 	\item Nutzeränderungen
+	\item Vorherigen Broker-Aktionen
 \end{enumerate}
+
+
+\section{Architektur}
+% Komponenten
+
+\section{Schemata: Cloud-Angebote, SLAs, Services}
+
+\section{Matching}
+%
+%Angebot der Cloud Provider (SLA)
+%Anforderungen
+%
+%Spezifizierung
+%Schnittstellen
+%
+%Algorithmen
