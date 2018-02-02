@@ -54,7 +54,7 @@ Je nach Auswahl des Cloud-Angebots lassen sich verschiedene Kernebenen untersche
 \end{description}
 
 \noindent
-Besonders interessant für eigene Entwicklungen im Rahmen des aktuellen Forschungskontextes sind dabei die Ebenen IaaS, CaaS und PaaS. Sie bieten genug Flexibilität um die Fragestellung mit folgenden Produkten zu erproben:
+Besonders interessant für eigene Entwicklungen im Rahmen des aktuellen Forschungskontextes sind dabei die Ebenen IaaS und CaaS. Sie bieten genug Flexibilität um die Fragestellung mit folgenden Produkten zu erproben:
 
 \begin{enumerate}
 	\item OpenStack als zentraler Infrastrukturprovider
@@ -141,6 +141,7 @@ Um eine automatisierte Bewertung der Cloud-Angebote vorzunehmen, müssen die Anf
 %
 %Projektübergreifende Nutzung des Brokers. 
 
+% ITIL
 
 % Aufgaben einer CMP:
 %https://www.gartner.com/doc/reprints?id=1-4KKGOTA&ct=171115&st=sb%3fsrc=so_5703fb3d92c20&cid=70134000001M5td
@@ -207,10 +208,10 @@ Sowohl Policys als auch SLAs sollten bestimmte Eigenschaften erfüllen. Eine Erw
 
 \noindent 
 Einige Metriken sind typisch für Dienstleistungsverträge, zum Beispiel der Durchsatz. Andere wie die Löschfrist sind durch neuere Gesetzesvorgaben entstanden oder betreffen wie die Nachhaltigkeit das Image eines Unternehmens. Alle lassen sich grob in Kategorien sortieren; Allgemein, Performance, Zuverlässigkeit, Datenmanagement, Sicherheit, Datenschutz.
+\todo{Tabelle mit Klassifizierung?}
 
 Die folgende Auflistung zeigt die wichtigsten Policys und SLA-Metriken. Sie erläutert außerdem die Bedeutung für diese Arbeit:
 
-\todo{Tabelle mit Klassifizierung}
 \begin{description}
 	
 %	Klassifizierung
@@ -225,7 +226,7 @@ Die folgende Auflistung zeigt die wichtigsten Policys und SLA-Metriken. Sie erl�
 	
 	\item[Geo-Lokation] Geographischer Standort des Datencenters. Mögliche Einschränkungen aufgrund von Datenschutzgesetzen. Beeinflusst außerdem die Antwortzeiten des Services.
 
-	\item[Elastezität] Wie schnell können neue Ressourcen bereitgestellt oder wieder heruntergefahren werden? In einer IaaS-Umgebung ist dies meist den Zeitraum vom Start einer neuen VM bis zur Einsatzbereitschaft. Unsere Service-bezogene SLA misst zusätzlich die Zeit, bis die neue Instanz tatsächlich Teil des Clusters ist, und einen Teil der Last abnimmt.
+	\item[Elastezität] Wie schnell können neue Ressourcen bereitgestellt oder wieder heruntergefahren werden? In einer IaaS-Umgebung ist dies meist der Zeitraum vom Start einer neuen VM bis zur Einsatzbereitschaft. Unsere Service-bezogene SLA misst zusätzlich die Zeit, bis eine neue Instanz tatsächlich Teil des Clusters ist, und einen Teil der Last abnimmt.
 	
 	\item[Agilität] Effizienzmetrik: Wie feingranular können die Ressourcen skaliert werden? Die Bedeutung für den Cloud-Broker ist vernachlässigbar:  Die verschiedenen Ressourcen-Angebote der Cloud Provider müssen im Voraus normalisiert werden. Zur Laufzeit werden sie nur noch verglichen.
 	
@@ -239,7 +240,7 @@ Die folgende Auflistung zeigt die wichtigsten Policys und SLA-Metriken. Sie erl�
 	
 	\item[Verfügbarkeitszeit (Uptime)] Zeitanteil, innerhalb dessen Anfragen den übrigen Metriken entsprechend beantwortet werden. Üblicherweise ab 99,9\,\% eines Jahres. Könnte durch die Gemeinsame Nutzung mehrerer Clouds erhöht werden.	
 	
-	\item[Wiederherstellungszeit] Durchschnittlicher Zeitraum, nachdem ein Service nach Ausfall wieder vollständig zur Verfügung steht. Anfragen sollten zügig und korrekt beantwortet werden; alle übrigen Service-SLAs stehen wieder zur Verfügung.
+	\item[Wiederherstellungszeit] Durchschnittlicher Zeitraum, nachdem ein Service nach Ausfall wieder vollständig zur Verfügung steht. Dies beinhaltet die zügige und korrekte Beantwortung aller Anfragen sowie die Erfüllung aller übrigen SLOs.
 	
 	\item[Backup] Eine Sicherung von IaaS-Instanzen oder Datenbankinhalten in bestimmten Abständen, verteilt auf mehrere Speicherorte. In diesem Fall bezogen auf einen Service. Außerdem zu beachten: Die benötigte Zeit zur Wiederherstellung.
 	
@@ -247,15 +248,19 @@ Die folgende Auflistung zeigt die wichtigsten Policys und SLA-Metriken. Sie erl�
 		
 	\item[Benachrichtigungssystem] Ein Trigger-Action System: Bei Eintreten bestimmter Ereignisse wie dem Ausfall einer Systemkomponente soll automatisiert eine festgelegte Nachricht versendet werden, dies können eine E-Mail oder ein REST-Call sein.
 	
-	\item[Speichertypen] unterschieden sich deutlich in Zugriffszeit, Transferrate, verfügbarer Kapazität, Zuverlässigkeit und Preis. IaaS-Angebote lassen oft die Wahl zwischen SSD und HDD. Auf PaaS-Ebene kann auch die Art des Datenbankservices gemeint sein: In-Memory, hybrid oder klassisch.
+	\item[Speichertypen] unterscheiden sich deutlich in Zugriffszeit, Transferrate, verfügbarer Kapazität, Zuverlässigkeit und Preis. IaaS-Angebote lassen oft die Wahl zwischen SSD und HDD. Auf PaaS-Ebene kann auch die Art des Datenbankservices gemeint sein: In-Memory, hybrid oder klassisch.
 	
-	\item[Löschfrist] Handels- und Steuerrecht verlangen für einige Daten die rechtssichere Speicherung und Revisionssicherheit. Umgekehrt gilt für personenbezogene Daten laut BDSG auch eine Löschpflicht, sobald die Daten nicht mehr für den ursprünglichen Zweck benötigt werden. Dies kann aber nur auf Datensatz-Ebene durchgesetzt werden. Daher betrachten wir diesen Aspekt nicht weiter.
+	\item[Löschfrist] Handels- und Steuerrecht verlangen für einige Daten die rechtssichere Speicherung und Revisionssicherheit. Umgekehrt gilt für personenbezogene Daten laut BDSG auch eine Löschpflicht, sobald die Daten nicht mehr für den ursprünglichen Zweck benötigt werden. Dies kann meist nur auf Datensatz-Ebene durchgesetzt werden. 
+	
+	Eine befristete Bereitstellung von Service-Instanzen ist jedoch auch denkbar. Die Löschung könnte dann im Rahmen von \emph{Aufräum}-Zyklen erfolgen und Kosten durch Überprovisionierung sparen.
 	
 	\item[Verschlüsselung] Je nach Service-Ebene entweder die Festplatte einer IaaS-Instanz oder der PaaS-Datenbankservice. Eine Verschlüsselung der Übertragungswege wird angenommen. Auf Datensatz- und Anwendungsebene sind eigene Implementierungen, unabhängig von der CMP üblich.
 	
 	\item[Kosten] Verbunden mit einem SLA bieten Cloud Provider Ressourcen zu einem bestimmten Preis. Dieser ist oft dynamisch, daher sollte eine Optimierung nach Prüfung aller anderen \emph{harten} Kriterien erfolgen.
+	
+	Den beteiligten Abteilungen hilft die Anzeige der Kosten pro Service. Die CMP sollte Auslastung und Preise dienstübergreifend optimieren.
 	 	
-	\item[Nachhaltigkeit/Energiequelle] Nutzt das Datencenter Ökostrom, wenn ja in welchem Umfang. Auch denkbar: Ausgleichsleistungen
+	\item[Nachhaltigkeit/Energiequelle] Nutzt das Datencenter Ökostrom, wenn ja in welchem Umfang? Auch denkbar: Ausgleichsleistungen des Anbieters.
 	
 	%	https://www.researchgate.net/publication/234809221_Managing_energy_and_server_resources_in_hosting_centers 
 	%	
@@ -273,50 +278,4 @@ Herausforderung hierbei: Die wichtigsten Cloud-Provider veröffentlichen die nö
 
 Policys und besonders SLAs sind typischerweise in natürlicher Sprache verfasst. Für den Einsatz in einem Broker sollten sie jedoch streng formalisiert und damit maschinenlesbar sein, um automatisiert angewandt und überprüft zu werden.
 
-Der nächste Abschnitt zeigt daher bestehende Schemata zur Darstellung von SLAs.
-Die weitere Besprechung der Policy-Gestaltung erfolgt im Implementierungsteil. 
-
-\section{Maschinenlesbare SLA-Schemata}
-
-Aufgreifen der Policy- und SLA-Anforderungen
-
-Offen ist der Durchsetzungspunkt der Policys. Soll dies bereits in der CMP oder innerhalb von Plattformdiensten und Anwendungsprogrammen geschehen? Für Benutzer-Policys könnte beides der Fall sein: Die versendeten Anwendungsdaten enthalten Metainformationen zur erlaubten Verwendung. Schon die erste Kontaktstelle der Cloud, zum Beispiel ein Load-Balancer, wertet diese Informationen aus und entscheidet entsprechend für ein Routing, dass den Nutzeranforderungen entspricht. 
-
-In der Anwendung selbst können diese Metainformationen auch genutzt werden, zum Beispiel zur gewünschten Verschlüsselung oder einer Frist zur automatischen Löschung. Ein besonders auf Performance fokussierter Ansatz ist [CPPL]. Bei System-Policys ist die Performance der Dekodierung jedoch nicht entscheidend: Sie findet nur bei Änderungen durch Administratoren statt, nicht bei jedem Datenpaket, das die Cloud erreicht.
-
-Operational Level (Management, Computational)
-Policy- und Event Definition Language
-Anforderungen->Graph
-% [2] T. Koch, C. Krell, and B. Krämer, "Policy definition language for automated management of distributed systems," In Proceedings of Second IEEE International Workshop on Systems Management, 1996, pp. 55-64.
-
-CPPA (SCICLOPS) End User - Object privileges on 
-Tables 
-Indices 
-Procedures 
-SQL operations, e.g.,  
-Select 
-Insert 
-Update 
-Delete 
-Create… 
-
-System-Privilegien: Anwendungsverteilung, also Sicht eines Administrator
-Admin - System privileges 
-System and Application Setup 
-User Management
-Monitoring/Logging
-Backup
-
-Bisherige Standards
-
-CSA, OPTIMIS
-
-einfach lesen für Mensch und Maschine, Versionsverwaltung, Infrastruktur als Code, erweiterbar
-
-\section{Service-Schema}
-
-Abhängig vom Service Level: IaaS/CaaS oder PaaS?
-
-Beispiel zeigen
-
-%verschiedene OpenStack-Versionen haben unterschiedliche Schnittstellen. Auch dies kann über die Middleware abgefangen werden. RefStack testet API, Rally testet performance und führt tempest-Tests aus.
+Der nächste Abschnitt zeigt daher -- neben bisherigen Forschungsarbeiten -- bestehende Schemata zur Darstellung von SLAs. Die weitere Besprechung der Policy-Gestaltung erfolgt im Implementierungsteil in \autoref{cha:implementierung}.

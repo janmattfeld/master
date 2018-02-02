@@ -1,4 +1,7 @@
 \chapter{Implementierung}
+\label{cha:implementierung}
+
+\todo{Kapitel-Einleitung}
 
 \section{Testumgebung: OpenStack, Docker \& Hyrise-R}
 
@@ -26,6 +29,8 @@ Im Rahmen dieser Arbeiten sind einige Infrastrukturteile als Code veröffentlich
 
 
 \section{Multi-Cloud-Bibliotheken}
+\label{sec:bibliotheken}
+\todo{Kleines Architektur Diagramm}
 
 Ziel ist die Implementierung eines externen Broker-Services oder die Aufwertung einer verteilten Anwendung für den automatischen Betrieb in mehreren Clouds. Da unabhängige Cloud-Provider keine einheitlichen APIs anbieten, stellt dieses Kapitel verschiedene Bibliotheken vor, um möglichst viel der zusätzlichen Komplexität zu verbergen.
 
@@ -181,6 +186,60 @@ Letztendlich\todo{PowerVM} greifen wir auf eine lokale Mirantis-OpenStack-Instal
 % Code-Eigenheiten
 % Tests/KPIs/Validierung der Hypothese
 
+\section{Entwicklungsumgebung}
+
+\section{Softwarearchitektur}
+
+\section{Infrastruktur-Provider-Schema}
+
+%\lstinputlisting[]{../clouds.yaml}
+%\begin{minted}{csharp}
+%
+%\end{minted}
+\inputminted[]{yaml}{../clouds.yaml}
+
+
+\section{Multi-Provider-Service-Schema}
+
+Ziel: Portabilität.
+
+Mensch-und maschinenlesbar
+
+YAML als aktuellen Standard
+
+Platzhalter werden mit Jinja während des Deployments gefüllt
+
+Ablage der Pläne als Dokumentation
+
+Broker durch Metainformationen (und Labels) der Instanzen theoretisch zustandslos -> Broker selbst ist nicht ausfallgefährdet.
+
+Erklärung der Metainformationen (versionierbar), verschiedenen Parameter und Rollenbeschreibung.
+
+Je Provider Angaben zu Image und Startkommando. Dies wird hier eingetragen, um vom Broker dynamisch mit aktuellen Variablen angepasst zu werden: IP, Port...
+
+Abhängig vom Service Level: IaaS/CaaS. Auch PaaS ist so denkbar. (Angabe als Image, Interpretation durch den Broker)
+
+Beispiel verlinken.
+Kapitel: Legacy Services Hyrise
+
+Image-Erstellung und Repository.
+
+Eigene Befehle
+- Cloud-Init (Standard)
+- shell/bash (Docker)
+
+Vordefinierte Policys z.B. zum Verhalten im Fehlerfall. Aber auch Zusatzinformationen: Wie ist die Zustandsprüfung auf Service-Ebene auszuführen. Wichtig für Monitoring der Verfügbarkeit (SLA).
+
+\inputminted[]{yaml}{../services/hyrise.yaml}
+
+
+\section{Tests}
+
+
+
+
+%verschiedene OpenStack-Versionen haben unterschiedliche Schnittstellen. Auch dies kann über die Middleware abgefangen werden. RefStack testet API, Rally testet performance und führt tempest-Tests aus.
+
 \chapter{Diskussion}
 
 Aufwand einer Multi-Cloud-Strategie
@@ -195,6 +254,12 @@ Vorteile durch Multi-Cloud-Bibliotheken
 
 Trend: Serverless
 
+Policys innerhalb von Instanzen (allow SSH, check for security vulnerabilities)
+
 Policys auf Datenebene
 
 Ausbau zu einer produktiven CMP
+Identity
+Discovery
+
+Migrationshürdenvon Apps auf die CMP: OS Version, SSL-Zertifikate, statische und virtuelle IPs, Lizenzen, Load Balancing, Clustering, Bandbreite, Mandantenfähigkeit
