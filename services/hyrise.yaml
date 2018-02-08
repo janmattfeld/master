@@ -8,6 +8,8 @@
 # Reference service values with Jinja2 curly brace syntax.
 #
 
+# TODO: Use imports, classes and YAML-references => DRY
+
 schema-version: 1
 
 name: Hyrise-R

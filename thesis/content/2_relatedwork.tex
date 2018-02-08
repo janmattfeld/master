@@ -353,36 +353,54 @@ Ist die Entscheidung für eine Cloud-Migration gefallen, muss eine portable Infr
 \noindent
 SLAs und Policys werden hier noch nicht betrachtet. Der spätere Broker berücksichtigt sie vor allem während der Ressourcen-Auswahl in Schritt eins. Herausforderungen ergeben sich durch die Heterogenität von Cloud-Schnittstellen und Infrastruktur.
 
-Durch die Marktdominanz von Amazon \emph{AWS} wurden zwischenzeitlich einige der proprietären Formate von Open-Source-Projekten übernommen: Zum Beispiel \emph{Amazon Machine Images} (Cloud-optimierte Images) und \emph{CloudFormation} (Infrastruktur- und Service-Definitionen). Zielführend ist das jedoch nicht: Die Formate können sich jederzeit ändern, sind speziell auf Amazon-Angebote ausgerichtet und unterstützen im Gegenzug keine Eigenheiten anderer Infrastruktur. Dementsprechend haben sie sich nicht durchgesetzt:
+Durch die Marktdominanz von Amazon \emph{AWS} wurden zwischenzeitlich einige der proprietären Formate von Open-Source-Projekten übernommen: zum Beispiel \emph{Amazon Machine Images} (AMI, Cloud-optimierte Images) und \emph{CloudFormation} (Infrastruktur- und Service-Definitionen). Zielführend ist das jedoch nicht: Die Formate können sich jederzeit ändern, sind speziell auf Amazon-Angebote ausgerichtet und unterstützen im Gegenzug keine Eigenheiten anderer Infrastruktur. Dementsprechend haben sie sich nicht durchgesetzt:
 
 \begin{description}
 	
 	\item[Ausführungsumgebungen] Innerhalb der Service-Ebenen stehen je nach Cloud-Provider unterschiedliche Ausführungsumgebungen zur Verfügung. Die zugehörige initiale Konfiguration einer neuen Instanz kann über interne Werkzeuge erfolgen oder Drittanbieter einbinden.
 	
-	Auf Hypervisor- und IaaS-Ebene sind \emph{Cloud Images} wie die von Ubuntu\footnote{\url{https://cloud-images.ubuntu.com/}} inoffizieller Standard. Im Gegensatz zu den Standard-Ausgaben sind sie speziell für den Einsatz in virtuellen Umgebungen vorbereitet. Sie integrieren \emph{Canonicals cloud-init\footnote{\url{https://cloudinit.readthedocs.io/}}}: Die initiale Konfiguration kann hierüber Provider-unabhängig per Konfigurationsdatei und/oder Skript übergeben werden. Optional bindet cloud-init über Plugins die Metadatendienste des Providers ein.
+		Auf Hypervisor- und IaaS-Ebene sind \emph{Cloud Images} wie die von Ubuntu\footnote{\url{https://cloud-images.ubuntu.com/}} inoffizieller Standard. Im Gegensatz zu den Standard-Ausgaben sind sie speziell für den Einsatz in virtuellen Umgebungen vorbereitet. Sie integrieren \emph{Canonicals cloud-init\footnote{\url{https://cloudinit.readthedocs.io/}}}: Die initiale Konfiguration kann hierüber Provider-unabhängig per Konfigurationsdatei und/oder Skript übergeben werden. Optional bindet cloud-init über Plugins die Metadatendienste des Providers ein.
+		
+		Eine ähnliche Verbreitung auf CaaS-Ebene haben \emph{Docker}-Container. Besonderheiten sind die zentrale Container-Verwaltung, eine Vielzahl vorgefertigter Basis-Images und Konfigurationsmöglichkeiten per \emph{Dockerfile} und/oder Startparameter. Die Container sind so flexibel, dass sie lokal auf Entwicklerrechnern, im Continuous-Integration-Prozess und im Produktivbetrieb eingesetzt werden. Docker bildet außerdem die Grundlage für diverse PaaS-Projekte.
+		
+		\todo{Schaubild Rightscale}
+		Während auf den bisherigen Service-Ebenen zumindest inoffizielle Standards existieren, ist die PaaS-Landschaft noch in großer Bewegung: Mit \emph{Open\-Shift} und \emph{Cloud\-Foundry} existieren mindestens zwei populäre Open-Source-Ansätze parallel zu den proprietären Angeboten der Public-Cloud-Provider.
 	
-	Eine ähnliche Verbreitung auf CaaS-Ebene haben \emph{Docker}-Container. Besonderheiten sind die zentrale Container-Verwaltung, eine Vielzahl vorgefertigter Basis-Images und Konfigurationsmöglichkeiten per \emph{Dockerfile} und/oder Startparameter. Die Container sind so flexibel, dass sie lokal auf Entwicklerrechnern, im Continuous-Integration-Prozess und im Produktivbetrieb eingesetzt werden. Docker bildet außerdem die Grundlage für diverse PaaS-Projekte.
+	\item[Infrastruktur- und Service-Schemata] Eine Service-Definition soll die verschiedenen Komponenten einer Anwendung in Zusammenhang bringen und Abhängigkeiten festlegen. Auf CaaS-Ebene existieren hierfür unter vielen anderen \emph{Docker Compose} und \emph{Kubernetes}. PaaS-Services lassen sich über \emph{CloudFoundry} definieren. Alle drei Lösungen sind jedoch auf ihre Service-Ebene beschränkt -- daher können sie zwangsläufig nicht alle Anwendungsszenarien abbilden.
 	
-	Während auf den bisherigen Service-Ebenen zumindest inoffizielle Standards existieren, ist die PaaS-Landschaft noch in großer Bewegung: Mit \emph{Open\-Shift} und \emph{Cloud\-Foundry} existieren mindestens zwei populäre Open-Source-Ansätze parallel zu den proprietären Angeboten der Public-Cloud-Provider.
+		Die Definition sollte erst einmal Provider-unabhängig erfolgen; So entsteht eine Topologie, die anschließend von einem Orchestrator oder Broker interpretiert und umgesetzt wird.
+		
+		Ein offenes, Provider- und Service-Ebenen-übergreifendes Schema ist die \emph{Topology and Orchestration Specification for Cloud Applications} (TOSCA\footnote{\url{http://docs.oasis-open.org/tosca/TOSCA-Simple-Profile-YAML/v1.1/TOSCA-Simple-Profile-YAML-v1.1.html}}). Sie unterstützt	weitere Details, unter anderem Variablen, Vererbung, Start- und Stopp-Aktionen sowie einfache Policys. Ein einfaches Service-Beispiel könnte wie folgt aussehen:
+		
+		\inputminted[]{yaml}{./src/TOSCA.sample.yml}\todo{Find a more interesting example}
+		
+		Die Kommunikation mit Service-Providern über die TOSCA-Referenz-Implementierung ist theoretisch möglich, die Plugins sind jedoch wenig verbreitet und als experimentell gekennzeichnet. Im Fall von OpenStack ist die Unterstützung bei \emph{Kilo} stehen geblieben. Eine externe Lösung ist also erfolgversprechender.
+		
+		Implementiert wird TOSCA außerdem von der Open-Source-CMP \emph{Cloudify\footnote{\url{https://cloudify.co/}}} und im EU-Forschungsprojekt \emph{SeaClouds}. Beide sind Teil der folgenden Übersichtskapitel.
+		
+		% Im Bereich PaaS überschneidet sich der Abschnitt Infrastruktur-Schemata architekturbedingt mit dem der Ausführungsumgebungen; diese wird meist einfach in einer Konfigurationsdatei deklariert und muss nicht selbst bereitgestellt werden.
 	
-	\item[Infrastruktur- und Service-Schemata] Eine Service-Definition soll die verschiedenen Komponenten einer Anwendung in Zusammenhang bringen und Abhängigkeiten festlegen. 
+	\item[Cloud-Provider-Schnittstellen] Die Kommunikation mit Cloud-Diensten ist nicht normiert. Jeder Provider implementiert eine andere (REST-)API und entwickelt eigene SDKs. An eine einheitliche Kommunikation ist nicht zu denken, denn austauschbare APIs widersprechen den Geschäftsinteressen der Public-Cloud-Provider.
 	
-	Docker Compose Kubernetes
+	Mit dem \emph{Open Cloud Computing Interface (OCCI\footnote{\url{https://occi-wg.org/}})} existiert ein offener Standard.  
 	
-	Die Definition kann erst einmal Provider-unabhängig erfolgen; So entsteht eine Topologie, die anschließend von einem Orchestrator oder Broker interpretiert und umgesetzt wird.
+	Überschneidet sich teilweise mit TOSCA.
 	
-	Ein offenes, Provider- und Service-Ebenen-übergreifendes Schema ist die \emph{Topology and Orchestration Specification for Cloud Applications} (TOSCA\footnote{\url{http://docs.oasis-open.org/tosca/TOSCA-Simple-Profile-YAML/v1.1/TOSCA-Simple-Profile-YAML-v1.1.html}}). Sie unterstützt	weitere Details, unter anderem Variablen, Vererbung, Start- und Stopp-Aktionen sowie einfache Policys. Ein einfaches Service-Beispiel könnte wie folgt aussehen:
+	SLAs direkt mit dem Cloud-Provider vereinbaren.
 	
-	\inputminted[]{yaml}{./src/TOSCA.sample.yml}
+	Screenshot Tool!
 	
-	Die Kommunikation mit Service-Providern über eine TOSCA-Referenz-Implementierung ist theoretisch möglich, die Plugins sind jedoch wenig genutzt und als experimentell gekennzeichnet. Im Fall von OpenStack ist die Unterstützung bei \emph{Kilo} stehen geblieben. Eine externe Lösung ist also erfolgversprechender.
+	Experimenteller OpenStack Support
 	
-	Im Bereich PaaS überschneidet sich der Abschnitt Infrastruktur-Schemata architekturbedingt mit dem der Ausführungsumgebungen; diese wird meist einfach in einer Konfigurationsdatei deklariert und muss nicht selbst bereitgestellt werden.
 	
-	\item[Cloud-Provider-Schnittstellen] SDKs
+	\autoref{sec:bibliotheken}
+	
+		Offener Standard müsste von Cloud-Providern implementiert werden. Denkbar als Interface für eine eigene CMP. Pragmatisch ist der Einsatz einer Multi-Cloud-Bibliothek.
 	
 \end{description}
 
+\noindent
+Insgesamt ist der Support für offene Standards ist im Open-Source-IaaS-Projekt OpenStack am größten. Auf allen Ebenen der Service-Bereitstellung sind zumindest experimentelle Implementierung verfügbar: \emph{cloud-init} zur Imagekonfiguration, \emph{TOSCA} zur Service-Definition und \emph{OCCI} zur Kommunikation mit der Cloud.
 
 Produkte die alles implementieren
 
@@ -401,9 +419,6 @@ Container sind nicht für jede Anwendung einsetzbar. Entsprechend müssen auch k
 
 Maybe packer: Build Automated Machine Images for both.
 
-%Inspired by 
-%
-%Docker compose %
 %Juju https://jujucharms.com/canonical-kubernetes/ %
 %Terraform % SaltStack -> Just Infrastructure
 % Chef Puppet Ansible -> Configuration (Shouldn't need those)
@@ -417,19 +432,10 @@ Komplex, aber vielversprechend. Hierauf aufbauen (eigenen YAML-Entwurf erwähnen
 
 Übernehmen?
 
-Wie ist der Standard aufgebaut? Werden alle Cloud-Eigenheiten unterstützt?
 
 %Read and Link Paper!
 
-Portable Skripte und offene Schnittstellen (REST)
-- Ersteinrichtung, Konfiguration und Start
-- Änderung der Parameter im Betrieb
-- Heilen
-- Abbau
 
-Agent-less: Weitere Anpassungshürden vermeiden
-
-Wie kombinieren und Service-Komposition definieren?
 
 Einige weitere technische Herausforderungen löst der Multi-Cloud-Broker: Management von SSL-Zertifikaten, statischen und virtuellen IPs, sowie Load Balancing. Andere Migrationshürden bleiben: Verfügbarkeit von Betriebssystemen, Frameworks und Bibliotheken, ebenso wie die Vereinbarkeit mit vorhandenen Lizenzen.
 
