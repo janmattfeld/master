@@ -1,4 +1,5 @@
 \chapter{Multi-Cloud-Anwendungs-Broker}
+\label{cha:broker}
 
 % Vorteile
 % Neue Märkte in anderen Regionen der Welt
@@ -47,7 +48,8 @@ Folgende weitere Aspekte sollen bei der Betrachtung der CMPs berücksichtigt wer
 	
 	Ausgenommen spezielle Big Data Analytics und Forschungsszenarien, die unter Umständen besondere Features, Rechte und Architekturen benötigen.
 	
-	\item[Funktionsumfang] Über die grundlegende Provisionierung hinaus sollte die CMP auch bei weiteren Orchestrationsaufgaben unterstützen: Konfiguration, Monitoring und Skalieren.
+	\item[Funktionsumfang] Über die grundlegende Provisionierung hinaus sollte die CMP auch bei weiteren Orchestrationsaufgaben unterstützen: Konfiguration, Monitoring und Skalierung.
+%	https://dzone.com/articles/cloud-management-roundup-orchestration-vs-paas-vs-cmp
 	
 	Die Unterstützung aktueller Container-Technologien und Cloud-Native-Architekturen ist wünschenswert. Keine Rolle spielt \emph{Bare Metal}: Eine installierte Virtualisierungsschicht oder Container-Laufzeitumgebung wird vorausgesetzt. 
 	
@@ -57,36 +59,21 @@ Folgende weitere Aspekte sollen bei der Betrachtung der CMPs berücksichtigt wer
 
 
 \noindent
-Der folgende Abschnitt gibt eine Übersicht kommerzieller Cloud Management Plattformen sowie bisheriger Forschung zu Inter- und Multi-Cloud-Brokern mit besonderem Blick auf SLAs und Policys. Die vorgestellten Lösungen unterschieden sich in Architektur, Flexibilität und Funktionsumfang. Die vier Broker-Basiseigenschaften werden nicht von allen Arbeiten in vollem Umfang erfüllt.
+Der folgende Abschnitt gibt eine Übersicht kommerzieller Cloud Management Plattformen sowie bisheriger Forschung zu Inter- und Multi-Cloud-Brokern mit besonderem Blick auf SLAs und Policys. Die vorgestellten Lösungen unterscheiden sich in Architektur, Flexibilität und Funktionsumfang. Die vier Broker-Basiseigenschaften werden nicht von allen Arbeiten in vollem Umfang erfüllt.
 
 Weiterhin zeigen wir einheitliche Ansätze zu maschinenlesbaren Policy- und SLA-Definitionen. Anschließend entwickeln wir ein Service-Schema für den Multi-Cloud-Einsatz. Es folgen der Vorschlag für ein Broker-Design und passende Matching-Algorithmen.
 
 \section{Die Limitierungen Kommerzieller CMPs}
 
-Kommerzielle Anbieter wie RightScale betonen den Self-Service-Charakter ihrer Cloud-Management-Lösungen: 
-Im Vergleich zu virtuellen Maschinen
-- Keine lange Wartezeit auf die Bereitstellung durch die IT
-- Keine manuellen Konfigurationsarbeiten
+Kommerzielle Anbieter wie \emph{RightScale} betonen den Self-Service-Charakter und potentielle Kosteneinsparungen durch ihrer Cloud-Management-Lösungen: Traditionell werden virtuelle Maschinen bei Bedarf von der internen IT bereitgestellt. Dabei entstehen auf der einen Seite Wartezeiten und auf der anderen erhöhter Arbeitsaufwand. 
 
-Im Vergleich zur Cloud allgemein:
-- Überblick über Preise
-- Überblick über technische Angebote
+Eine CMP kann diese Arbeiten automatisieren. Sie helfe laut \emph{Rightscale} die \emph{Schatten-IT} abzubauen -- die entsteht, wenn Mitarbeiter aufgrund langwieriger interner Prozesse zu Public-Cloud-Angeboten greifen -- mit allen negativen Folgen für Sicherheit und Vertraulichkeit. Die automatische Durchsetzung von Policys könnte sich also doppelt lohnen. Nebenbei liefert die CMP einen Preis- und Feature-Überblick der internen und öffentlichen Angebote. So hilft sie das optimale Angebot zu finden.
 
-Im Vergleich zu beiden:
-- Durchsetzen von Policys
-- Abbau der \emph{Schatten-IT}
-- Kosteneinsparung durch bedarfsgerechte Ressourcenplanung
-
-
-
-CMP sollte unabhängig entwickelt und betrieben werden. Cloud-Provider-eigene Lösungen nicht betrachtet. Und auf offene Standards setzen. Ansonsten ein neuer Single Point of Failure.
+Nichtsdestotrotz sollte die CMP unabhängig entwickelt und betrieben werden. Cloud-Provider-eigene Lösungen werden daher nicht betrachtet. Weniger geeignet sind auch SaaS-Angebote: Hier entsteht eine neue Abhängigkeit und \emph{Single Point of Failure}. Der folgende Aufzählung zeigt die aktuell verbreitetsten CMP-Lösungen. Sie betrachtet besonders Bereitstellungsmodelle, Funktionsumfang und Offenheit der Schnittstellen.
 
 \todo{(Zusatz) Tabelle}
 
-Bereitstellungsmodelle? Welche CMP ist nur als SaaS verfügbar?
-
-Wie gut sind Features umgesetzt? Automatisierung oder nur schöne Dashboards?
-
+%Automatisierung oder nur schöne Dashboards?
 
 \begin{description}
 	
@@ -105,7 +92,7 @@ Wie gut sind Features umgesetzt? Automatisierung oder nur schöne Dashboards?
 	
 	Ein Dashboard zeigt Empfehlungen zur Kostenoptimierung, allerdings ohne SLAs einzubeziehen.
 	
-	\item[Scalr] description
+	\item[Scalr] 
 
 	%	Whitepaper! 
 \end{description}
@@ -114,17 +101,13 @@ Wie gut sind Features umgesetzt? Automatisierung oder nur schöne Dashboards?
 % Nur Azure und Amazon. Cloud Governance: Die richtigen Meta-Tags zu Instanzen hinzufügen. Kostenoptimierungsvorschläge, aber nur die Wahl zwischen zwei Providern.
 
 
-Commercial (Rightscale) 
-
-only trigger-action, no SLAs 
 
 
-
-DivvyCloud (Commercial) 
-
-Automation Bots to schedule downtime, terminate, or re-size instances and resources so you only pay for what you use 
-
-https://divvycloud.com/product/botfactory/for-cost/ 
+%DivvyCloud (Commercial) 
+%
+%Automation Bots to schedule downtime, terminate, or re-size instances and resources so you only pay for what you use 
+%
+%https://divvycloud.com/product/botfactory/for-cost/ 
 
 %
 %Commercial Tools 
@@ -138,7 +121,7 @@ https://divvycloud.com/product/botfactory/for-cost/
 %Also, Rightscale, Cloudhealth, CloudCheckr 
 
 
-Apache Scalr (complex, freemium) 
+%Apache Scalr (complex, freemium) 
 
 \section{Bisherige Forschungsarbeiten}
 
@@ -281,6 +264,9 @@ Policy- und Event Definition Language
 Anforderungen->Graph
 % [2] T. Koch, C. Krell, and B. Krämer, "Policy definition language for automated management of distributed systems," In Proceedings of Second IEEE International Workshop on Systems Management, 1996, pp. 55-64.
 
+%Per-Service Security SLa: A New Model for Security Management in Clouds
+
+
 CPPA (SCICLOPS) End User - Object privileges on 
 Tables 
 Indices 
@@ -305,6 +291,12 @@ CSA, OPTIMIS
 
 einfach lesen für Mensch und Maschine, Versionsverwaltung, Infrastruktur als Code, erweiterbar
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%https://github.com/IntelLabsEurope/OCCI-SLAs%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\todo{Verschieben, vor CMP-Marktübersicht}
+
 \section{Einheitliche Infrastruktur- und Service-Definitionen}
 
 Durch die Definition von SLAs und Policys steht nun fest, wo und wie ein Service bereitgestellt werden soll. Die konkrete technische Umsetzung ist bisher allerdings offen. Oberstes Ziel der CMP-Service-Definition ist Portabilität: Die gleiche Anwendung muss auf verschieden Hypervisoren, IaaS/CaaS- und Plattform-Angeboten ausgeführt werden. Nur so ergeben sich die Vorteile der Multi-Cloud-MP:
@@ -322,7 +314,7 @@ Durch die Definition von SLAs und Policys steht nun fest, wo und wie ein Service
 %Rightscale Video: https://www.rightscale.com/solutions/problems-we-solve/self-service-it
 
 \noindent
-Diese Vorteile ergeben sich jedoch nur, wenn sich die Anwendung auch für eine Cloud-Nutzung eignet. Je nach Entstehungsgeschichte können sich Software-Architektur und Migrations-Maßnahmen grundlegend unterscheiden:
+Diese Vorteile zeigen sich jedoch nur, wenn sich die Anwendung auch für eine Cloud-Nutzung eignet. Je nach Entstehungsgeschichte können sich Software-Architektur und Migrations-Maßnahmen grundlegend unterscheiden:
 
 \begin{description}
 	
@@ -343,24 +335,69 @@ Diese Vorteile ergeben sich jedoch nur, wenn sich die Anwendung auch für eine C
 \noindent
 Gerade bei klassischen, monolithischen Anwendungen ergeben sich Architektur-bedingt nicht alle Vorteile der Cloud-Nutzung; Eine erhöhte Portabilität ist gegeben --  Skalierbarkeit allerdings nicht. Die Entscheidung für Anpassung, Migration oder unverändertem Weiterbetrieb muss also je nach technischer Eignung und langfristiger Bedeutung für das Kerngeschäft abgewogen werden.
 
-Vergleich Docker Compose usw.
-Je nach Typ: Hypervisor/IaaS/CaaS/PaaS
+Ist die Entscheidung für eine Cloud-Migration gefallen, muss eine portable Infrastruktur geschaffen werden. Dieser Prozess besteht aus drei wesentlichen Schritten:
 
-Einige größere Verbreitung: Zum Beispiel AMI (Amazon Machine Images) und CloudFormation (Service-Definitionen)
+\begin{enumerate}
+	
+	\item Interpretation einer einheitlichen Service-Definition
+	\\\emph{(Auswahl von Cloud-Ressourcen und passender Ausführungsform)}
+	
+	\item Bereitstellen von Infrastruktur-Ressourcen 
+	\\\emph{(Virtuelle Maschine, Containerlaufzeitumgebung, Netzwerkspeicher etc.)}
+	
+	\item Übertragen der Anwendung in die Ausführungsumgebung
+	\\\emph{(und initiale Konfiguration sowie Prüfung)}
+	
+\end{enumerate}
 
-Können sich jedoch jederzeit ändern. Nicht immer 100 prozent kompatibel.
+\noindent
+SLAs und Policys werden hier noch nicht betrachtet. Der spätere Broker berücksichtigt sie vor allem während der Ressourcen-Auswahl in Schritt eins. Herausforderungen ergeben sich durch die Heterogenität von Cloud-Schnittstellen und Infrastruktur.
 
-Besonderheiten der zugrundeliegenden Provider-Infrastruktur. 
+Durch die Marktdominanz von Amazon \emph{AWS} wurden zwischenzeitlich einige der proprietären Formate von Open-Source-Projekten übernommen: Zum Beispiel \emph{Amazon Machine Images} (Cloud-optimierte Images) und \emph{CloudFormation} (Infrastruktur- und Service-Definitionen). Zielführend ist das jedoch nicht: Die Formate können sich jederzeit ändern, sind speziell auf Amazon-Angebote ausgerichtet und unterstützen im Gegenzug keine Eigenheiten anderer Infrastruktur. Dementsprechend haben sie sich nicht durchgesetzt:
 
-Eigenheiten der eigenen Plattform nicht nutzbar.
+\begin{description}
+	
+	\item[Ausführungsumgebungen] Innerhalb der Service-Ebenen stehen je nach Cloud-Provider unterschiedliche Ausführungsumgebungen zur Verfügung. Die zugehörige initiale Konfiguration einer neuen Instanz kann über interne Werkzeuge erfolgen oder Drittanbieter einbinden.
+	
+	Auf Hypervisor- und IaaS-Ebene sind \emph{Cloud Images} wie die von Ubuntu\footnote{\url{https://cloud-images.ubuntu.com/}} inoffizieller Standard. Im Gegensatz zu den Standard-Ausgaben sind sie speziell für den Einsatz in virtuellen Umgebungen vorbereitet. Sie integrieren \emph{Canonicals cloud-init\footnote{\url{https://cloudinit.readthedocs.io/}}}: Die initiale Konfiguration kann hierüber Provider-unabhängig per Konfigurationsdatei und/oder Skript übergeben werden. Optional bindet cloud-init über Plugins die Metadatendienste des Providers ein.
+	
+	Eine ähnliche Verbreitung auf CaaS-Ebene haben \emph{Docker}-Container. Besonderheiten sind die zentrale Container-Verwaltung, eine Vielzahl vorgefertigter Basis-Images und Konfigurationsmöglichkeiten per \emph{Dockerfile} und/oder Startparameter. Die Container sind so flexibel, dass sie lokal auf Entwicklerrechnern, im Continuous-Integration-Prozess und im Produktivbetrieb eingesetzt werden. Docker bildet außerdem die Grundlage für diverse PaaS-Projekte.
+	
+	Während auf den bisherigen Service-Ebenen zumindest inoffizielle Standards existieren, ist die PaaS-Landschaft noch in großer Bewegung: Mit \emph{Open\-Shift} und \emph{Cloud\-Foundry} existieren mindestens zwei populäre Open-Source-Ansätze parallel zu den proprietären Angeboten der Public-Cloud-Provider.
+	
+	\item[Infrastruktur- und Service-Schemata] Eine Service-Definition soll die verschiedenen Komponenten einer Anwendung in Zusammenhang bringen und Abhängigkeiten festlegen. 
+	
+	Docker Compose Kubernetes
+	
+	Die Definition kann erst einmal Provider-unabhängig erfolgen; So entsteht eine Topologie, die anschließend von einem Orchestrator oder Broker interpretiert und umgesetzt wird.
+	
+	Ein offenes, Provider- und Service-Ebenen-übergreifendes Schema ist die \emph{Topology and Orchestration Specification for Cloud Applications} (TOSCA\footnote{\url{http://docs.oasis-open.org/tosca/TOSCA-Simple-Profile-YAML/v1.1/TOSCA-Simple-Profile-YAML-v1.1.html}}). Sie unterstützt	weitere Details, unter anderem Variablen, Vererbung, Start- und Stopp-Aktionen sowie einfache Policys. Ein einfaches Service-Beispiel könnte wie folgt aussehen:
+	
+	\inputminted[]{yaml}{./src/TOSCA.sample.yml}
+	
+	Die Kommunikation mit Service-Providern über eine TOSCA-Referenz-Implementierung ist theoretisch möglich, die Plugins sind jedoch wenig genutzt und als experimentell gekennzeichnet. Im Fall von OpenStack ist die Unterstützung bei \emph{Kilo} stehen geblieben. Eine externe Lösung ist also erfolgversprechender.
+	
+	Im Bereich PaaS überschneidet sich der Abschnitt Infrastruktur-Schemata architekturbedingt mit dem der Ausführungsumgebungen; diese wird meist einfach in einer Konfigurationsdatei deklariert und muss nicht selbst bereitgestellt werden.
+	
+	\item[Cloud-Provider-Schnittstellen] SDKs
+	
+\end{description}
 
-\todo{Schaubild Template-Level: Skripte/Variablen, Multi-Cloud Image/Container, IaaS/CaaS, PaaS}
 
-Cloud Foundry PaaS (Theoretisch), aber nur PaaS, Migration von Monolithen unmöglich. Daher Kombination aus Hypervisor/IaaS/CaaS und PaaS nötig.
+Produkte die alles implementieren
+
+
+
+Je nach Cloud unterscheiden sich die konkreten Inhalte dieser Bereitstellungsschritte.
+
+
+\todo{Schaubild Template-Level: Skripte/Variablen, Multi-Cloud Image/Container, IaaS/CaaS, PaaS} 
+% Rightscale?
+
+Teillösungen greifen zu kurz: Greift zu kurz: Cloud Foundry PaaS (Theoretisch), aber nur PaaS, Migration von Monolithen unmöglich. Daher Kombination aus Hypervisor/IaaS/CaaS und PaaS nötig.
 %https://blog.gruntwork.io/why-we-use-terraform-and-not-chef-puppet-ansible-saltstack-or-cloudformation-7989dad2865c 
-Standard:
-Multi-Cloud Images und Cloud-Init
-Docker Container (Kubernetes, OpenShift)
+
+Container sind nicht für jede Anwendung einsetzbar. Entsprechend müssen auch klassische virtuelle Maschinen unterstützt werden.
 
 Maybe packer: Build Automated Machine Images for both.
 
@@ -376,20 +413,20 @@ Maybe packer: Build Automated Machine Images for both.
 
 Cloudify implementiert den TOSCA-Standard. Mithilfe (grafischer) Werkzeuge lassen sich Cloud-Infrastrukturen und Services modellieren. Plugins erweitern Cloudify um alle wichtigen Provider auf IaaS-Ebene (AWS, Azure, GCP, OpenStack) als auch CaaS (Docker, Kubernetes). Konfiguration wie das Start-Skript kann direkt übergeben, oder über ein Tool wie Puppet weitergeleitet. Optionale(?) AGents of Hosts. Built-in Policies and rudimentäres Monitoring über Plugins.
 
-Komplex, aber vielversprechend. Hierauf aufbauen (eigenen YAML-ENtwurf erwähnen) und Brokering hinzufügen. Hier muss festgelegtw erden, welcher Service-Teil auf welchem Provider mit welchem Instanz-typen bereitgestellt werden soll. Dies soll automatisiert anhand von SLA/Policy und Preis entschieden werden. Unterstützt TOSCA deklarative Service-Definitionen?
+Komplex, aber vielversprechend. Hierauf aufbauen (eigenen YAML-Entwurf erwähnen) und Brokering hinzufügen. Hier muss festgelegt erden, welcher Service-Teil auf welchem Provider mit welchem Instanz-Typen bereitgestellt werden soll. Dies soll automatisiert anhand von SLA/Policy und Preis entschieden werden. Unterstützt TOSCA deklarative Service-Definitionen?
 
 Übernehmen?
 
-Wie ist der STandard aufgebaut? Werden alle CLoud-EIgenheiten unterstützt?
+Wie ist der Standard aufgebaut? Werden alle Cloud-Eigenheiten unterstützt?
 
 %Read and Link Paper!
 
 Portable Skripte und offene Schnittstellen (REST)
 - Ersteinrichtung, Konfiguration und Start
 - Änderung der Parameter im Betrieb
-- 
+- Heilen
+- Abbau
 
-Deklarativ: Laufendes Setup entspricht genau der Service-Definition
 Agent-less: Weitere Anpassungshürden vermeiden
 
 Wie kombinieren und Service-Komposition definieren?
@@ -474,7 +511,10 @@ Zyklus\autoref{fig:Chicken1}:
 
 \section{Matching-Algorithmen}
 
+OCCI-SLA
+
 \todo{Schaubild, was wird wann gematcht}
+%http://bl.ocks.org/gkatsaros/raw/a0a43032c4b50a246d4d/
 
 Kostenoptimierung
 

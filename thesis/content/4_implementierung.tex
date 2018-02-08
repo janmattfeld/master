@@ -170,7 +170,9 @@ Anpassbar sind im Skript OpenStack-Services und -Versionen, da DevStack direkt a
 
 Als Proof-of-Concept ist die Integration von Docker, DevStack und Zun bisher einmalig. Der Code ist daher auf GitHub\footnote{\url{https://github.com/janmattfeld/DockStack}} veröffentlicht und zeigt einige Best Practices und Lessons Learned in Bezug auf die genannten Projekte.
 
-Letztendlich\todo{PowerVM} greifen wir auf eine lokale Mirantis-OpenStack-Installation aus einem anderen Projekt zurück. Die Infrastruktur ist virtuell und wird durch \emph{Fuel} zuverlässig wieder aufgebaut. Die Zun-Container-Dienste sind nicht enthalten; dafür aber alle anderen Kernfunktionen und APIs.
+Letztendlich\todo{PowerVM} greifen wir auf eine lokale Mirantis-OpenStack-Installation aus einem anderen Projekt zurück. Die Infrastruktur ist virtuell und wird durch \emph{Fuel} zuverlässiger wieder aufgebaut. Die Zun-Container-Dienste sind nicht enthalten; dafür aber alle anderen Kernfunktionen und APIs.
+
+\section{Entwicklungsumgebung}
 
 % Hyrise-R-OpenStack- und Docker-Images, wie ersxtellt?
 % Capgemini Whitepaper Trend 2018, From Boring to sexy
@@ -185,8 +187,6 @@ Letztendlich\todo{PowerVM} greifen wir auf eine lokale Mirantis-OpenStack-Instal
 % Tatsächliche Broker Architektur
 % Code-Eigenheiten
 % Tests/KPIs/Validierung der Hypothese
-
-\section{Entwicklungsumgebung}
 
 \section{Softwarearchitektur}
 
@@ -262,4 +262,7 @@ Ausbau zu einer produktiven CMP
 Identity
 Discovery
 
+
 Migrationshürdenvon Apps auf die CMP: OS Version, SSL-Zertifikate, statische und virtuelle IPs, Lizenzen, Load Balancing, Clustering, Bandbreite, Mandantenfähigkeit
+
+Prometheus zum Monitoring
