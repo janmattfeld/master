@@ -190,16 +190,20 @@ Letztendlich\todo{PowerVM} greifen wir auf eine lokale Mirantis-OpenStack-Instal
 
 \section{Softwarearchitektur}
 
-\section{Infrastruktur-Provider-Schema}
-
-%\lstinputlisting[]{../clouds.yaml}
-%\begin{minted}{csharp}
-%
-%\end{minted}
-\inputminted[]{yaml}{../clouds.yaml}
-
 
 \section{Multi-Provider-Service-Schema}
+
+
+TOSCA komplex, aber vielversprechend. Hierauf aufbauen (eigenen YAML-Entwurf erwähnen) und Brokering hinzufügen. Hier muss festgelegt erden, welcher Service-Teil auf welchem Provider mit welchem Instanz-Typen bereitgestellt werden soll. Dies soll automatisiert anhand von SLA/Policy und Preis entschieden werden. Unterstützt TOSCA deklarative Service-Definitionen?
+
+
+TOSCA hat folgendes nur optional
+- YAML (als SimpleVersion)
+- Multi-Provider als Plugin (nicht gewartet)
+- 
+
+\inputminted[]{yaml}{../clouds.yaml}
+
 
 Ziel: Portabilität.
 
@@ -232,10 +236,6 @@ Vordefinierte Policys z.B. zum Verhalten im Fehlerfall. Aber auch Zusatzinformat
 
 \inputminted[]{yaml}{../services/hyrise.yaml}
 
-TOSCA hat folgendes nur optional
-- YAML (als SimpleVersion)
-- Multi-Provider als Plugin (nicht gewartet)
-- 
 
 \section{Tests}
 

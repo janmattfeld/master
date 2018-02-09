@@ -128,6 +128,10 @@ Nichtsdestotrotz sollte die CMP unabhängig entwickelt und betrieben werden. Clo
 %policy-driven service placement optimization in federated clouds 
 
 
+Cloudify implementiert den TOSCA-Standard. Mithilfe (grafischer) Werkzeuge lassen sich Cloud-Infrastrukturen und Services modellieren. Plugins erweitern Cloudify um alle wichtigen Provider auf IaaS-Ebene (AWS, Azure, GCP, OpenStack) als auch CaaS (Docker, Kubernetes). Konfiguration wie das Start-Skript kann direkt übergeben, oder über ein Tool wie Puppet weitergeleitet. Optionale(?) AGents of Hosts. Built-in Policies and rudimentäres Monitoring über Plugins.
+
+
+
 RESERVOIR (hard and soft requirements) 
 
 
@@ -335,7 +339,7 @@ Diese Vorteile zeigen sich jedoch nur, wenn sich die Anwendung auch für eine Cl
 \noindent
 Gerade bei klassischen, monolithischen Anwendungen ergeben sich Architektur-bedingt nicht alle Vorteile der Cloud-Nutzung; Eine erhöhte Portabilität ist gegeben --  Skalierbarkeit allerdings nicht. Die Entscheidung für Anpassung, Migration oder unverändertem Weiterbetrieb muss also je nach technischer Eignung und langfristiger Bedeutung für das Kerngeschäft abgewogen werden.
 
-Ist die Entscheidung für eine Cloud-Migration gefallen, muss eine portable Infrastruktur geschaffen werden. Dieser Prozess besteht aus drei wesentlichen Schritten:
+Ist die Entscheidung für eine Multi-Cloud-Migration gefallen, muss eine portable Infrastruktur geschaffen werden. Dieser Prozess besteht aus drei wesentlichen Schritten:
 
 \begin{enumerate}
 	
@@ -347,7 +351,7 @@ Ist die Entscheidung für eine Cloud-Migration gefallen, muss eine portable Infr
 	
 	\item Übertragen der Anwendung in die Ausführungsumgebung
 	\\\emph{(und initiale Konfiguration sowie Prüfung)}
-	
+		
 \end{enumerate}
 
 \noindent
@@ -371,75 +375,43 @@ Durch die Marktdominanz von Amazon \emph{AWS} wurden zwischenzeitlich einige der
 		Die Definition sollte erst einmal Provider-unabhängig erfolgen; So entsteht eine Topologie, die anschließend von einem Orchestrator oder Broker interpretiert und umgesetzt wird.
 		
 		Ein offenes, Provider- und Service-Ebenen-übergreifendes Schema ist die \emph{Topology and Orchestration Specification for Cloud Applications} (TOSCA\footnote{\url{http://docs.oasis-open.org/tosca/TOSCA-Simple-Profile-YAML/v1.1/TOSCA-Simple-Profile-YAML-v1.1.html}}). Sie unterstützt	weitere Details, unter anderem Variablen, Vererbung, Start- und Stopp-Aktionen sowie einfache Policys. Ein einfaches Service-Beispiel könnte wie folgt aussehen:
+			
+		% Literatur: TOSCA in a Nutshell: Promises and Perspectives
 		
-		\inputminted[]{yaml}{./src/TOSCA.sample.yml}\todo{Find a more interesting example}
+		\inputminted[]{yaml}{./src/TOSCA.sample.yml}
 		
-		Die Kommunikation mit Service-Providern über die TOSCA-Referenz-Implementierung ist theoretisch möglich, die Plugins sind jedoch wenig verbreitet und als experimentell gekennzeichnet. Im Fall von OpenStack ist die Unterstützung bei \emph{Kilo} stehen geblieben. Eine externe Lösung ist also erfolgversprechender.
-		
-		Implementiert wird TOSCA außerdem von der Open-Source-CMP \emph{Cloudify\footnote{\url{https://cloudify.co/}}} und im EU-Forschungsprojekt \emph{SeaClouds}. Beide sind Teil der folgenden Übersichtskapitel.
+		Die Kommunikation mit Service-Providern über die TOSCA-Referenz-Implementierung ist theoretisch möglich, die Plugins sind jedoch wenig verbreitet und als experimentell gekennzeichnet. Im Fall von OpenStack ist die Unterstützung bei \emph{Kilo} stehen geblieben. Eine externe Lösung ist also erfolgversprechender. Implementiert wird TOSCA außerdem von der Open-Source-CMP \emph{Cloudify\footnote{\url{https://cloudify.co/}}} und im EU-Forschungsprojekt \emph{SeaClouds}.
 		
 		% Im Bereich PaaS überschneidet sich der Abschnitt Infrastruktur-Schemata architekturbedingt mit dem der Ausführungsumgebungen; diese wird meist einfach in einer Konfigurationsdatei deklariert und muss nicht selbst bereitgestellt werden.
 	
 	\item[Cloud-Provider-Schnittstellen] Die Kommunikation mit Cloud-Diensten ist nicht normiert. Jeder Provider implementiert eine andere (REST-)API und entwickelt eigene SDKs. An eine einheitliche Kommunikation ist nicht zu denken, denn austauschbare APIs widersprechen den Geschäftsinteressen der Public-Cloud-Provider.
 	
-	Mit dem \emph{Open Cloud Computing Interface (OCCI\footnote{\url{https://occi-wg.org/}})} existiert ein offener Standard.  
+	Mit dem \emph{Open Cloud Computing Interface (OCCI\footnote{\url{https://occi-wg.org/}})} existiert ein offener Standard. Er fokussiert sich zwar auf IaaS-Angebote, ist allerdings so flexibel, dass prinzipiell jede Art von Service administriert werden kann. Eine Besonderheit gegenüber anderen Standardisierungsversuchen\footnote{\url{http://cloud-standards.org}} ist die ausdrückliche Beachtung von SLAs. \autoref{fig:occi} zeigt die Anwendungs- bzw. Service-bezogene Verbindung von IaaS-Komponenten, Dienstgüte-Vereinbarungen und Stakeholdern per OCCI.
 	
-	Überschneidet sich teilweise mit TOSCA.
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=\textwidth]{images/OCCI-relations.png}
+		\caption{OCCI verknüpft Dienstgüte-Vereinbarungen mit verteilten Anwendungen, Stakeholdern und Cloud-Ressourcen. Die Zuordnung erfolgt Service-bezogen. In der Abbildung ist eine Vereinbarung markiert: Sie wird von einem Anwender beantragt (grüne Linie) und wirkt anschließend auf Ressourcen und darauf aufbauenden Anwendungen (rote Linien). Visualisierung über OCCIViz.}
+%		https://github.com/IntelLabsEurope/OCCIViz	
+		\label{fig:occi}
+	\end{figure}
+
+	Auch hier existiert eine experimentelle Implementierung für OpenStack\footnote{\url{https://github.com/openstack/ooi}}. Diese ist jedoch bereits als obsolet gekennzeichnet. Die SLA-Unterstützung ist über ein weitere Projekt theoretisch verfügbar\footnote{\url{https://github.com/IntelLabsEurope/OCCI-SLAs}}.
 	
-	SLAs direkt mit dem Cloud-Provider vereinbaren.
+	TOSCA und OCCI überschneiden sich nicht: Letzteres dient nicht der Modellierung Provider-übergreifender Infrastrukturen, sondern ausschließlich der Kommunikation mit der Plattform. Beide Standards ergänzen sich außerdem mit dem \emph{Cloud Data Management Interface (CDMI\footnote{\url{https://www.snia.org/cloud}})} für Verwaltung und Zugriff auf Netzwerkspeicher. Konzeptionell wurden die Standards bereits zu einem modellbasierten Cloud-Orchestrationstool verbunden.
+	%Model Driven Cloud Orchestration by Combining TOSCA and OCCI (Position Paper)
+	%Fabian Korte, Johannes Martin Erbel, Jens Grabowski
 	
-	Screenshot Tool!
-	
-	Experimenteller OpenStack Support
-	
-	
-	\autoref{sec:bibliotheken}
-	
-		Offener Standard müsste von Cloud-Providern implementiert werden. Denkbar als Interface für eine eigene CMP. Pragmatisch ist der Einsatz einer Multi-Cloud-Bibliothek.
+	Um sinnvoll nutzbar zu sein, müsste der offene API-Standard von Cloud-Providern implementiert werden. Da dies nicht absehbar ist, bleibt OCCI zumindest als interessante Grundlage für die API einer eigenen Cloud-Management-Plattform. Als pragmatischer Ersatz für den Zugriff auf Public-Cloud-Angebote, muss der Einsatz einer Multi-Cloud-Bibliothek evaluiert werden, siehe \autoref{sec:bibliotheken}.		
 	
 \end{description}
 
 \noindent
-Insgesamt ist der Support für offene Standards ist im Open-Source-IaaS-Projekt OpenStack am größten. Auf allen Ebenen der Service-Bereitstellung sind zumindest experimentelle Implementierung verfügbar: \emph{cloud-init} zur Imagekonfiguration, \emph{TOSCA} zur Service-Definition und \emph{OCCI} zur Kommunikation mit der Cloud.
+Container sind nicht für jede Anwendung einsetzbar. Entsprechend müssen auch klassische virtuelle Maschinen bei einer Multi-Cloud-Migration unterstützt werden. Proprietäre Lösungen sind genauso ungeeignet wie Teillösungen auf einer einzelnen Service-Ebene.
 
-Produkte die alles implementieren
+Insgesamt ist der Support für offene Standards im Open-Source-IaaS-Projekt OpenStack am größten. Auf allen Ebenen der Service-Bereitstellung sind zumindest experimentelle Implementierung verfügbar: \emph{cloud-init} zur Imagekonfiguration, \emph{TOSCA} zur Service-Definition und \emph{OCCI} zur Kommunikation mit der Cloud unter Berücksichtigung von SLAs. 
 
-
-
-Je nach Cloud unterscheiden sich die konkreten Inhalte dieser Bereitstellungsschritte.
-
-
-\todo{Schaubild Template-Level: Skripte/Variablen, Multi-Cloud Image/Container, IaaS/CaaS, PaaS} 
-% Rightscale?
-
-Teillösungen greifen zu kurz: Greift zu kurz: Cloud Foundry PaaS (Theoretisch), aber nur PaaS, Migration von Monolithen unmöglich. Daher Kombination aus Hypervisor/IaaS/CaaS und PaaS nötig.
-%https://blog.gruntwork.io/why-we-use-terraform-and-not-chef-puppet-ansible-saltstack-or-cloudformation-7989dad2865c 
-
-Container sind nicht für jede Anwendung einsetzbar. Entsprechend müssen auch klassische virtuelle Maschinen unterstützt werden.
-
-Maybe packer: Build Automated Machine Images for both.
-
-%Juju https://jujucharms.com/canonical-kubernetes/ %
-%Terraform % SaltStack -> Just Infrastructure
-% Chef Puppet Ansible -> Configuration (Shouldn't need those)
-%Kubernetes https://kubernetes.io/docs/tutorials/stateless-application/guestbook/ But that is just for deployment of Docker Images on already existing Kubernetes Clusters. Not Multi-CLoud from Scratch! %
-%http://docs.getcloudify.org/4.2.0/blueprints/spec-policy-types/ %
-%https://en.wikipedia.org/wiki/OASIS_TOSCA (Cloudify/SeaClouds) 
-
-Cloudify implementiert den TOSCA-Standard. Mithilfe (grafischer) Werkzeuge lassen sich Cloud-Infrastrukturen und Services modellieren. Plugins erweitern Cloudify um alle wichtigen Provider auf IaaS-Ebene (AWS, Azure, GCP, OpenStack) als auch CaaS (Docker, Kubernetes). Konfiguration wie das Start-Skript kann direkt übergeben, oder über ein Tool wie Puppet weitergeleitet. Optionale(?) AGents of Hosts. Built-in Policies and rudimentäres Monitoring über Plugins.
-
-Komplex, aber vielversprechend. Hierauf aufbauen (eigenen YAML-Entwurf erwähnen) und Brokering hinzufügen. Hier muss festgelegt erden, welcher Service-Teil auf welchem Provider mit welchem Instanz-Typen bereitgestellt werden soll. Dies soll automatisiert anhand von SLA/Policy und Preis entschieden werden. Unterstützt TOSCA deklarative Service-Definitionen?
-
-Übernehmen?
-
-
-%Read and Link Paper!
-
-
-
-Einige weitere technische Herausforderungen löst der Multi-Cloud-Broker: Management von SSL-Zertifikaten, statischen und virtuellen IPs, sowie Load Balancing. Andere Migrationshürden bleiben: Verfügbarkeit von Betriebssystemen, Frameworks und Bibliotheken, ebenso wie die Vereinbarkeit mit vorhandenen Lizenzen.
-
-
+Einige weitere technische Herausforderungen löst ein Multi-Cloud-Broker oder eine CMP: Management von statischen und virtuellen IPs, SSL-Zertifikaten, sowie Load Balancing. Andere Migrationshürden bleiben: Verfügbarkeit von Betriebssystemen, Frameworks und Bibliotheken, ebenso wie die Vereinbarkeit mit vorhandenen Lizenzen. Der folgende Abschnitt gibt eine Übersicht kommerzieller Cloud Management Plattformen sowie bisheriger Forschung zu Inter- und Multi-Cloud-Brokern mit besonderem Blick auf SLAs und Policys. 
 
 \section{Modularer Architektur-Vorschlag}
 
