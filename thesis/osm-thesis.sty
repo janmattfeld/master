@@ -22,7 +22,7 @@
 \RequirePackage{float}
 \RequirePackage{footnote}
 \RequirePackage{graphicx}
-\RequirePackage{listings}
+%\RequirePackage{listings}
 \RequirePackage{makeidx}
 \RequirePackage{multirow}
 \RequirePackage{scrhack}
@@ -78,7 +78,7 @@
 \setcounter{secnumdepth}{3}
 
 % names
-\let\defaultlstlistingname\lstlistingname\renewcommand\lstlistingname{\iflanguage{ngerman}{Quelltext}{\defaultlstlistingname}}
+%\let\defaultlstlistingname\lstlistingname\renewcommand\lstlistingname{\iflanguage{ngerman}{Quelltext}{\defaultlstlistingname}}
 
 % bibliography
 \ExecuteBibliographyOptions{backref=false,backrefstyle=three+,url=true,urldate=comp,abbreviate=false,maxnames=20}
@@ -103,24 +103,24 @@
 \captionsetup[table]{belowskip=.5\baselineskip,aboveskip=.5\baselineskip}
 
 % listings
-\lstset{basicstyle=\linespread{1}\ttfamily\small,floatplacement=htbp,captionpos=t,abovecaptionskip=.5\baselineskip,belowcaptionskip=.5\baselineskip,upquote=true,showstringspaces=false,inputencoding=utf8,tabsize=4}
-\lstset{literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1 {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1 {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1 {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1 {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1 {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1 {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1 {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1 {ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1 {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1 {€}{{\EUR}}1 {£}{{\pounds}}1 {~}{{\textasciitilde}}1 {-}{{-}}1 }
-\makeatletter\renewcommand\verbatim@font{\ttfamily}\makeatother
-\makeatletter\renewcommand\lstinline[1][]{ \errmessage{In diesem Template bitte die 'code'-Umgebung nutzen (an Stelle von 'lstinline').} }\makeatother
-% \code-Umgebung mit Silbentrennung (Alternative für lstinline)
-\newcommand{\code}[1]{\texttt{\selectlanguage{english}#1}}
+%\lstset{basicstyle=\linespread{1}\ttfamily\small,floatplacement=htbp,captionpos=t,abovecaptionskip=.5\baselineskip,belowcaptionskip=.5\baselineskip,upquote=true,showstringspaces=false,inputencoding=utf8,tabsize=4}
+%\lstset{literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1 {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1 {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1 {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1 {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1 {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1 {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1 {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1 {ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1 {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1 {€}{{\EUR}}1 {£}{{\pounds}}1 {~}{{\textasciitilde}}1 {-}{{-}}1 }
+%\makeatletter\renewcommand\verbatim@font{\ttfamily}\makeatother
+%\makeatletter\renewcommand\lstinline[1][]{ \errmessage{In diesem Template bitte die 'code'-Umgebung nutzen (an Stelle von 'lstinline').} }\makeatother
+%% \code-Umgebung mit Silbentrennung (Alternative für lstinline)
+%\newcommand{\code}[1]{\texttt{\selectlanguage{english}#1}}
 
 % normalfont comment boxes (for listings)
-\lstset{escapeinside={(*@}{@*)}}
-\newcommand{\commentbox}[2][,] { %
-	\begin{tikzpicture}[overlay,auto,>=latex] %
-	\normalfont %
-	\node[anchor=south] (target) {}; %
-	\node[right=of target,align=left,anchor=west,#1] (box) { #2 }; %
-	\draw[thin] (box.south west) |- (box.north west); %
-	\draw[->,thin] (box.south west) |- (target.east); %
-	\end{tikzpicture} %
-}
+%\lstset{escapeinside={(*@}{@*)}}
+%\newcommand{\commentbox}[2][,] { %
+%	\begin{tikzpicture}[overlay,auto,>=latex] %
+%	\normalfont %
+%	\node[anchor=south] (target) {}; %
+%	\node[right=of target,align=left,anchor=west,#1] (box) { #2 }; %
+%	\draw[thin] (box.south west) |- (box.north west); %
+%	\draw[->,thin] (box.south west) |- (target.east); %
+%	\end{tikzpicture} %
+%}
 
 % part-page with text
 \makeatletter\let\LaTeXStandardPart\part\newcommand{\unstarredpart@@noopt}[1]{\unstarredpart@@opt[#1]{#1}}\newcommand{\unstarredpart@@opt}[2][]{\cleardoublepage\begingroup\let\newpage\relax\LaTeXStandardPart[#1]{#2}\endgroup}\newcommand{\starredpart}[1]{\LaTeXStandardPart*{#1}}\newcommand{\unstarredpart}{\@ifnextchar[{\unstarredpart@@opt}{\unstarredpart@@noopt}}\renewcommand{\part}{\@ifstar{\starredpart}{\unstarredpart}}
