@@ -86,6 +86,11 @@ Darüber hinaus existieren spezialisierte Bibliotheken wie SimpleCloud\footnote{
 
 Libcloud fasst die verschiedenen Cloud-Angebote nicht nur in gemeinsamen Namensräumen zusammen, sondern normalisiert auch Leistungsklassen. Python erleichtert außerdem den Einstieg und fügt sich in viele Python-basierte Systemautomatisierungen ein. Diese Multi-Cloud-Bibliothek wird also im weiteren Verlauf der Arbeit erprobt.
 
+%https://brooklyn.apache.org/learnmore/theory.html
+% Apache Brooklyn hat eine eigene YAML-Service-Description-Spezifikation, ähnlich zu CAMP, der Clou Application Management API. Die Integration von TOSCA ist geplant, und in einer anderen Arbeit bereit umgesetzt: 
+%Trans-Cloud: CAMP/TOSCA-based Bidimensional Cross-Cloud
+% Keine SLAs, sondern nur Trigger-Action-Policies.
+% Nutzt intern jclouds zur Provider-Anbindung.
 
 \section{OpenStack-Testbed}
 
@@ -93,7 +98,7 @@ Als Beispiel für eine Private Cloud -- als Teil unseres Multi-Cloud-Setups -- s
 
 OpenStack setzt sich aus verschiedenen Teilprojekten zusammen, die jeweils einen Dienst entwickeln und bereitstellen. Ein Minimal-Setup besteht aus \emph{Nova} (Computing), \emph{Key\-stone} (Authentifizierung), \emph{Neutron} (Netzwerk) und \emph{Glance} (Images). Verbreitet sind außerdem \emph{Cinder} (Blockspeicher) und \emph{Horizon} (Dash\-board). Diese sollen auch in unserem Beispiel genutzt werden. Denkbar ist darüber hinaus die Integration eines Container-Dienstes. Der Zugriff auf die Infrastruktur erfolgt entweder über das Dahsboard, Kommandozeilentools oder eine REST-API.
 
-Grundsätzlich wäre auch der Aufbau einer OpenStack-Föderation wie in [SCICLOPS] denkbar. Föderierte Cloud-Architekuren teilen sich zentrale Komponenten, in OpenStack mindestens den Authentifizierungs-Service Keystone. Je nach Föderations-Variante (\emph{Cells}, \emph{Regions}, \emph{Availability Zones} oder \emph{Host Aggregates}) sind auch Dienste wie die Dashboard oder Speicher nur einmal vorhanden. Diese Architektur spart Overhead, erfordert allerdings spezielle Anpassungen innerhalb der Cloud. Auch gehen einige Vorteile wie Ausfallsicherheit und Unabhängigkeit der zentralen Dienste wieder verloren. Eine Kombination mit weiteren Cloud-Providern im Rahmen unseres Multi-Cloud-Setups ist denkbar, bleibt auf Grund der aufwändigen Einrichtung aber außen vor. Auch wäre der zusätzliche Erkenntnisgewinn vermutlich gering.
+Grundsätzlich wäre auch der Aufbau einer OpenStack-Föderation wie in [SSICLOPS] denkbar. Föderierte Cloud-Architekturen teilen sich zentrale Komponenten, in OpenStack mindestens den Authentifizierungs-Service Keystone. Je nach Föderations-Variante (\emph{Cells}, \emph{Regions}, \emph{Availability Zones} oder \emph{Host Aggregates}) sind auch Dienste wie die Dashboard oder Speicher nur einmal vorhanden. Diese Architektur spart Overhead, erfordert allerdings spezielle Anpassungen innerhalb der Cloud. Auch gehen einige Vorteile wie Ausfallsicherheit und Unabhängigkeit der zentralen Dienste wieder verloren. Eine Kombination mit weiteren Cloud-Providern im Rahmen unseres Multi-Cloud-Setups ist denkbar, bleibt auf Grund der aufwändigen Einrichtung aber außen vor. Auch wäre der zusätzliche Erkenntnisgewinn vermutlich gering.
 
 Selbst ein minimales OpenStack-Testsetup ist durch die diversen Dienste komplex. Denkbar wäre also auch die Nutzung von externen OpenStack-Angeboten. In diesem Projekt gibt es hierfür grundsätzlich drei mögliche Bereitstellungsmodelle:
 
@@ -160,7 +165,7 @@ Um Container innerhalb von OpenStack auszuführen gibt es mehrere, teils konkurr
 
 \todo{Architektur-Diagramm}
 
-\noindent Größte Hürde ist die Limitierung auf einen Prozess innerhalb eines Standard-Docker-Containers. Neuere DevStack-Versionen setzen auf systemd. Daher muss dies über die Umgebungsvariable \emph{ENV container docker} bekannt gemacht werden. Anschließend lässt sich systemd über zwei weitere Workarounds starten\footnote{\url{https://github.com/moby/moby/issues/27202}}\footnote{\url{https://github.com/moby/moby/issues/9212}}.
+\noindent Größte Hürde ist die Limitierung auf einen Prozess innerhalb eines Standard-Docker-Containers. Neuere DevStack-Versionen setzen auf systemd. Daher muss dies über die Umgebungsvariable \emph{ENV container docker} bekannt gemacht werden. Anschließend lässt sich \emph{systemd} über zwei weitere Workarounds starten\footnote{\url{https://github.com/moby/moby/issues/27202}}\footnote{\url{https://github.com/moby/moby/issues/9212}}.
 
 Docker Build bereitet das Image mit allen externen DevStack-Abhängigkeiten vor. Notwendige Dienste wie RabbitMQ und MySQL werden bereits im Voraus installiert. Das Container-Images führt beim Start nur noch die allerletzten Schritte des Setups aus. Ganz vorweg nehmen lässt sich das Setup nicht, weil während des Builds keine erweiterten Rechte vorliegen.
 
@@ -190,20 +195,14 @@ Letztendlich\todo{PowerVM} greifen wir auf eine lokale Mirantis-OpenStack-Instal
 
 \section{Softwarearchitektur}
 
+%as in Grozev 42: Federated CLoud Management: There is a central repository of images. this is replicated to the specific iaas/caas providers on demand.
+%
+%Alle weiteren Managementprozesse sind für Clients transparent.
+
 
 \section{Multi-Provider-Service-Schema}
 
-
-TOSCA komplex, aber vielversprechend. Hierauf aufbauen (eigenen YAML-Entwurf erwähnen) und Brokering hinzufügen. Hier muss festgelegt erden, welcher Service-Teil auf welchem Provider mit welchem Instanz-Typen bereitgestellt werden soll. Dies soll automatisiert anhand von SLA/Policy und Preis entschieden werden. Unterstützt TOSCA deklarative Service-Definitionen?
-
-
-TOSCA hat folgendes nur optional
-- YAML (als SimpleVersion)
-- Multi-Provider als Plugin (nicht gewartet)
-- 
-
-\inputminted[]{yaml}{../clouds.yaml}
-
+...und SLAs.
 
 Ziel: Portabilität.
 
@@ -211,9 +210,24 @@ Mensch-und maschinenlesbar
 
 YAML als aktuellen Standard
 
-Platzhalter werden mit Jinja während des Deployments gefüllt
+%TOSCA komplex, aber vielversprechend. Hierauf aufbauen (eigenen YAML-Entwurf erwähnen) und Brokering hinzufügen. Hier muss festgelegt erden, welcher Service-Teil auf welchem Provider mit welchem Instanz-Typen bereitgestellt werden soll. Dies soll automatisiert anhand von SLA/Policy und Preis entschieden werden. Unterstützt TOSCA deklarative Service-Definitionen?
+%
+%
+%TOSCA hat folgendes nur optional
+%- YAML (als SimpleVersion)
+%- Multi-Provider als Plugin (nicht gewartet)
+%- 
+\begin{listing}[ht]	
+	\inputminted[]{yaml}{./src/provider.sample.yaml}
+	\caption{Provider-Definition und Zugangsdaten. Der Broker liest alle eingetragenen Accounts automatisch ein und berücksichtigt sie bei der initialen Service-Bereitstellung, sowie in Optimierungsläufen. Public-Clouds benötigen nur Zugangsdaten wie Benutzername und Passwort -- alle weiteren Informationen erfragt der Broker dynamisch zur Laufzeit vom Provider. In Private-Cloud-Umgebungen ist dies nicht immer möglich: Details zur Verfügbarkeit, geografische Lage und Kosten müssen manuell eingepflegt oder vom Monitoring festgestellt werden.}
+	\label{listing:provider}
+\end{listing}
 
-Ablage der Pläne als Dokumentation
+
+
+Platzhalter werden mit Jinja während des Deployments gefüllt.
+
+Ablage der Pläne als Dokumentation.
 
 Broker durch Metainformationen (und Labels) der Instanzen theoretisch zustandslos -> Broker selbst ist nicht ausfallgefährdet.
 
@@ -234,39 +248,53 @@ Eigene Befehle
 
 Vordefinierte Policys z.B. zum Verhalten im Fehlerfall. Aber auch Zusatzinformationen: Wie ist die Zustandsprüfung auf Service-Ebene auszuführen. Wichtig für Monitoring der Verfügbarkeit (SLA).
 
-\inputminted[]{yaml}{../services/hyrise.yaml}
+Abhängigkeiten von Services und wie oft global vorhanden? Hier: global ein master, abhängig vom Dispatcher.
+
+\begin{listing}[ht]	
+	\inputminted[firstline=15]{yaml}{./src/hyrise-r.sample.yaml}
+	\caption{Providerübergreifende Servicevorlage. Der Ausschnitt zeigt die Definition des zentralen \emph{Hyrise-R-Dispatcher}-Dienstes. Nicht zu sehen sind Metadaten und die übrigen Anwendungsbestandteile. Parameter werden zur Laufzeit vom Broker eingesetzt.}
+	\label{listing:hyrise-r}
+\end{listing}
 
 
-\section{Tests}
+\section{Tests und Diskussion}
 
-
-
+%Kosten: Rechenzeit und Bandbreite (außerhalb einer Cloud) also gegenläufiges Ziel zu Portabilität und Ausfallsicherheit, denn die geringsten Kosten fallen bei dem Betrieb in einer einzelnen Cloud eines Providers an.
+%i) providers’ pricing models, (ii) application’s communication patterns and (iii) distribution of nodes over providers.
+%https://www.google.de/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0ahUKEwju27vHs6DZAhUCWRQKHRv7BEcQFggrMAA&url=http%3A%2F%2Fwww.mikesmit.com%2Fwp-content%2Fpapercite-data%2Fpdf%2Fcloud2012.pdf&usg=AOvVaw3e6yhHYmhWBbIxtr7MqkuX
 
 %verschiedene OpenStack-Versionen haben unterschiedliche Schnittstellen. Auch dies kann über die Middleware abgefangen werden. RefStack testet API, Rally testet performance und führt tempest-Tests aus.
 
-\chapter{Diskussion}
 
 Aufwand einer Multi-Cloud-Strategie
 
 Umsetzung der Policys
 
-Messergebnisse
+Potential
 
 Vorteile durch Multi-Cloud-Bibliotheken
 
+Aufwand für ein Multi-Cloud-Testbed
+
 \chapter{Zusammenfassung und Ausblick}
 
-Trend: Serverless
+Einheitliche Standards zu Services, SLAs und Kommunikation.
 
-Policys innerhalb von Instanzen (allow SSH, check for security vulnerabilities)
+Policys innerhalb von Instanzen 
+%(allow SSH, check for security vulnerabilities)
 
 Policys auf Datenebene
 
 Ausbau zu einer produktiven CMP
 Identity
 Discovery
+Monitoring
+Dashboard
 
+Trend: Serverless
 
-Migrationshürdenvon Apps auf die CMP: OS Version, SSL-Zertifikate, statische und virtuelle IPs, Lizenzen, Load Balancing, Clustering, Bandbreite, Mandantenfähigkeit
+Migrationshürden von Apps auf die CMP: OS Version, SSL-Zertifikate, statische und virtuelle IPs, Lizenzen, Load Balancing, Clustering, Bandbreite, Mandantenfähigkeit.
 
-Prometheus zum Monitoring
+Failover-Handling nicht definiert. Im Moment: Bereitstellung eines Services mit der gleichen Adresse bei Ausfall. Weitere Arbeit auf Anwendungsebene (Hyrise-R) nötig. Oder Ausgliederung der Service-Discovery an ein externes Tool.
+
+Überwachung der SLAs und Durchsetzen von Schadensersatz.

@@ -1,0 +1,7 @@
+failover_policy:
+  type: tosca.policy.placement
+  description: Failover policy with allowed target regions
+  properties:
+    container type: region 
+    container_number: 3
+    containers: [ region1, region2, region3, region4 ]

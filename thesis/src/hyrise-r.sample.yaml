@@ -1,0 +1,54 @@
+#
+# Place this file in your cloud management ./services directory
+#   - Included apps will be initialized automatically.
+#   - Available meta information is used for scheduling.
+#
+
+schema-version: 1
+
+name: Hyrise-R
+description: Lazy master replication system for the in-memory database HYRISE.
+website: https://hpi.de/plattner/projects/hyrise.html
+logo: https://avatars0.githubusercontent.com/u/3465095
+vcs-url: https://github.com/hyrise
+
+services:
+  - role: dispatcher
+    labels:
+      - de.hpi.hyrise.role: dispatcher
+      - de.janmattfeld.cloud.app.id: '{{app_id}}'
+    depends_on:
+      - None
+    deploy:
+      mode: global
+      resources:
+        # omitted
+    networks:
+      - frontend
+      - backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+    restart_policy:
+      condition: on-failure
+      delay: 5s
+      max_attempts: 3
+      window: 120s
+    provider:
+      docker:
+        image: hyrise/dispatcher:docker
+        command:
+          - ./start_dispatcher
+          - '{{dispatcher.port}}'
+          - settings.json
+      openstack:
+        image: Hyrise-R Dispatcher
+        command: |
+            #cloud-config
+            runcmd:
+                - cd /home/ubuntu/hyrise_dispatcher/dispatcher
+                - ./start_dispatcher {{dispatcher.port}} settings.json
+
+

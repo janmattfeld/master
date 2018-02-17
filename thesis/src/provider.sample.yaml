@@ -1,0 +1,30 @@
+#
+# Place this clouds.yaml file in your cloud management root
+#   - Included clouds will be initialized automatically.
+#   - Available meta information is used for scheduling.
+#
+
+- id: amazonec2
+  text: Amazon EC2 (janmattfeld)
+  provider: ec2
+  auth:
+    region: us-east-1
+    access_id: ABCDEFGHIJKLMNOP
+    password: /nask82kf01lcv12qd9ymvckja2
+
+- id: openstack
+  text: OpenStack (Future SOC Lab)
+  provider: powervc
+  auth:
+    url: http://192.168.200.11:5000/v3/auth/tokens
+    base_url: http://192.168.200.11:8774/v2.1
+    version: 3.x_password
+    region_name: RegionOne
+    username: admin
+    password: admin
+    tenant_name: admin
+  location:
+    country: de
+  cost: 0.12
+  availability: 0.998
+

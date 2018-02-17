@@ -103,7 +103,7 @@ Aus der Datenkategorie ergeben sich Anforderungen an die Risikoanalyse. Je höhe
 
 \noindent Menschliche Fehlhandlungen sind entweder absichtlich oder unabsichtlich. Dies können Fehlinterpretation von SLAs, Manipulationen, Angriffe durch Social Engineering oder schlicht Inkompetenz sein. Im Cloud Computing treten diese Risiken verstärkt auf, da die Infrastruktur von Dritten betreut wird. Auch Gesetzesänderungen zählen zu diesen Risiken. Viele lassen sich durch passende Standard-Prozesse, Notfallpläne, Rechtemanagement und Audits vermindern.
 
-Technisch gilt Ähnliches: Klassische Risiken wie der Ausfall von Hardware wird vom Cloud-Provider vor dem Kunden verborgen. Speziell auf Cloud-Projekte bezogen eröffnen sich aber auch neue Angriffsflächen wie die Cloud-Plattform selbst. Die Virtualisierungsebene kann durch mangelhafte Mandanten-Trennung Datenlecks öffnen. Viele Cloud-Provider arbeiten mit proprietären Protokollen, die Portabilität ist also eingeschränkt. Umso herausfordernder wird ein Notfallplan, der den Ausfall des Anbieters abfangen soll.
+Technisch gilt Ähnliches: Klassische Risiken, wie der Ausfall von Hardware, wird vom Cloud-Provider vor dem Kunden verborgen. Speziell auf Cloud-Projekte bezogen eröffnen sich aber auch neue Angriffsflächen wie die Cloud-Plattform selbst. Die Virtualisierungsebene kann durch mangelhafte Mandanten-Trennung Datenlecks öffnen. Viele Cloud-Provider arbeiten mit proprietären Protokollen, die Portabilität ist also eingeschränkt. Umso herausfordernder wird ein Notfallplan, der den Ausfall des Anbieters abfangen soll.
 
 All diese Risiken müssen durch SLAs und Policys abgebildet werden. Diese sollten maschinenlesbar sein, um automatisiert angewandt und überprüft zu werden. Detaillierte Leitfäden hierzu bieten BSI, CSA. Insgesamt hängt das Risiko stark vom Bereitstellungsmodell ab, also von Standort und Nutzerkreis der Infrastruktur.
 % Sichere Nutzung von Cloud-Diensten | Der sichere Weg in die Cloud
@@ -273,9 +273,8 @@ Die folgende Auflistung zeigt die wichtigsten Policys und SLA-Metriken. Sie erl�
 \noindent 
 Diese Ziele gelten immer zusätzlich zu allgemeinen Hardware- und Softwareanforderungen. Voraussetzung für die Durchsetzung sind weitreichende Zusatzinformationen zum gegenwärtigen Zustand der Cloud und Umgebungsinformationen wie aktuellen Preisen. Innerhalb des \emph{Policy Enforcement Points}, also zum Beispiel der CMP, müssen diese Zusatzinformationen gesammelt werden.
 
-Herausforderung hierbei: Die wichtigsten Cloud-Provider veröffentlichen die nötigen Informationen zu ihrem Angebot meist weder maschinenlesbar, noch in einem einheitlichen Format. Kapitel 4 prüft, wie mithilfe der Multi-Cloud-Bibliothek \emph{libcloud} einige der Parameter trotzdem dynamisch abgerufen werden können.
+Herausforderung hierbei: Die wichtigsten Cloud-Provider veröffentlichen die nötigen Informationen zu ihrem Angebot meist weder maschinenlesbar, noch in einem einheitlichen Format.
 %TU Darmstadt: Scheint nicht erfolgreich zu sein. http://www.sla-ready.eu/sla-repository
-
 Policys und besonders SLAs sind typischerweise in natürlicher Sprache verfasst. Für den Einsatz in einem Broker sollten sie jedoch streng formalisiert und damit maschinenlesbar sein, um automatisiert angewandt und überprüft zu werden.
 
 Das folgende \autoref{cha:broker} zeigt daher -- neben bisherigen Broker-Forschungsarbeiten -- bestehende Schemata zur Darstellung von SLAs. Die weitere Besprechung der Policy-Gestaltung erfolgt im Implementierungsteil in \autoref{cha:implementierung}.
