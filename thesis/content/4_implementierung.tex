@@ -3,6 +3,113 @@
 
 \todo{Kapitel-Einleitung}
 
+
+
+\section{Modularer Architektur-Vorschlag}
+
+%Komponenten des Brokers.
+%
+%
+%In der CMP: Polling oder Notification?
+%
+%Was löst eine Aktion aus?
+%- Monitoring der Services
+%- Änderung der Umgebung
+%- User-Aktion
+%- Ergebnis einer anderen Policy
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{images/cycle}
+	\caption{}
+	\label{fig:cycle}
+\end{figure}
+
+%Zyklus\autoref{fig:cycle}:
+
+%\begin{description}
+%	\item[Nummerierte Aufzählung]~\par
+\begin{enumerate}
+	
+	\item Sammeln der Meta-Informationen alle Cloud-Provider
+	\begin{enumerate}
+		\item Kapazität (CPU, RAM, HDD, Network)
+		\item Features (Verschlüsselung, CUDA, …)
+		\item Geo-Lokation 
+		\item Preis
+	\end{enumerate}
+	
+	\item Sammeln der Laufzeitinformationen der PaaS/Anwendungen
+	\begin{enumerate}
+		\item Auslastung
+		\item Fehler
+		\item Ausfälle
+	\end{enumerate}
+	
+	\item Sammeln der SLAs
+	\begin{enumerate}
+		\item Policy-Definitionen
+		\item Policy-Konfiguration
+		\item Placement-Algorithmen
+	\end{enumerate}
+	
+	\item Neue Anwendung/Änderung eines SLA
+	
+	\item Optimierung
+	\begin{enumerate}
+		\item Feste Vorgaben (Geo, Backup)
+		\item Weiche (Preis, Latenz, Verfügbarkeit)
+	\end{enumerate}
+	
+	
+	\item Ausführung
+	\begin{enumerate}
+		\item Netzwerkkonfiguration
+		\item Allokation/De-Allokation von Ressourcen
+		\item Deployment
+		\item Migration
+		\item Logging/Benachrichtigung
+		\item Backup
+	\end{enumerate}
+	
+\end{enumerate}
+
+\section{Brokering}
+
+
+%https://de.wikipedia.org/wiki/Constraintprogrammierung
+%https://de.wikipedia.org/wiki/Scheduling
+
+%entailing multiple constraint satisfaction (MCS)
+%
+%\todo{Schaubild, was wird wann gematcht}
+%% Pseudocode des Algorithmus, wie in Meryn
+%
+%Kostenoptimierung
+%
+%Preisentwicklung? 
+%
+%Migration je nach Tageszeit? 
+%
+%Kosten der Datentransfers 
+%
+%Subscription On-Demand/Monthly/Yearly 
+%
+%Kompliziert durch undurchsichtige Staffelpreise
+% https://www.rightscale.com/blog/cloud-cost-analysis/aws-vs-azure-vs-google-cloud-pricing-compute-instances
+
+%https://www.rightscale.com/blog/cloud-cost-analysis/comparing-cloud-instance-pricing-aws-vs-azure-vs-google-vs-ibm
+
+%
+%Cost Calculators 
+%
+%http://go.appscale.com/cloud-cost-calculator-help 
+%
+%https://github.com/ifosch/accloudtant 
+%
+%https://awstcocalculator.com/# 
+%
+
 \section{Testumgebung: OpenStack, Docker \& Hyrise-R}
 
 Hyrise\footnote{\url{https://hpi.de/plattner/projects/hyrise.html}} ist eine In-Memory-Forschungsdatenbank der Fachgruppe \emph{Enterprise Platform and Integration Concepts} (EPIC) am Hasso-Plattner-Institut. Die Datenbank teilt sich einige Eigenschaften mit \emph{SAP HANA}: Ein \emph{Delta Store}, Spalten-basierte Speicherung, Wörterbuch-Kodierung und weitere Komprimierungstechniken sowie den \emph{Insert-Only}-Ansatz und Partitionierung. Herausragend ist die OLAP-Performance, enthalten sind aber auch Optimierungen für OLTP-Aufgaben.\todo{Hyrise-(R)-Architektur und Paper}
@@ -68,7 +175,9 @@ Im Folgenden untersuchen wir die Eignung der populärsten Bibliotheken. Wichtigs
 
 \begin{description}
 	
-	\item[Apache jclouds] existiert schon seit 2009. Es unterstützt zumindest experimentell die wichtigsten Provider, aber nicht alle Services: DNS ist nicht vorhanden, Container-Unterstützung gibt es nur für Docker. Die Bibliothek ist gut getestet, dokumentiert, und mit zahlreichen Beispielen ausgestattet. Durch Java ist sie außerdem typsicher.
+	\item[Apache jclouds] existiert schon seit 2009. Es unterstützt zumindest experimentell die wichtigsten Provider, aber nicht alle Services: DNS ist nicht vorhanden, Container-Unterstützung gibt es nur für Docker. Die Bibliothek ist gut getestet, dokumentiert, und mit zahlreichen Beispielen ausgestattet. Durch Java ist sie außerdem typsicher. 
+	
+	\emph{jclouds} ist außerdem Grundlage mehrerer Multi-Cloud-Projekte, z.\,B. von \emph{Apache brooklyn\footnote{\url{https://brooklyn.apache.org/}}}: mithilfe von \emph{CAMP}-Plänen lassen sich Anwendungen über mehrere Clouds ausrollen.
 
 	\item[Apache Libcloud] vereint viele Vorteile: Es unterstützt neben OpenStack, als Referenz für Private-Cloud-Installationen, alle großen und kleinen Cloud-Provider mit allen Kernservices. Besonders interessant ist der Container-Support für Docker, Kubernetes, Amazon ECS und die Google Container Engine. Entsprechend gepackte Anwendungen könnten in einer Vielzahl von Clouds ohne weitere Änderungen ausgeführt werden.
 
@@ -250,11 +359,14 @@ Vordefinierte Policys z.B. zum Verhalten im Fehlerfall. Aber auch Zusatzinformat
 
 Abhängigkeiten von Services und wie oft global vorhanden? Hier: global ein master, abhängig vom Dispatcher.
 
-\begin{listing}[ht]	
+\begin{listing}[]	
 	\inputminted[firstline=15]{yaml}{./src/hyrise-r.sample.yaml}
 	\caption{Providerübergreifende Servicevorlage. Der Ausschnitt zeigt die Definition des zentralen \emph{Hyrise-R-Dispatcher}-Dienstes. Nicht zu sehen sind Metadaten und die übrigen Anwendungsbestandteile. Parameter werden zur Laufzeit vom Broker eingesetzt.}
 	\label{listing:hyrise-r}
 \end{listing}
+
+Könnte auch zu einem konkreten CAMP-Plan umgewandelt werden. So wie TOSCAMP. Stattdessen nur ein Template Schema und Graph zur Laufzeit.
+%https://brooklyn.apache.org/v/latest/blueprints/setting-locations.html
 
 
 \section{Tests und Diskussion}

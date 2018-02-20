@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsag:Agreement xmlns:wsag="http://www.ggf.org/namespaces/ws-agreement"
+  AgreementId="sample-agreement">
+
+  <wsag:Name>Sample Agreement</wsag:Name>
+  <wsag:Context>
+    <wsag:AgreementInitiator>client-prueba</wsag:AgreementInitiator>
+    <wsag:AgreementResponder>f4c993580-03fe-41eb-8a21</wsag:AgreementResponder>
+    <wsag:ServiceProvider>AgreementResponder</wsag:ServiceProvider>
+    <wsag:ExpirationTime>2014-03-07T12:00:00</wsag:ExpirationTime>
+    <wsag:TemplateId>template02</wsag:TemplateId>
+    <sla:Service xmlns:sla="http://sla.atos.eu">sample-service</sla:Service>
+  </wsag:Context>
+  <wsag:Terms>
+    <wsag:All>
+<wsag:ServiceDescriptionTerms Name="SDT" ServiceName="Name"/>
+<wsag:ServiceProperties Name="ServiceProperties" ServiceName="Name">
+  <wsag:VariableSet>
+    <wsag:Variable Name="availability" Metric="xs:double">
+      <wsag:Location>metric1</wsag:Location>
+    </wsag:Variable>
+  </wsag:VariableSet>
+</wsag:ServiceProperties>
+<wsag:GuaranteeTerm Name="GT-availability">
+  <wsag:ServiceScope ServiceName="Name"/>
+  <wsag:ServiceLevelObjective>
+    <wsag:KPITarget>
+      <wsag:KPIName>AVAILABILITY</wsag:KPIName>
+      <wsag:CustomServiceLevel>
+        {"constraint" : "availability BETWEEN (0.99, 1)"}
+      </wsag:CustomServiceLevel>
+    </wsag:KPITarget>
+  </wsag:ServiceLevelObjective>
+</wsag:GuaranteeTerm>
+    </wsag:All>
+  </wsag:Terms>
+</wsag:Agreement>
