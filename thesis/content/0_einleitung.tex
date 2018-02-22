@@ -1,7 +1,5 @@
 \chapter{Einleitung}
 
-% Im Zentrum der Einleitung stehen die Vorstellung und Motivation des Themas der Arbeit und die genaue Auflistung der Fragestellungen (Wieso ist das Thema relevant?). Ebenso sollten schon einzelne Aspekte des Problems herausgearbeitet werden. Dabei ist es hilfreich, die zentralen Fragen aufzulisten, die im Rahmen der Arbeit beantwortet werden sollen. Außerdem sollte ein knapper Überblick gegeben werden, in welchen Schritten die Problembehandlung erfolgt: Hinführung zum Thema, Herleitung und Ausformulierung der Fragestellung, Abgrenzung des Themas (Angabe von Aspekten, die zum Thema gehören, aber ausgeklammert werden) und Aufbau der Arbeit (Begründung der Gliederung).
-
 Cloud-Angebote sind allgegenwärtig und werden mittlerweile von einer Mehrzahl deutscher Unternehmen genutzt. Laut Statista setzten bis 2016 mindestens fünfundsechzig Prozent aller Betriebe entsprechende Lösungen ein;
 %https://de.statista.com/statistik/daten/studie/177484/umfrage/einsatz-von-cloud-computing-in-deutschen-unternehmen-2011/
 besonders gefragt sind Infrastrukturdienste, wie Rechenleistung und Speicher. Gleich darauf folgen Softwareangebote und E-Mail-Hosting. Etwas abgeschlagen bleiben Plattformdienste wie Datenbanken und Ausführungsumgebungen. %https://de.statista.com/statistik/daten/studie/381830/umfrage/einsatzzwecke-von-cloud-computing-in-unternehmen-in-deutschland/
@@ -54,27 +52,32 @@ Laut Gartner wollen daher 70 Prozent aller Unternehmen bis 2019 eine Multi-Cloud
 \end{itemize}
 
 \noindent
-Um diese Herausforderungen automatisiert abzumildern, eignet sich eine \emph{Cloud Management Plattform (CMP)}. Deren Marktsituation ist allerdings unübersichtlich und in großer Bewegung. Bereits im letzten Jahr wurden einige vielversprechende Lösungen von Cloud-Infrastruktur-Providern aufgekauft. Die CMPs sind nun selbst Software-as-a-Service-Angebote und proprietär. Die eigentlichen Vorteile Flexibilität und Unabhängigkeit werden so ad absurdum geführt.
+Um diese Herausforderungen automatisiert abzumildern, eignet sich eine \emph{Cloud Management Plattform (CMP)} mit integriertem Anwendungs-Broker. Deren Marktsituation ist allerdings unübersichtlich und in großer Bewegung. Bereits im letzten Jahr wurden einige vielversprechende Lösungen von Cloud-Infrastruktur-Providern aufgekauft. Die CMPs sind nun selbst Software-as-a-Service-Angebote und proprietär. Die eigentlichen Vorteile Flexibilität und Unabhängigkeit werden so ad absurdum geführt.
 
 Unabhängige Lösungen sind mehrheitlich ausgelaufene akademische Forschungsprojekte. Auf den aktuellen Cloud-Markt und technische Neuerungen wie Container sind diese nicht mehr anwendbar. Aufgrund der vorherigen Forschungsergebnisse ergibt sich jedoch folgende Hypothese:
 
-%CMPs ändern sich ständig. selbst während dieser arbeit sind anbieter ausgeschieden, aufgekauft oder grundlegend verändert. cost als neues feature. kein echtes brokering, sondern self-service und monitoring.
+%CMPs ändern sich ständig. selbst während dieser arbeit sind Anbieter ausgeschieden, aufgekauft oder grundlegend verändert. cost als neues feature. kein echtes brokering, sondern self-service und monitoring.
 
 \begin{verse}
-{Eine unabhängige, auf offenen Standards basierende CMP kann die Vorteile der Cloud mit aktuellem Datenschutz vereinen.}
+	{Eine unabhängige, auf offenen Standards basierende CMP kann die Vorteile der Cloud mit aktuellem Datenschutz vereinen.}
 \end{verse}
 
-\noindent Die Verwaltung der verteilten Applikationen sollte weiterhin automatisch erfolgen. Da SLAs und weitere Rahmenbedingungen oft nicht verhandelbar sind, muss die Optimierung der Cloud-Nutzung in Eigenregie erfolgen. Dabei sollen Organisationen und Unternehmen als Cloud-Nutzer emanzipiert werden. Die vorgestellte CMP erlaubt die Nutzung bestimmter Anbieter, obwohl SLAs  nicht eingehalten werden: zum Beispiel lässt sich eine höhere Ausfallsicherheit durch Kombination mehrerer Anbieter erreichen. Nebenbei entsteht so ein Notfallplan zum Weiterbetrieb bei Ausfall oder Kündigung eines Cloud-Providers.
+\noindent 
+Das EU-geförderte Forschungsprojekt \emph{Scalable and Secure Infrastructures for Cloud Operations (SSICLOPS)} identifiziert Private- und Hybrid-Cloud-Umgebungen als zukünftigen Treiber des ITK-Markts. Im Rahmen dieses Projektes entwickeln wir einen Multi-Cloud-Broker. Alle Ergebnisse basieren auf Open-Source-Technologien und sollen, wenn möglich, an die Ursprungsprojekte zurückfließen. Der Broker soll Organisationen und Unternehmen als Cloud-Nutzer emanzipieren und besonders den kommerziellen Wert der Lösung herausstellen.
+
+%https://ssiclops.eu/wp-content/uploads/SSICLOPS_D6.1_final.pdf
+%Private and hybrid cloud technology is a key enabler  for  future  ICT  growth
+% Hier: Besonders hybrid-CLoud einbeziehen und  "commercial value" zeigen.
+
+Da SLAs und weitere Rahmenbedingungen oft nicht verhandelbar sind, muss die Optimierung der Cloud-Nutzung in Eigenregie erfolgen.  Die vorgestellte CMP erlaubt die Nutzung bestimmter Anbieter, obwohl SLAs  nicht eingehalten werden: zum Beispiel lässt sich eine höhere Ausfallsicherheit durch Kombination mehrerer Anbieter erreichen. Nebenbei entsteht so ein Notfallplan zum Weiterbetrieb bei Ausfall oder Kündigung eines Cloud-Providers.
 
 Das folgende Kapitel klassifiziert Cloud-Angebote anhand bestimmter Eigenschaften und Service-Ebenen. Außerdem geben wir eine Einführung in datenschutzrechtliche Fragen und Risiken in Zusammenhang mit Cloud-Bereit\-stel\-lungs\-model\-len.
 
-Anschließend entwickeln wir passende Policys und entsprechende Schemata. Diese sollen von einem eigens entwickelten Multi-Cloud-Broker verwendet werden. Er verteilt auch ältere -- nicht Cloud-native -- Anwendungen über verschiedene Cloud-Provider auf IaaS- und CaaS-Ebenen und optimiert die Cloud-Landschaft anschließend fortlaufend. Dabei beachtet er SLAs und Datenschutzanforderungen. Für diesen Vorschlag bewerten wir akademische und kommerzielle Projekte mit ähnlicher Zielsetzung.
+Anschließend entwickeln wir passende Policys und entsprechende Schemata. Diese sollen von dem eigens entwickelten Multi-Cloud-Broker verwendet werden. Er verteilt auch ältere -- nicht Cloud-native -- Anwendungen über verschiedene Cloud-Provider auf IaaS- und CaaS-Ebenen und optimiert die Cloud-Landschaft anschließend fortlaufend. Dabei beachtet er SLAs und Datenschutzanforderungen. Für diesen Vorschlag bewerten wir akademische und kommerzielle Projekte mit ähnlicher Zielsetzung.
 
-Der Implementierungsteil vergleicht verschiedene Multi-Cloud-Bibliotheken. Auf Basis von Apache \emph{libcloud} entwickeln wir eine CMP, die das Multi-Cloud-Brokering übernimmt. Auch Implementierungshürden und Besonderheiten der verschiedenen Clouds werden beschrieben. Als Beispielanwendung dient dabei die verteilte Forschungsdatenbank Hyrise-R. Auch die Entstehung des OpenStack-Testbeds als Beispiel einer Private-Cloud wird besprochen.
+Der Implementierungsteil vergleicht verschiedene Multi-Cloud-Bibliotheken. Auf Basis von Apache \emph{libcloud} entwickeln wir eine CMP, die das Multi-Cloud-Brokering übernimmt. Auch Implementierungshürden und Besonderheiten der verschiedenen Clouds werden beschrieben. Als Beispielanwendung dient dabei die verteilte Forschungsdatenbank Hyrise-R. Auch die Entstehung eines OpenStack-Testbeds als Beispiel einer Private-Cloud wird besprochen. Es folgt eine abschließende Bewertung des Konzepts.
 
-Es folgt eine abschließende Bewertung des Konzepts -- kann eine unabhängige CMP die Hürden der Cloud-Nutzung durch einen Multi-Cloud-Ansatz senken?
-
-% Bei Benkanntwerden von SPectre/Meltdown waren noch keine Fixes, wohl aber POCs verfügbar. Eigene Anwendungen hätten also sofrt von der öffentlichen in eine private Cloud umgezogen werden müssen, oder -- falls das auf grund mangelnder Portabilität nicht möglich ist -- abgeschaltet. Notfallplan?
+% Bei Benkanntwerden von SPectre/Meltdown waren noch keine Fixes, wohl aber POCs verfügbar. Eigene Anwendungen hätten also sofort von der öffentlichen in eine private Cloud umgezogen werden müssen, oder -- falls das auf grund mangelnder Portabilität nicht möglich ist -- abgeschaltet. Notfallplan?
 
 %- Klassifizierung von Cloud-Angebote und Risiken
 %- Datenschutzrechtliche Bewertung von Daten 

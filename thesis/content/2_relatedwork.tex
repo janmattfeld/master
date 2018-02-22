@@ -53,10 +53,11 @@ Folgende weitere Aspekte sollen bei der Betrachtung der CMPs berücksichtigt wer
 	
 	Die Unterstützung aktueller Container-Technologien und Cloud-Native-Architekturen ist wünschenswert. Keine Rolle spielt \emph{Bare Metal}: Eine installierte Virtualisierungsschicht oder Container-Laufzeitumgebung wird vorausgesetzt. 
 	
-	Die Auswertung der SLAs und Policys ist auf die verteilten Anwendungen selbst beschränkt. Darüber liegende (CMP-Nutzer) oder tiefergehende Schichten (Service-Nutzer und -Daten) werden extern verwaltet.
+	Die Auswertung der SLAs und Policys ist auf die verteilten Anwendungen selbst beschränkt. Darüber liegende (CMP-Nutzer) oder tiefergehende Schichten (Service-Nutzer und -Daten) werden extern verwaltet. Damit unterscheidet sich der Ansatz von anderen \emph{SSICLOPS}-Arbeiten, die eine Annotation auf Datenebene mit anschließender Policy-Durchsetzung auf allen Cloud-Schichten vorsehen.	
+%	D2.1
+%	D2.2
 		
 \end{description}
-
 
 \noindent
 Der folgende Abschnitt gibt eine Übersicht kommerzieller Cloud Management Plattformen sowie bisheriger Forschung zu Inter- und Multi-Cloud-Brokern mit besonderem Blick auf SLAs und Policys. Die vorgestellten Lösungen unterscheiden sich in Architektur, Flexibilität und Funktionsumfang. Die vier anfangs vorgestellten Broker-Basiseigenschaften werden nicht von allen Arbeiten in vollem Umfang erfüllt.
@@ -83,6 +84,8 @@ Außerdem wollen und können wir SLAs nicht verhandeln -- Public Cloud Provider 
 Offen ist der Durchsetzungspunkt der Policys. Soll dies bereits in der CMP oder innerhalb von Plattformdiensten und Anwendungsprogrammen geschehen? Für Benutzer-Policys könnte beides der Fall sein: Die versendeten Anwendungsdaten enthalten Metainformationen zur erlaubten Verwendung. Schon die erste Kontaktstelle der Cloud, zum Beispiel ein Load-Balancer, wertet diese Informationen aus und entscheidet entsprechend für ein Routing, dass den Nutzeranforderungen entspricht. 
 
 In der Anwendung selbst können diese Metainformationen auch genutzt werden, zum Beispiel zur gewünschten Verschlüsselung oder einer Frist zur automatischen Löschung. Ein besonders auf Performance fokussierter Ansatz ist [CPPL]. Bei System-Policys ist die Performance der Dekodierung jedoch nicht entscheidend: Sie findet nur bei Änderungen durch Administratoren statt, nicht bei jedem Datenpaket, das die Cloud erreicht. Folgende Prozessschritte innerhalb des Brokers nutzen die SLA-Schemata:
+
+% RWTH: Towards Data Handling Requirements-aware Cloud Computing
 
 \begin{enumerate}
 	\item Einlesen der Provider-Angebote
@@ -357,6 +360,19 @@ Nichtsdestotrotz sollte die CMP unabhängig entwickelt und betrieben werden. Clo
 
 \section{Bisherige Forschungsarbeiten}
 
+% Multi-Cloud Übersichtspaper: Umfagreichste Cloud-Hierarchie Betrachtung! Einleitung, Produkte, Herausforderungen
+%the  security  breaks  have  brought
+%into discussions the trustfulness of the Hybrid Cloud.
+%A  solution  to  a
+%recommendation  system
+%is  therefore
+%needed in Multi-Cloud, and very few prototypes are
+%currently available as the trust management problem
+%is more than a technical one.
+%Consuming Resources and Services from Multiple Clouds
+%From Terminology to Cloudware Support
+%Dana Petcu
+
 Besonders interessant sind bisherige Arbeiten, die neben einer Föderation auch Hybrid- oder Multi-Cloud-Brokering unterstützen. Es sollten also keine Cloud-internen Plugins oder Agenten nötig sein.
 
 Die folgende Übersicht geht besonders auf den Umfang der Policy- und SLA-Fähigkeiten ein: Diese sollten nicht nur während des Brokerings beachtet werden, sondern kontinuierlich zur Laufzeit. Auch die Einhaltung von Standards zu Service- und Ziel-Definitionen, sowie Kommunikation sind relevant. Unterschiede gibt es bei der Art unterstützter Anwendungen; neben Stapelverarbeitungsjobs und High-Performance-Computing sollten auch reguläre, interaktive Web-Anwendungen verwaltet werden können. 
@@ -436,7 +452,7 @@ Auch nicht-funktionale Anforderungen werden betrachtet: Sind die Artefakte der P
 %No automatic scheduling 
 
 \noindent
-Im Gegensatz zu den kommerziellen Projekten liegt der Fokus vieler Forschungsarbeiten auf Cloud-Föderationen und SLA-basiertem Brokering. Einige unterstützen über Adapter konzeptionell mehrere Bereitstellungsmodelle; je nachdem, ob dem Cloud-Provider die Mitgliedschaft in einer Föderation bewusst ist. Interne Adapter sprechen mit zusätzlichen, Cloud-internen Erweiterungen. Externe Adapter nutzen die öffentlichen APIs von Drittanbieter-Clouds. Hier entsteht zwar Mehraufwand, dieser könnte in weiteren Entwicklungen jedoch von einer Multi-Cloud-Bibliothek abgemildert werden.
+Im Gegensatz zu den kommerziellen Projekten liegt der Fokus vieler Forschungsarbeiten auf Cloud-Föderationen und SLA-basiertem Brokering. Einige unterstützen über Adapter konzeptionell mehrere Bereitstellungsmodelle; je nachdem, ob dem Cloud-Provider die Mitgliedschaft in einer Föderation bewusst ist. Interne Adapter sprechen mit zusätzlichen, Cloud-internen Erweiterungen. Externe Adapter nutzen die öffentlichen APIs von Drittanbieter-Clouds. Hier entsteht zwar Mehraufwand, dieser könnte in weiteren Entwicklungen jedoch von einer Multi-Cloud-Bibliothek gemildert werden.
 
 Negativ fällt auf, dass die Artefakte der meisten (EU-)Forschungsprojekte
 nicht mehr verfügbar sind. Auch Matching-Algorithmen sind teilweise nicht veröffentlicht. Die Ergebnisse lassen sich so nicht mehr nachvollziehen. Ohnehin basieren sie oft auf veralteten Technologien: Formate wie OVF werden in modernen IaaS-Plattformen nicht mehr unterstützt. Demgegenüber spielen Container oder Serverless-Computing keine Rolle.
