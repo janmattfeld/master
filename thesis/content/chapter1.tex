@@ -12,7 +12,7 @@ Dieses Kapitel definiert die grundlegenden Charakteristika eines Cloud-Dienstes,
 
 \section{Eigenschaften eines Cloud-Dienstes}
 
-Unabhängig von Liefer- und Servicemodell zeichnet sich ein Cloud-Dienst durch bestimmte Merkmale aus. Konkret definieren übereinstimmend \emph{NIST Cloud Computing Reference Architecture}, \emph{IETF} und \emph{BSI-Grundschutzkatalog} folgende Eigenschaften:
+Unabhängig von Liefer- und Servicemodell zeichnet sich ein Cloud-Dienst durch bestimmte Merkmale aus. Konkret definieren übereinstimmend \emph{NIST Cloud Computing Reference Architecture}, \emph{IETF} und \emph{BSI-Grundschutzkatalog} \cite{nist:2011:reference-architecture, ietf:2015:reference-framework, bsi:2014:grundschutz} folgende Eigenschaften:
 % http://ws680.nist.gov/publication/get_pdf.cfm?pub_id=909505 
 % https://www.bsi.bund.de/DE/Themen/ITGrundschutz/ITGrundschutzKataloge/Inhalt/_content/m/m04/m04446.html?nn=6604968
 % https://www.ietf.org/archive/id/draft-khasnabish-cloud-reference-framework-08.txt
@@ -46,7 +46,7 @@ Je nach Auswahl des Cloud-Angebots lassen sich verschiedene Kernebenen untersche
 	
 	\item[Platform as a Service (PaaS)] Hier übernimmt der Cloud Provider die Bereitstellung der zuvor genannten Bestandteile. Der Kunde betreibt auf dieser Ebene eine selbst erstellte Anwendungssoftware. Über Bibliotheken und Schnittstellen des Cloud Providers greift er auf Laufzeitumgebungen, Datenbanken und Entwicklungswerkzeuge zu.
 	
-	\item[Function as a Service (FaaS)] Auch als \emph{Serverless Computing} populär: Entgegen des Namens arbeiten auch hier noch Server, diese sind für den Kunden jedoch weitestgehend unsichtbar. Es stellt eine Evolution des PaaS-Modells dar und ist besser als FaaS beschrieben -- der Kunde lädt nur noch Quellcode in die Cloud. Dieser wird nun Ereignis-getrieben ausgeführt, skaliert und abgerechnet. Im Gegensatz zu vielen PaaS-Angeboten fallen im Ruhebetrieb keine weiteren Kosten an.
+	\item[Function as a Service (FaaS)] Auch als \emph{Serverless Computing} populär: Entgegen des Namens arbeiten auch hier noch Server, diese sind für den Kunden jedoch weitestgehend unsichtbar. Es stellt eine Evolution des PaaS-Modells dar und ist besser als FaaS beschrieben -- der Kunde lädt nur noch Quellcode in die Cloud. Dieser wird nun Ereignis-getrieben ausgeführt, skaliert und abgerechnet. Im Gegensatz zu vielen PaaS-Angeboten fallen im Ruhebetrieb keine weiteren Kosten an \cite{crisp:2016:serverless-infrastructure}.
 	%https://www.crisp-research.com/serverless-infrastructure-der-schmale-grat-zwischen-einfachheit-und-kontrollverlust/
 	
 	\item[Software as a Service (SaaS)] Eine bestehende Anwendungssoftware wird komplett vom Cloud Provider bezogen. Die Verantwortlichkeit des Kunden beschränkt sich meist auf kleinere Anpassungen, Nutzerverwaltung und das Einspielen eigener Daten.
@@ -54,7 +54,7 @@ Je nach Auswahl des Cloud-Angebots lassen sich verschiedene Kernebenen untersche
 \end{description}
 
 \noindent
-Besonders interessant für eigene Entwicklungen im Rahmen des \emph{SSICLOPS}-Forschungskontextes sind dabei die Ebenen IaaS und CaaS. Sie bieten genug Flexibilität um die Fragestellung mit folgenden Produkten zu erproben:
+Besonders interessant für eigene Entwicklungen im Rahmen des \emph{SSICLOPS}-Forschungskontextes sind dabei die Ebenen IaaS und CaaS \cite{ssiclops:2015:d6.1-project-presentation}. Sie bieten genug Flexibilität um die Fragestellung mit folgenden Produkten zu erproben:
 
 \begin{enumerate}
 	\item \emph{OpenStack} als zentraler Infrastrukturprovider
@@ -64,7 +64,7 @@ Besonders interessant für eigene Entwicklungen im Rahmen des \emph{SSICLOPS}-Fo
 \noindent
 Cloud-Provider bieten darüber hinaus weitere Hilfs- und Verwaltungsdienste. Diese betreffen vor allem Konfiguration, Provisionierung, Monitoring und Abrechnung. Hierzu zählen aber auch Sicherheit, Vertraulichkeit und Portabilität. Diese drei Querschnittsthemen sollen im Zusammenhang mit den Dienstebenen weiter untersucht werden.
 
-Die \emph{NIST}-Klassifizierung unterscheidet hier speziell weitere, teils externe, Akteure wie Cloud-Auditoren und -Carrier. Dieser Einteilung folgt die Arbeit nicht. Stattdessen konzentriert sie sich auf die direkte Beziehung zwischen Cloud-Kunden und -Provider. Beide haben Risiken und Verantwortlichkeiten, die im nächsten Abschnitt besprochen werden.
+Die \emph{NIST}-Klassifizierung unterscheidet hier speziell weitere, teils externe, Akteure wie Cloud-Auditoren und -Carrier \cite{nist:2011:reference-architecture}. Dieser Einteilung folgt die Arbeit nicht. Stattdessen konzentriert sie sich auf die direkte Beziehung zwischen Cloud-Kunden und -Provider. Beide haben Risiken und Verantwortlichkeiten, die im nächsten Abschnitt besprochen werden.
 
 \section{Risiken}
 
@@ -72,9 +72,7 @@ Die \emph{NIST}-Klassifizierung unterscheidet hier speziell weitere, teils exter
 % The Treacherous 12, Cloud Computing Top Threats in 2016, CSA, https://cloudsecurityalliance.org/group/top-threats/
 % Security and Privacy Challenges in Cloud Computing Environments, https://www.researchgate.net/publication/224202015_Security_and_Privacy_Challenges_in_Cloud_Computing_Environments
 
-
-
-Moderne IT-Infrastruktur ist hochkomplex. Allein hierdurch ergibt sich ein großes Potential für Bedrohungen. Im Cloud Computing steigt das Risiko durch gemietete und geteilte Infrastruktur weiter. Zusätzlich zu allgemeinen Risiken sollen mögliche Auswirkungen auf folgende Eigenschaften beschrieben werden:
+Moderne IT-Infrastruktur ist hochkomplex. Allein hierdurch ergibt sich ein großes Potential für Bedrohungen. Im Cloud Computing steigt das Risiko durch gemietete und geteilte Infrastruktur weiter \cite{csa:2016:cloud-top-threats, Pearson:2010:issues-arising-cloud, 2011:takabi:security-challenges}. Zusätzlich zu allgemeinen Risiken sollen mögliche Auswirkungen auf folgende Eigenschaften beschrieben werden:
 
 \begin{enumerate}
 	\item Verfügbarkeit
@@ -84,13 +82,11 @@ Moderne IT-Infrastruktur ist hochkomplex. Allein hierdurch ergibt sich ein groß
 \end{enumerate}
 
 \noindent
-Abhängig vom Einsatzzweck des geplanten Cloud-Services resultieren die Fragen: Welche Informationen und Prozesse müssen geschützt werden, welche Bedrohungen sind zu erwarten? Damit ist nicht nur Sicherheit gemeint, sondern alle Risiken, die den Erfolg eines Cloud-Projektes oder einer Organisation darüber hinaus bedrohen.
-
-Möglicher Schaden muss im Voraus berechnet werden. Zu verarbeitende Daten sollten kategorisiert werden; dem BSI folgend sind diese vier Abstufungen denkbar:
+Abhängig vom Einsatzzweck des geplanten Cloud-Services resultieren die Fragen: Welche Informationen und Prozesse müssen geschützt werden, welche Bedrohungen sind zu erwarten? Damit ist nicht nur Sicherheit gemeint, sondern alle Risiken, die den Erfolg eines Cloud-Projektes oder einer Organisation darüber hinaus bedrohen. Möglicher Schaden muss im Voraus berechnet werden. Zu verarbeitende Daten sollten kategorisiert werden; dem \emph{BSI} folgend sind diese vier Abstufungen denkbar \cite{bsi:2014:Anforderungskatalog}:
 
 \begin{enumerate}
-	\item Privat- , Geschäfts- und Dienstgeheimnisse gemäß §§\,203 und 353\,b StGB
-	\item Personenbezogene Daten gemäß §\,3 Absatz\,1 BDSG
+	\item Privat- , Geschäfts- und Dienstgeheimnisse gemäß \emph{§§\,203} und \emph{353\,b StGB}
+	\item Personenbezogene Daten gemäß \emph{§\,3 Absatz\,1 BDSG}
 	\item Verschlusssachen
 	\item Sonstige Daten (weder Kategorie 1, noch 2, noch 3)	
 \end{enumerate}
@@ -100,21 +96,20 @@ Verschlusssachen der Kategorie drei meint hier alle Daten, deren Verlust, Verän
 
 Diese Arbeit konzentriert sich auf die Risiken, die direkt von Cloud-Kunden und -Providern auf den Ebenen IaaS und PaaS beeinflusst werden können. So ist zum Beispiel die Sicherheit der Client-Geräte, von denen auf die Cloud-Dienste zugegriffen wird entscheidend, aber nicht Teil dieser Betrachtung.
 
-Aus der Datenkategorie ergeben sich Anforderungen an die Risikoanalyse. Je höher und je wahrscheinlicher ein potentieller Schaden, desto aufwendiger und teurer sollte die Absicherung ausfallen. Grundsätzlich lassen sich zwei Kategorien von Risikofaktoren unterscheiden (Quelle):
+Aus der Datenkategorie ergeben sich Anforderungen an die Risikoanalyse. Je höher und je wahrscheinlicher ein potentieller Schaden, desto aufwendiger und teurer sollte die Absicherung ausfallen. Grundsätzlich lassen sich zwei Kategorien von Risikofaktoren unterscheiden \cite{monjur:2017:security-taxonomy}:
 % https://www.researchgate.net/publication/308691801_Taxonomy_for_Identification_of_Security_Issues_in_Cloud_Computing_Environments
 \begin{itemize}
 	\item Menschlich
 	\item Technisch
 \end{itemize}
 
-\noindent Menschliche Fehlhandlungen sind entweder absichtlich oder unabsichtlich. Dies können Fehlinterpretation von SLAs, Manipulationen, Angriffe durch Social Engineering oder schlicht Inkompetenz sein. Im Cloud Computing treten diese Risiken verstärkt auf, da die Infrastruktur von Dritten betreut wird. Auch Gesetzesänderungen zählen zu diesen Risiken. Viele lassen sich durch passende Standard-Prozesse, Notfallpläne, Rechtemanagement und Audits vermindern.
+\noindent Menschliche Fehlhandlungen sind entweder absichtlich oder unabsichtlich. Dies können Fehlinterpretation von SLAs, Manipulationen, Angriffe durch \emph{Social Engineering} oder schlicht Inkompetenz sein. Im Cloud Computing treten diese Risiken verstärkt auf, da die Infrastruktur von Dritten betreut wird. Auch Gesetzesänderungen zählen zu diesen Risiken. Viele lassen sich durch passende Standard-Prozesse, Notfallpläne, Rechtemanagement und Audits vermindern.
 
 Technisch gilt Ähnliches: Klassische Risiken, wie der Ausfall von Hardware, wird vom Cloud-Provider vor dem Kunden verborgen. Speziell auf Cloud-Projekte bezogen eröffnen sich aber auch neue Angriffsflächen wie die Cloud-Plattform selbst. Die Virtualisierungsebene kann durch mangelhafte Mandanten-Trennung Datenlecks öffnen. Viele Cloud-Provider arbeiten mit proprietären Protokollen, die Portabilität ist also eingeschränkt. Umso herausfordernder wird ein Notfallplan, der den Ausfall des Anbieters abfangen soll.
 
-All diese Risiken müssen durch SLAs und Policys abgebildet werden. Diese sollten maschinenlesbar sein, um automatisiert angewandt und überprüft zu werden. Detaillierte Leitfäden hierzu bieten BSI, CSA. Insgesamt hängt das Risiko stark vom Bereitstellungsmodell ab, also von Standort und Nutzerkreis der Infrastruktur.
+All diese Risiken müssen durch SLAs und Policys abgebildet werden. Diese sollten maschinenlesbar sein, um automatisiert angewandt und überprüft zu werden. Detaillierte Leitfäden hierzu bieten BSI und CSA \cite{bsi:2014:Sicherheitsrichtlinie, csa:2015:star}. Insgesamt hängt das Risiko stark vom Bereitstellungsmodell ab, also von Standort und Nutzerkreis der Infrastruktur.
 % Sichere Nutzung von Cloud-Diensten | Der sichere Weg in die Cloud
 % IT-Grundschutz: M 2.535 Erstellung einer Sicherheitsrichtlinie für die Cloud-Nutzung
-% BSI: Testierung nach BSI Anforderungskatalog Cloud Computing C5
 % ISO/IEC 27001:2013, Information securitymanagement [13]
 %Cloud Security Alliance (CSA) Security, Test & Assurance Registry (STAR): STAR Self Assess- ment, STAR Certification, STAR Attestation, C-STAR Assessment
 
@@ -123,7 +118,7 @@ All diese Risiken müssen durch SLAs und Policys abgebildet werden. Diese sollte
 % Grozev
 % Consuming Resources and Services from Multiple Clouds, From Terminology to Cloudware Support, Dana Petcu
 
-Cloud-Angeboten können von öffentlichen Anbietern oder intern bereitgestellt werden. Weiter differenzieren lassen sich die Angebote nach Nutzerkreis, mit dem die Infrastruktur geteilt wird und Anzahl der genutzten Clouds:
+Cloud-Angeboten können von öffentlichen Anbietern oder intern bereitgestellt werden. Weiter differenzieren lassen sich die Angebote nach Nutzerkreis, mit dem die Infrastruktur geteilt wird und Anzahl der genutzten Clouds \cite{petcu:2014:cloud-taxonomy, grozev:2014:cloud-taxonomy}:
 
 \begin{description}
 	
@@ -151,39 +146,18 @@ Um eine automatisierte Bewertung der Cloud-Angebote vorzunehmen, müssen die Anf
 %Projektübergreifende Nutzung des Brokers. 
 
 % ITIL
-
-% Aufgaben einer CMP:
-%https://www.gartner.com/doc/reprints?id=1-4KKGOTA&ct=171115&st=sb%3fsrc=so_5703fb3d92c20&cid=70134000001M5td
 %
-
-%\section{Related Work}
-% 
-%Eigene Rolle: Consumer. AGBs und SLAs meist nicht verhandelbar. Geteilte Verantwortung: Das beste daraus machen!
 %
-%Verwaltung über automatisierte Tools zur Orchestrierung.
-%Kleine Marktübersicht?
-%
-%WAS IST EIN BROKER IN DIESEM KONTEXT?
-%- Nicht Nutzerdaten werden geroutet.
-%- Bestandteile verteilter Anwendungen.
-%- Begründen.
-%
-%Klassifizierung der Broker.
-%Ngrozev
-
 %https://www.openservicebrokerapi.org
 % Supported by all major corporations. On a PaaS-Level. Unified API for multi-cloud service consumption.
-% Part of kubernetes Cloud Native Foundation (Linux Foundation) /https://www.cncf.io/ https://www.ietf.org/archive/id/draft-khasnabish-cloud-reference-framework-08.txt
-% Eher theoretische Portabilität. Die Optimierung muss einzeln erfolgen. Keine Preisinformationen, oder STandort, oder ....
-% The other two. Tatsächlich offene Spezifikation und in eigenen Projekten nutzbar.
-
+% Part of kubernetes Cloud Native Foundation (Linux Foundation) /https://www.cncf.io/
+% Eher theoretische Portabilität. Die Optimierung muss einzeln erfolgen. Keine Preisinformationen, oder Standort.
 
 % libcloud enthält aktuell keinen support für provider-interne orchestration werkzeuge (zb OpenStack HEAT). Aufgaben können also nicht weiter delegiert werden. Aufgabe des Frameworks.
 
-
 \section{Policys, SLAs und Optimierungsgrößen}
 
-Cloud-Nutzer und -Provider haben gegenseitige Erwartungen, die abgestimmt werden müssen. Innerhalb von Unternehmen gelten außerdem bestimmte Regeln zum Umgang mit Informationen (\emph{Compliance}), angelehnt an die Gesetzeslage und externe Zertifizierungen (ISO 27001). Über die gesetzlichen Regelungen hinaus kann ein Unternehmen weitere Ziele setzen: Kosteneinsparungen oder der Einsatz klimafreundlicher Energie. 
+Cloud-Nutzer und -Provider haben gegenseitige Erwartungen, die abgestimmt werden müssen. Innerhalb von Unternehmen gelten außerdem bestimmte Regeln zum Umgang mit Informationen (\emph{Compliance}), angelehnt an die Gesetzeslage und externe Zertifizierungen wie ISO 27001 \cite{iso:2013:27001}. Über die gesetzlichen Regelungen hinaus kann ein Unternehmen weitere Ziele setzen: Kosteneinsparungen oder der Einsatz klimafreundlicher Energie. 
 
 Dieser Abschnitt definiert die verschiedenen Formen für den späteren Einsatz im Multi-Cloud-Broker. Er liefert Verweise zu Standards und entwickelt Beispiele für den späteren Prototypen. Wir unterscheiden für die Verwendung im Broker:
 
@@ -202,8 +176,8 @@ Typischerweise enthalten die Policys und SLAs weitere Informationen zu Vertragsp
 
 Hierarchien innerhalb der Policys bleiben ebenso außen vor: So könnte es zum Beispiel die strategische Entscheidung geben, Daten nur innerhalb bestimmter Länder zu verarbeiten -- gleichzeitig gilt auf dem Service-Level eine weitere Einschränkung auf die EU. Wir konzentrieren uns direkt auf letzteren Fall. Weitere Ziele wie die Ausfallsicherheit unterscheiden sich ebenso individuell pro Service\todo{Definition: verteilte Anwendung}.
 
-Sowohl Policys als auch SLAs sollten bestimmte Eigenschaften erfüllen. Eine Erweiterung der \emph{SMART-Kriterien} für Cloud-Computing könnte wie folgt aussehen:
-%  G. T. Doran: There’s a S.M.A.R.T. way to write management’s goals and objectives. In: Management Review, 70. Jg., Nr. 11, 1981, S. 35–36.
+Sowohl Policys als auch SLAs sollten bestimmte Eigenschaften erfüllen. Eine Erweiterung der \emph{SMART-Kriterien} \cite{doran:1981:smart-goals} für Cloud-Computing könnte wie folgt aussehen:
+
 \begin{enumerate}
 	\item Erfüllbar
 	\item Verständlich
@@ -224,7 +198,7 @@ Die folgende Auflistung zeigt die wichtigsten Policys und SLA-Metriken. Sie erl�
 \begin{description}
 	
 %	Klassifizierung
-%Level: Unternehmen, Service (heir service, aber auch als Unternehmensrichtlinie denkbar)
+%Level: Unternehmen, Service (hier service, aber auch als Unternehmensrichtlinie denkbar)
 %		Nutzer, Administration
 %Decision- \& Enforcement-Point
 % Typ: Hart, Weich, Optimierungsgröße
