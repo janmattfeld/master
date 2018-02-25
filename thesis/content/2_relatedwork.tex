@@ -68,22 +68,18 @@ Weiterhin zeigen wir einheitliche Ansätze zu maschinenlesbaren Policy- und SLA-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Service Level Agreement Mediation, Negotiation and Evaluation for Cloud Services in Intercloud Environments vorgelegt von M.Sc. Dipl.-Ing. (FH) Alexander Stanik
-Bisherige Arbeiten und Spezifikationen zu Cloud-SLAs beschreiben oft einen (externen) Mediator zwischen Provider und Kunden. Der Fokus liegt dort auf der dynamischen Verhandlung und rechtssicheren Dokumentation von SLAs. Die vorgestellten Schemata sind teils ausgereifte Verhandlungsframeworks. In diesem Abschnitt untersuchen wir die Verwendbarkeit der bisherigen Arbeiten für den Multi-Cloud-Broker, also vor allem für die Gestaltung der SLOs auf Service-Ebene ohne den erweiterten Kontext wie Unterzeichner und Gültigkeitszeitraum oder Sicherheit.
-
-%Operational Level (Management, Computational)
-%Policy- und Event Definition Language
-%Anforderungen->Graph
-% [2] T. Koch, C. Krell, and B. Krämer, "Policy definition language for automated management of distributed systems," In Proceedings of Second IEEE International Workshop on Systems Management, 1996, pp. 55-64.
-
-%Per-Service Security SLa: A New Model for Security Management in Clouds
+Bisherige Arbeiten und Spezifikationen zu Cloud-SLAs beschreiben oft einen (externen) Mediator zwischen Provider und Kunden \cite{stanik:2016:sla-mediation}. Der Fokus liegt dort auf der dynamischen Verhandlung und rechtssicheren Dokumentation von SLAs. Die vorgestellten Schemata sind teils ausgereifte Verhandlungsframeworks \cite{casola:2016:per-service-sla-negotiation}. In diesem Abschnitt untersuchen wir die Verwendbarkeit der bisherigen Arbeiten für den Multi-Cloud-Broker, also vor allem für die Gestaltung der SLOs auf Service-Ebene ohne den erweiterten Kontext wie Unterzeichner und Gültigkeitszeitraum oder Sicherheit.
 
 Außerdem wollen und können wir SLAs nicht verhandeln -- Public Cloud Provider bieten Kleinkunden keine individuellen Angebote. Stattdessen sucht der Broker anhand bestimmter Anforderungen eine passende Kombination aus einem oder mehreren Cloud-Angeboten. Die hierzu nötigen Informationen sind nicht in einem einheitlichen Format verfügbar. Die allgemeine Zuverlässigkeit und entsprechende Schadensersatzansprüche sind jedoch an zentraler Stelle\footnote{\url{https://azure.microsoft.com/de-de/support/legal/sla/cloud-services/v1_0/}}\footnote{\url{https://aws.amazon.com/de/ec2/sla/}} öffentlich zugänglich, Preise und Geostandorte sind per API\footnote{\url{https://libcloud.readthedocs.io/en/latest/compute/pricing.html}} abrufbar. In hybriden Umgebungen müssen die Parameter der privaten Cloud selbst ermittelt werden. 
 
-Offen ist der Durchsetzungspunkt der Policys. Soll dies bereits in der CMP oder innerhalb von Plattformdiensten und Anwendungsprogrammen geschehen? Für Benutzer-Policys könnte beides der Fall sein: Die versendeten Anwendungsdaten enthalten Metainformationen zur erlaubten Verwendung. Schon die erste Kontaktstelle der Cloud, zum Beispiel ein Load-Balancer, wertet diese Informationen aus und entscheidet entsprechend für ein Routing, dass den Nutzeranforderungen entspricht. 
+Offen ist der Durchsetzungspunkt der Policys. Soll dies bereits in der CMP oder innerhalb von Plattformdiensten und Anwendungsprogrammen geschehen? Für Benutzer-Policys könnte beides der Fall sein: Die versendeten Anwendungsdaten enthalten Metainformationen zur erlaubten Verwendung. Schon die erste Kontaktstelle der Cloud, zum Beispiel ein Load-Balancer, wertet diese Informationen aus und entscheidet entsprechend für ein Routing, dass den Nutzeranforderungen entspricht \cite{henze:2013:requirements-aware}. 
+% Towards Data Handling Requirements-aware Cloud Computing
 
-In der Anwendung selbst können diese Metainformationen auch genutzt werden, zum Beispiel zur gewünschten Verschlüsselung oder einer Frist zur automatischen Löschung. Ein besonders auf Performance fokussierter Ansatz ist [CPPL]. Bei System-Policys ist die Performance der Dekodierung jedoch nicht entscheidend: Sie findet nur bei Änderungen durch Administratoren statt, nicht bei jedem Datenpaket, das die Cloud erreicht. Folgende Prozessschritte innerhalb des Brokers nutzen die SLA-Schemata:
-
-% RWTH: Towards Data Handling Requirements-aware Cloud Computing
+In der Anwendung selbst können diese Metainformationen auch genutzt werden, zum Beispiel zur gewünschten Verschlüsselung oder einer Frist zur automatischen Löschung. Ein besonders auf Performance fokussierter Ansatz ist CPPL \cite{henze:2016:cppl}. Bei System-Policys ist die Performance der Dekodierung jedoch nicht entscheidend: Sie findet nur bei Änderungen durch Administratoren statt, nicht bei jedem Datenpaket, das die Cloud erreicht. Folgende Prozessschritte innerhalb des Brokers nutzen die SLA-Schemata \cite{koch:1996:policy-definition}:
+%Operational Level (Management, Computational)
+%Policy- und Event Definition Language
+%Anforderungen->Graph
+% [2] T. Koch, C. Krell, and B. Krämer, "Policy definition language for automated management of distributed systems"
 
 \begin{enumerate}
 	\item Einlesen der Provider-Angebote
@@ -98,46 +94,24 @@ In der Anwendung selbst können diese Metainformationen auch genutzt werden, zum
 Besonders das Monitoring eines Services ist entscheidend um Ansprüche gegenüber Cloud Providern durchzusetzen. Letztendlich nutzen aber alle Bestandteile des Brokers SLA-Dokumente. Diese sollten also leicht verständlich und integrierbar sein. Inwieweit sich bisherige Standards für Multi-Cloud-Einsätze eigenen beschreibt die nächste Auflistung.
 
 \begin{description}
-	\item[Web Services Agreement Specification (WS-Agreement)] wurde 2007 unter anderem von IBM als Mitglied des \emph{Open Grid Forums (OGF)} vorgestellt. Das XML-Schema beschreibt SLAs für Web-Services auf \emph{SOAP}-Basis. WS-Agreement ist dabei nur ein Teil der \emph{WS-*}-Spezifikationen -- das Aushandeln der SLAs erfolgt über die Erweiterung \emph{WS-Agreement Negotiation}.
+	\item[Web Services Agreement Specification (WS-Agreement)] wurde 2007 unter anderem von IBM als Mitglied des \emph{Open Grid Forums (OGF)} vorgestellt \cite{ogf:2011:ws-agreement}. Das XML-Schema beschreibt SLAs für Web-Services auf \emph{SOAP}-Basis. WS-Agreement ist dabei nur ein Teil der \emph{WS-*}-Spezifikationen -- das Aushandeln der SLAs erfolgt über die Erweiterung \emph{WS-Agreement Negotiation} \cite{ogf:2011:ws-negotiation}.
 	
 	Im Vergleich ist WS-Agreement oberflächlicher als \emph{WSLA} und fokussiert sich auf den SLA-Lebenszyklus: es besitzt keine Sprachelemente zur Beschreibung von Metriken, wie logische Operatoren oder Prädikate. Der Sprachumfang ist begrenzt und muss über Erweiterungen ergänzt werden, Listing \ref{listing:ws-agreement} zeigt hierzu ein Beispiel.
 	
-	Für jeden Praxiseinsatz muss eine domänenspezifische Erweiterung mit entsprechenden Metriken entwickelt werden. Der Einstieg ist insgesamt jedoch leichter als bei \emph{WSLA}. Die Referenzimplementierung ist \emph{WSAG4J}. Zusätzlich zu \emph{SOAP} existiert auch eine modernere REST-Schnittstelle (2014).
+	Für jeden Praxiseinsatz muss eine domänenspezifische Erweiterung mit entsprechenden Metriken entwickelt werden. Der Einstieg ist insgesamt jedoch leichter als bei \emph{WSLA}. Die Referenzimplementierung ist \emph{WSAG4J}\footnote{\url{http://wsag4j.sourceforge.net}}. Zusätzlich zu \emph{SOAP} existiert auch eine modernere REST-Schnittstelle \cite{feigenbutz:2014:wsag-rest-performance}.
 
 	\begin{listing}[]
 		\inputminted[firstline=16, lastline=34]{xml}{./src/WS-Agreement.sample.xml}
 		\caption{Auszug aus einem erweiterten WS-Agreement; ohne Metainformationen, dem sogenannten \emph{Context}. Das Beispiel zeigt eine Vereinbarung zur Verfügbarkeit eines Webservices. Die \emph{ServiceDescriptionTerms} sind hier noch unvollständig, sie werden mit Laufzeitinformationen wie der IP-Adresse gefüllt. Alle messbaren Eigenschaften eines Services sind unter \emph{ServiceProperties} definiert. \emph{metric1} ist hierbei ein externer Verweis. Die eigentlichen SLOs nehmen Bezug auf die vorher definierte Metriken. Optional sind \emph{Business Values}, die konkrete Strafzahlungen und Zielerreichungsboni definieren.}
 		\label{listing:ws-agreement}
-	\end{listing}
-
-	%	A. Andrieux, K. Czajkowski, A. Dan, et al, Web Services
-	%	Agreement Specification (WS-Agreement), March 14 2007,
-	%	available at: http://www.ogf.org/documents/GFD.107.pdf
-		
-		%	http://wsag4j.sourceforge.net/site/wsag/wsag-language.html
-	%	https://link.springer.com/chapter/10.1007/978-3-319-11746-1_21
-	
+	\end{listing}	
 	%https://github.com/Fiware/ops.Sla-framework/blob/master/sla-core/docs/ws-agreement.md Complete Example
 	
-	\item[Web Service Level Agreement (WSLA)] wurde 2003 von IBM vorgestellt und basiert ebenso wie \emph{WS-Agreement} auf XML. Der Fokus liegt hier allerdings stärker auf den Metriken: \emph{WSLA} erlaubt Metrik-Komposita und eingebettete Funktionen. Selbst ohne Erweiterungen lassen sich komplexe Anforderungen über logische Ausdrücke, Prädikate und Makros abbilden.
+	\item[Web Service Level Agreement (WSLA)] wurde 2003 von IBM vorgestellt und basiert ebenso wie \emph{WS-Agreement} auf XML \cite{ludwig:2003:wsla, keller:2003:wsla}. Der Fokus liegt hier allerdings stärker auf den Metriken: \emph{WSLA} erlaubt Metrik-Komposita und eingebettete Funktionen. Selbst ohne Erweiterungen lassen sich komplexe Anforderungen über logische Ausdrücke, Prädikate und Makros abbilden.
 	
-	SLOs unterstützen weitere Angaben zu Mess-Abständen und -Zeiträumen. Möglich sind auch Referenzen auf \emph{WSDL} zur Modellierung von Services selbst. Das Framework ist für beide Vertragspartner gleichermaßen geeignet: \emph{WSLA} modelliert Angebot genauso wie Anforderungen. Überwachung und Auswertung können ausdrücklich auch von einer dritten Partei implementiert werden.	
-		
-	%H. Ludwig, A. Keller, A. Dan, et al, Web Service
-	%Level Agreement (WSLA) Language Specification, January
-	%28 2003, available at: http://www.research.ibm.com/wsla/
-	%WSLASpecV1-20030128.pdf
-	
-	%	\item[SMI (STRATOS)] 
-	
-	%	\item[OCCI SLAs]	
-	%	Nicht wirklich als SLA-Template, sondern zur direkten CMP-Kommunikation
-	% WS-Agreement als Vorlage. Praktisch aber keine Bedeutung.
-	
-	%https://www.ogf.org/documents/GFD.228.pdf
-	%	https://github.com/IntelLabsEurope/OCCI-SLAs
+	SLOs unterstützen weitere Angaben zu Mess-Abständen und -Zeiträumen. Möglich sind auch Referenzen auf \emph{WSDL} zur Modellierung von Services selbst. Das Framework ist für beide Vertragspartner gleichermaßen geeignet: \emph{WSLA} modelliert Angebot genauso wie Anforderungen. Überwachung und Auswertung können ausdrücklich auch von einer dritten Partei implementiert werden.
 
-	\item[Topology and Orchestration Specification for Cloud Applications (TOSCA)] dient nicht primär zur Abbildung von SLAs, sondern zur providerunabhängigen Modellierung von Cloud-Services. Ursprünglich ebenfalls als XML-Schema entwickelt, existiert seit 2014 eine vereinfachte Variante auf YAML-Basis. Der Sprachumfang ist viel geringer als bei \emph{WS-Agreement} oder \emph{WSAL}, dafür enthält \emph{TOSCA} einsatzbereite Policy-Basistypen. Listing \ref{listing:tosca-policy} zeigt den Aufbau einer Redundanz-Regel über mehrere Regionen. Die weitere Besprechung erfolgt im nächsten Abschnitt zu Infrastruktur- und Service-Definitionen.
+	\item[Topology and Orchestration Specification for Cloud Applications (TOSCA)] dient nicht primär zur Abbildung von SLAs, sondern zur providerunabhängigen Modellierung von Cloud-Services \cite{oasis:2013:tosca}. Ursprünglich ebenfalls als XML-Schema entwickelt, existiert seit 2014 eine vereinfachte Variante auf YAML-Basis \cite{oasis:2018:tosca-simple}. Der Sprachumfang ist viel geringer als bei \emph{WS-Agreement} oder \emph{WSAL}, dafür enthält \emph{TOSCA} einsatzbereite Policy-Basistypen. Listing \ref{listing:tosca-policy} zeigt den Aufbau einer Redundanz-Regel über mehrere Regionen. Die weitere Besprechung erfolgt im nächsten Abschnitt zu Infrastruktur- und Service-Definitionen.
 		
 	\begin{listing}[]
 		\inputminted[]{yaml}{./src/TOSCA.policy.sample.yaml}
@@ -148,18 +122,15 @@ Besonders das Monitoring eines Services ist entscheidend um Ansprüche gegenübe
 	%	https://wiki.opnfv.org/display/domino/Policy+in+Tosca
 	%https://cloudify.co/2014/07/22/TOSCA-KPIs-monitoring-cloud-management.html
 
-	\item[SLA*] ist im Rahmen von \emph{SLA@SOI} entstanden. Die Sprache ist ein Beispiel für spezielle Eigenentwicklungen: Eine abstrakte Syntax soll \emph{SLA*} universell und domänenübergreifend einsetzbar machen. Als Besonderheit ist sie dabei unabhängig von einer Auszeichnungssprache. Für diese Arbeit ist sie nicht interessant: alle Anwendungsfälle sind ein Web-Service oder verwandt, daher eigenen sich die anderen Sprachen ohne Einschränkungen
+	\item[SLA*] ist im Rahmen von \emph{SLA@SOI} entstanden \cite{kearney:2010:sla-star}. Die Sprache ist ein Beispiel für spezielle Eigenentwicklungen: Eine abstrakte Syntax soll \emph{SLA*} universell und domänenübergreifend einsetzbar machen. Als Besonderheit ist sie dabei unabhängig von einer Auszeichnungssprache. Für diese Arbeit ist sie nicht interessant: alle Anwendungsfälle sind ein Web-Service oder verwandt, daher eigenen sich die anderen Sprachen ohne Einschränkungen.
 
 \end{description}
 
 \noindent
-Sowohl \emph{WS-Agreement} als auch \emph{WSLA} nutzen XML. Sie sind streng formalisiert und durch die verfügbaren Schemata leicht maschinell zu verarbeiten. Außerdem existieren direkte Abbildungen auf \emph{ITIL} und dessen Vertragsobjekte. Für Menschen sind beide Ansätze jedoch nur schwer les- und editierbar.
+Sowohl \emph{WS-Agreement} als auch \emph{WSLA} nutzen XML. Sie sind streng formalisiert und durch die verfügbaren Schemata leicht maschinell zu verarbeiten. Außerdem existieren direkte Abbildungen auf \emph{ITIL} und dessen Vertragsobjekte \cite{koehler:2006:itil}. Für Menschen sind beide Ansätze jedoch nur schwer les- und editierbar.
 %	Köhler, Peter T.: ITIL: Das IT-Servicemanagement Framework. 2007
 
-
-\emph{TOSCA} hingegen ist leichter einsetzbar: Durch YAML-Importe lassen sich sprachunabhängig Referenzen abbilden. Daher erübrigt sich auch die Frage, ob Policy- und Service-Definitionen getrennt sein sollten. \emph{TOSCA} ermöglicht beides. 
-%https://wiki.opnfv.org/display/domino/Policy+in+Tosca
-
+\emph{TOSCA} hingegen ist leichter einsetzbar: Durch YAML-Importe lassen sich sprachunabhängig Referenzen abbilden. Daher erübrigt sich auch die Frage, ob Policy- und Service-Definitionen getrennt sein sollten. \emph{TOSCA} ermöglicht beides \cite{borgi:2014:tosca-intro}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Einheitliche Infrastruktur- und Service-Definitionen}%
@@ -219,7 +190,7 @@ Ist die Entscheidung für eine Multi-Cloud-Migration gefallen, muss eine portabl
 \noindent
 SLAs und Policys werden hier noch nicht betrachtet. Der spätere Broker berücksichtigt sie vor allem während der Ressourcen-Auswahl in Schritt eins. Herausforderungen ergeben sich durch die Heterogenität von Cloud-Schnittstellen und Infrastruktur.
 
-Durch die Marktdominanz von Amazon \emph{AWS} wurden zwischenzeitlich einige der proprietären Formate von Open-Source-Projekten übernommen: zum Beispiel \emph{Amazon Machine Images} (AMI, Cloud-optimierte Images) und \emph{CloudFormation} (Infrastruktur- und Service-Definitionen). Zielführend ist das jedoch nicht: Die Formate können sich jederzeit ändern, sind speziell auf Amazon-Angebote ausgerichtet und unterstützen im Gegenzug keine Eigenheiten anderer Infrastruktur. Dementsprechend haben sie sich nicht durchgesetzt:
+Durch die Marktdominanz von Amazon \emph{AWS} wurden zwischenzeitlich einige der proprietären Formate von Open-Source-Projekten übernommen: zum Beispiel \emph{Amazon Machine Images} (AMI, Cloud-optimierte Images\footnote{\url{https://docs.aws.amazon.com/de_de/AWSEC2/latest/UserGuide/AMIs.html}}) und \emph{CloudFormation} (Infrastruktur- und Service-Definitionen\footnote{\url{https://aws.amazon.com/de/cloudformation/}}). Zielführend ist das jedoch nicht: Die Formate können sich jederzeit ändern, sind speziell auf Amazon-Angebote ausgerichtet und unterstützen im Gegenzug keine Eigenheiten anderer Infrastruktur. Dementsprechend haben sie sich nicht durchgesetzt:
 
 \begin{description}
 	
@@ -227,17 +198,17 @@ Durch die Marktdominanz von Amazon \emph{AWS} wurden zwischenzeitlich einige der
 	
 	Auf Hypervisor- und IaaS-Ebene sind \emph{Cloud Images} wie die von Ubuntu\footnote{\url{https://cloud-images.ubuntu.com/}} inoffizieller Standard. Im Gegensatz zu den Standard-Ausgaben sind sie speziell für den Einsatz in virtuellen Umgebungen vorbereitet. Sie integrieren \emph{Canonicals cloud-init\footnote{\url{https://cloudinit.readthedocs.io/}}}: Die initiale Konfiguration kann hierüber Provider-unabhängig per Konfigurationsdatei und/oder Skript übergeben werden. Optional bindet \emph{cloud-init} über Plugins die Metadatendienste des Providers ein.
 	
-	Eine ähnliche Verbreitung auf CaaS-Ebene haben \emph{Docker}-Container. Besonderheiten sind die zentrale Container-Verwaltung, eine Vielzahl vorgefertigter Basis-Images und Konfigurationsmöglichkeiten per \emph{Dockerfile} und/oder Startparameter. Die Container sind so flexibel, dass sie lokal auf Entwicklerrechnern, im Continuous-Integration-Prozess und im Produktivbetrieb eingesetzt werden. Docker bildet außerdem die Grundlage für diverse PaaS-Projekte.
+	Eine ähnliche Verbreitung auf CaaS-Ebene haben \emph{Docker}-Container\footnote{\url{https://www.docker.com/what-docker}}. Besonderheiten sind die zentrale Container-Verwaltung, eine Vielzahl vorgefertigter Basis-Images und Konfigurationsmöglichkeiten per \emph{Dockerfile} und/oder Startparameter\footnote{\url{https://docs.docker.com/engine/reference/builder/}}. Die Container sind so flexibel, dass sie lokal auf Entwicklerrechnern, im Continuous-Integration-Prozess und im Produktivbetrieb eingesetzt werden. Docker bildet außerdem die Grundlage für diverse PaaS-Projekte.
 	
 	\todo{Schaubild Konfiguration und Ausführungsumgebungen}
-	Während auf den bisherigen Service-Ebenen zumindest inoffizielle Standards existieren, ist die PaaS-Landschaft noch in großer Bewegung: Mit \emph{Open\-Shift} und \emph{Cloud\-Foundry} existieren mindestens zwei populäre Open-Source-Ansätze parallel zu den proprietären Angeboten der Public-Cloud-Provider.
+	Während auf den bisherigen Service-Ebenen zumindest inoffizielle Standards existieren, ist die PaaS-Landschaft noch in großer Bewegung: Mit \emph{Open\-Shift}\footnote{\url{https://www.openshift.com/}} und \emph{Cloud\-Foundry}\footnote{\url{https://www.cloudfoundry.org/}} existieren mindestens zwei populäre Open-Source-Ansätze parallel zu den proprietären Angeboten der Public-Cloud-Provider.
 	
-	\item[Infrastruktur- und Service-Schemata] Eine Service-Definition soll die verschiedenen Komponenten einer Anwendung in Zusammenhang bringen und Abhängigkeiten festlegen. Auf CaaS-Ebene existieren hierfür unter vielen anderen \emph{Docker Compose} und \emph{Kubernetes}. PaaS-Services lassen sich über \emph{CloudFoundry} definieren. Alle drei Lösungen sind jedoch auf ihre Service-Ebene beschränkt -- daher können sie zwangsläufig nicht alle Anwendungsszenarien abbilden.
+	\item[Infrastruktur- und Service-Schemata] Eine Service-Definition soll die verschiedenen Komponenten einer Anwendung in Zusammenhang bringen und Abhängigkeiten festlegen. Auf CaaS-Ebene existieren hierfür unter vielen anderen \emph{Docker Compose}\footnote{\url{https://docs.docker.com/compose/overview/}} und \emph{Kubernetes}\footnote{\url{https://kubernetes.io/}}. PaaS-Services lassen sich über \emph{CloudFoundry} definieren. Alle drei Lösungen sind jedoch auf ihre Service-Ebene beschränkt -- daher können sie zwangsläufig nicht alle Anwendungsszenarien abbilden.
 	
 	Die Definition sollte erst einmal Provider-unabhängig erfolgen; So entsteht eine Topologie, die anschließend von einem Orchestrator oder Broker interpretiert und umgesetzt wird.
 	
-	Ein offenes, Provider- und Service-Ebenen-übergreifendes Schema ist die \emph{Topology and Orchestration Specification for Cloud Applications} (TOSCA\footnote{\url{http://docs.oasis-open.org/tosca/TOSCA-Simple-Profile-YAML/v1.1/TOSCA-Simple-Profile-YAML-v1.1.html}}). Sie unterstützt	weitere Details, unter anderem Variablen, Vererbung, Start- und Stopp-Aktionen sowie einfache Policys. Ein Service-Beispiel mit den grundlegenden Möglichkeiten zeigt Listing \ref{listing:tosca-service}.
-	
+	Ein offenes, Provider- und Service-Ebenen-übergreifendes Schema ist die \emph{Topology and Orchestration Specification for Cloud Applications} (TOSCA) \cite{oasis:2018:tosca-simple}. Sie unterstützt	weitere Details, unter anderem Variablen, Vererbung, Start- und Stopp-Aktionen sowie einfache Policys. Ein Service-Beispiel mit den grundlegenden Möglichkeiten zeigt Listing \ref{listing:tosca-service}.
+	\todo{tosca-einordnung-diagramm}
 	% Literatur: TOSCA in a Nutshell: Promises and Perspectives
 	
 	\begin{listing}[]	
@@ -246,20 +217,17 @@ Durch die Marktdominanz von Amazon \emph{AWS} wurden zwischenzeitlich einige der
 		\label{listing:tosca-service}
 	\end{listing}
 	
-	Die Kommunikation mit Service-Providern über die TOSCA-Referenz-Implementierung ist theoretisch möglich, die Plugins sind jedoch wenig verbreitet und als experimentell gekennzeichnet. Im Fall von OpenStack ist die Unterstützung bei \emph{Kilo} stehen geblieben. Eine externe Lösung ist also erfolgversprechender. Implementiert wird TOSCA außerdem von der Open-Source-CMP \emph{Cloudify\footnote{\url{https://cloudify.co/}}} und im EU-Forschungsprojekt \emph{SeaClouds}.
+	Die Kommunikation mit Service-Providern über die TOSCA-Referenz-Implementierung ist theoretisch möglich, die Plugins sind jedoch wenig verbreitet und als experimentell gekennzeichnet. Im Fall von OpenStack ist die Unterstützung bei \emph{Kilo} stehen geblieben\footnote{\url{https://docs.cloudify.co/4.2.0/plugins/openstack/}}. Eine externe Lösung ist also erfolgversprechender. Implementiert wird TOSCA außerdem von der Open-Source-CMP \emph{Cloudify\footnote{\url{https://cloudify.co/}}} und im EU-Forschungsprojekt \emph{SeaClouds} \cite{seaclouds:2015:architecture}.
 	
-	Verwandt ist das Projekt \emph{Cloud Application Management for Platforms (CAMP)}: auch hier ist eine verteilte Anwendung als YAML-Plan definiert. Die Topologie muss allerdings konkret ausformuliert werden. Im Gegensatz zu \emph{TOSCA} steht die Zielplattform zur Modellierungszeit schon fest. Daher eignet sich \emph{CAMP} nicht für Broker.
+	Verwandt ist das Projekt \emph{Cloud Application Management for Platforms (CAMP)}: auch hier ist eine verteilte Anwendung als YAML-Plan definiert \cite{oasis:2014:camp}. Die Topologie muss allerdings konkret ausformuliert werden. Im Gegensatz zu \emph{TOSCA} steht die Zielplattform zur Modellierungszeit schon fest. Daher eignet sich \emph{CAMP} nicht für Broker.
 	
 	\todo{Tabelle mit Cloud-Standards?}
-	
-%	https://www.oasis-open.org/committees/camp/
-%	http://docs.oasis-open.org/camp/camp-spec/v1.1/camp-spec-v1.1.html
 
 	% Im Bereich PaaS überschneidet sich der Abschnitt Infrastruktur-Schemata architekturbedingt mit dem der Ausführungsumgebungen; diese wird meist einfach in einer Konfigurationsdatei deklariert und muss nicht selbst bereitgestellt werden.
 	
 	\item[Cloud-Provider-Schnittstellen] Die Kommunikation mit Cloud-Diensten ist nicht normiert. Jeder Provider implementiert eine andere (REST-)API und entwickelt eigene SDKs. An eine einheitliche Kommunikation ist nicht zu denken, denn austauschbare APIs widersprechen den Geschäftsinteressen der Public-Cloud-Provider.
 	
-	Mit dem \emph{Open Cloud Computing Interface (OCCI\footnote{\url{https://occi-wg.org/}})} existiert ein offener Standard. Er fokussiert sich zwar auf IaaS-Angebote, ist allerdings so flexibel, dass prinzipiell jede Art von Service administriert werden kann. Eine Besonderheit gegenüber anderen Standardisierungsversuchen\footnote{\url{http://cloud-standards.org}} ist die ausdrückliche Beachtung von SLAs. Er wird als reif und durchsetzungsfähig beschrieben. 
+	Mit dem \emph{Open Cloud Computing Interface (OCCI)} existiert ein offener Standard \cite{ogf:2016:occi-core}. Er fokussiert sich zwar auf IaaS-Angebote, ist allerdings so flexibel, dass prinzipiell jede Art von Service administriert werden kann. Eine Besonderheit gegenüber anderen Standardisierungsversuchen\footnote{\url{http://cloud-standards.org}} ist die ausdrückliche Beachtung von SLAs \cite{ogf:2016:occi-sla}. Er wird als reif und durchsetzungsfähig beschrieben \cite{stanik:2016:sla-mediation}. 
 %	Das Normungs- und
 %	Standardisierungsumfeld
 %	von Cloud Computing
@@ -268,18 +236,18 @@ Durch die Marktdominanz von Amazon \emph{AWS} wurden zwischenzeitlich einige der
 	\begin{figure}[]
 		\centering
 		\includegraphics[width=\textwidth]{images/OCCI-relations.png}
-		\caption{OCCI verknüpft Dienstgüte-Vereinbarungen mit verteilten Anwendungen, Stakeholdern und Cloud-Ressourcen. Die Zuordnung erfolgt Service-bezogen. In der Abbildung ist eine Vereinbarung markiert: Sie wird von einem Anwender beantragt (grüne Linie) und wirkt anschließend auf Ressourcen und darauf aufbauenden Anwendungen (rote Linien). Visualisierung über OCCIViz.}
+		\caption{\emph{OCCI} verknüpft Dienstgüte-Vereinbarungen mit verteilten Anwendungen, Stakeholdern und Cloud-Ressourcen. Die Zuordnung erfolgt Service-bezogen. In der Abbildung ist eine Vereinbarung markiert: Sie wird von einem Anwender beantragt (grüne Linie) und wirkt anschließend auf Ressourcen und darauf aufbauenden Anwendungen (rote Linien). Visualisierung über \emph{OCCIViz}.}
 		%		https://github.com/IntelLabsEurope/OCCIViz	
 		\label{fig:occi}
 	\end{figure}
 	
-	Auch hier existiert eine experimentelle Implementierung für OpenStack\footnote{\url{https://github.com/openstack/ooi}}. Diese ist jedoch bereits als obsolet gekennzeichnet. Die SLA-Unterstützung ist über ein weitere Projekt theoretisch verfügbar\footnote{\url{https://github.com/IntelLabsEurope/OCCI-SLAs}}.
+	Auch hier existiert eine experimentelle Implementierung für OpenStack\footnote{\url{https://github.com/openstack/ooi}}. Diese ist jedoch bereits als obsolet gekennzeichnet. Die SLA-Unterstützung ist über ein weiteres Projekt theoretisch verfügbar\footnote{\url{https://github.com/IntelLabsEurope/OCCI-SLAs}}.
 	
-	TOSCA und OCCI überschneiden sich nicht: Letzteres dient nicht der Modellierung Provider-übergreifender Infrastrukturen, sondern ausschließlich der Kommunikation mit der Plattform. Beide Standards ergänzen sich außerdem mit dem \emph{Cloud Data Management Interface (CDMI\footnote{\url{https://www.snia.org/cloud}})} für Verwaltung und Zugriff auf Netzwerkspeicher. Konzeptionell wurden die Standards bereits zu einem modellbasierten Cloud-Orchestrationstool verbunden.
+	\emph{TOSCA} und \emph{OCCI} überschneiden sich nicht: Letzteres dient nicht der Modellierung providerübergreifender Infrastrukturen, sondern ausschließlich der Kommunikation mit der Plattform. Beide Standards ergänzen sich außerdem mit dem \emph{Cloud Data Management Interface (CDMI\footnote{\url{https://www.snia.org/cloud}})} für Verwaltung und Zugriff auf Netzwerkspeicher \cite{snia:2015:cdmi}. Konzeptionell wurden die Standards bereits zu einem modellbasierten Cloud-Orchestrationstool verbunden \cite{korte:2017:toscamp}.
 	%Model Driven Cloud Orchestration by Combining TOSCA and OCCI (Position Paper)
 	%Fabian Korte, Johannes Martin Erbel, Jens Grabowski
 	
-	Um sinnvoll nutzbar zu sein, müsste der offene API-Standard von Cloud-Providern implementiert werden. Da dies nicht absehbar ist, bleibt OCCI zumindest als interessante Grundlage für die API einer eigenen Cloud-Management-Plattform. Als pragmatischer Ersatz für den Zugriff auf Public-Cloud-Angebote, muss der Einsatz einer Multi-Cloud-Bibliothek evaluiert werden, siehe \autoref{sec:bibliotheken}.		
+	Um sinnvoll nutzbar zu sein, müsste der offene API-Standard von Cloud-Providern implementiert werden. Da dies nicht absehbar ist, bleibt \emph{OCCI} zumindest als interessante Grundlage für die API einer eigenen Cloud-Management-Plattform. Als pragmatischer Ersatz für den Zugriff auf Public-Cloud-Angebote, muss der Einsatz einer Multi-Cloud-Bibliothek evaluiert werden, siehe \autoref{sec:bibliotheken}.		
 	
 \end{description}
 
@@ -323,7 +291,7 @@ Nichtsdestotrotz sollte die CMP unabhängig entwickelt und betrieben werden. Clo
 	
 	%	Whitepaper! 
 	
-	\item[Cloudify\footnotemark]\footnotetext{\url{https://cloudify.co/}} implementiert den TOSCA-Standard und ist in einer Open-Source-Version erhältlich. Mithilfe (grafischer) Werkzeuge lassen sich Cloud-Infrastrukturen und Services modellieren. Plugins erweitern Cloudify um wichtige Provider; sowohl auf IaaS- (AWS, Azure, GCP, OpenStack) als auch auf CaaS-Ebene (Kubernetes). Konfiguration wie das Start-Skript kann direkt übergeben, oder über ein Tool wie Puppet weitergeleitet werden. 
+	\item[Cloudify\footnotemark]\footnotetext{\url{https://cloudify.co/}} implementiert den \emph{TOSCA}-Standard und ist in einer Open-Source-Version erhältlich. Mithilfe (grafischer) Werkzeuge lassen sich Cloud-Infrastrukturen und Services modellieren. Plugins erweitern Cloudify um wichtige Provider; sowohl auf IaaS- (AWS, Azure, GCP, OpenStack) als auch auf CaaS-Ebene (Kubernetes). Konfiguration wie das Start-Skript kann direkt übergeben, oder über ein Tool wie Puppet weitergeleitet werden. 
 	
 	Einfache Policys sind integriert, mithilfe eines rudimentären Monitorings und der Provider-Plugins werden diese umgesetzt. Der (grafische) TOSCA-Editor und echtes Cluster-Management sind allerdings nur in der proprietären Enterprise-Ausgabe enthalten.
 
@@ -383,7 +351,7 @@ Auch nicht-funktionale Anforderungen werden betrachtet: Sind die Artefakte der P
 \begin{description}	
 	
 	
-	\item[InterCloud] ist ursprünglich eine Föderation von Cloud-Ressourcen. Auf einem zentralen Marktplatz \emph{zeigen} Clouds ihre Dienste, oder \emph{kaufen} sie je nach Bedarf. Für diese aktive Teilnahme sind Cloud-interne Agenten nötig.
+	\item[InterCloud] ist ursprünglich eine Föderation von Cloud-Ressourcen \cite{buyya:2010:intercloud}. Auf einem zentralen Marktplatz \emph{zeigen} Clouds ihre Dienste, oder \emph{kaufen} sie je nach Bedarf. Für diese aktive Teilnahme sind Cloud-interne Agenten nötig.
 	
 	Vorgeschlagen werden zusätzlich externe Adapter, über die einerseits Provider \emph{unfreiwillig} in die Föderation integriert werden, andererseits aber auch weitere Teilnehmer Ressourcen kaufen können. Hierüber könnten auch Anwendungsbroker die Ressourcen der Föderation nutzen.
 	
@@ -391,47 +359,46 @@ Auch nicht-funktionale Anforderungen werden betrachtet: Sind die Artefakte der P
 	%	5, 37, 38 Grozev
 	
 	
-	\item[Contrail] ist eine zentral gemanagte Föderation. SLAs gelten für den gesamten Cloudverband, nicht für einzelne Anwendungen. Das zentrale Element, der \emph{Federation Runtime Manager}, verteilt jedoch individuelle Nutzeranfragen und beachtet dabei Preis und Leistung.
+	\item[Contrail] ist eine zentral gemanagte Föderation \cite{carlini:2011:contrail}. SLAs gelten für den gesamten Cloudverband, nicht für einzelne Anwendungen. Das zentrale Element, der \emph{Federation Runtime Manager}, verteilt jedoch individuelle Nutzeranfragen und beachtet dabei Preis und Leistung.
 	
 %	http://contrail-project.eu/architecture
 
 	Contrail versteht sich als PaaS und unterstützt auch Hadoop. Ähnlich zu InterCloud sprechen externe Adapter theoretisch weitere Provider an, die sich der Föderation nicht bewusst sind.
 		
 	
-	\item[RESERVOIR] entwickelt eine Peer-to-Peer-Föderation mit eigenen Service-Schemata und Inter-Cloud-Protokollen. Ein Unterprojekt abstrahiert die Cloud-Ressourcen durch eine zusätzliche Schicht, sodass Java-Anwendungen transparent auf allen Providern ausgeführt und migriert werden können. Ein Broker beobachtet Performance-SLAs und skaliert die Instanzen entsprechend.
+	\item[RESERVOIR] entwickelt eine Peer-to-Peer-Föderation mit eigenen Service-Schemata und Inter-Cloud-Protokollen \cite{rochwerger:2009:reservoir}. Ein Unterprojekt abstrahiert die Cloud-Ressourcen durch eine zusätzliche Schicht, sodass Java-Anwendungen transparent auf allen Providern ausgeführt und migriert werden können \cite{rochwerger:2011:reservoir-multi-cloud}. Ein Broker beobachtet Performance-SLAs und skaliert die Instanzen entsprechend.
 %	IBM, Telefonica, SAP + Universites, EU-funded
 	
 	
-	\item[Optimis] baut auf eine zentrale \emph{Deployment Engine (DE)}. Über interne und externe Adapter verbinden sich Cloud-Provider und senden ihre Ressourcen-Angebote. Soll eine Anwendung ausgerollt werden, wählt die DE passende Provider aus und sendet ihnen ein SLA-Template. Diese antworten mit einer Zusage, Absage oder einem Gegenvorschlag. Aus allen Antworten wählt der DE anschließend das beste Angebot. Dabei beachtet sie quantitative Größen wie den Preis, aber auch Erfahrungswerte wie Zuverlässigkeit oder die Energieeffizienz eines Providers.
+	\item[Optimis] baut auf eine zentrale \emph{Deployment Engine (DE)} \cite{ferrer:2012:optimis}. Über interne und externe Adapter verbinden sich Cloud-Provider und senden ihre Ressourcen-Angebote. Soll eine Anwendung ausgerollt werden, wählt die DE passende Provider aus und sendet ihnen ein SLA-Template. Diese antworten mit einer Zusage, Absage oder einem Gegenvorschlag. Aus allen Antworten wählt der DE anschließend das beste Angebot. Dabei beachtet sie quantitative Größen wie den Preis, aber auch Erfahrungswerte wie Zuverlässigkeit oder die Energieeffizienz eines Providers.
 	
 	Die internen Adapter vertreten Föderationsmitglieder -- sie lehnen eine Anfrage des DE ab, wenn sie für den Cloud-Provider finanziell unattraktiv ist. Eine weitere Komponente, der \emph{Service Optimizer}, beobachtet alle Anwendungen auf SLA-Verletzungen. Wie genau SLAs spezifiziert werden können ist nicht deutlich. Auch der Matching-Algorithmus ist nicht öffentlich. Geostandorte werden nicht beachtet. Externe Adapter sind rein konzeptionell und nicht implementiert.
 	
 	Die Arbeit geht auch auf die Bereitstellung von Laufzeitumgebungen und Provider-spezifischen Images ein: Er schlägt eine Erweiterung des \emph{Open Virtualization Formats (OVF)} vor. Zusätzliche Metadaten beschreiben die nötige Cloud-Konfiguration.
 	
 	
-	\item[Bernsetein InterCloud Blueprint] Eine weltweite Föderation der Cloud-Ressourcen. Interessant ist der dezentrale Ansatz des Brokerings. Nur in dieser Arbeit wird der Broker als \emph{Single Point of Failure} erkannt: deshalb soll er zwangsläufig repliziert und in allen Regionen mindestens einmal verfügbar sein. Der Ansatz folgt also den Grundlagen des Internets und entwickelt eigene Inter-CLoud-Protokolle auf Basis von XMPP und RDF.
+	\item[Bernsetein InterCloud Blueprint] Eine weltweite Föderation der Cloud-Ressourcen \cite{bernstein:2011:intercloud}. Interessant ist der dezentrale Ansatz des Brokerings. Nur in dieser Arbeit wird der Broker als \emph{Single Point of Failure} erkannt: deshalb soll er zwangsläufig repliziert und in allen Regionen mindestens einmal verfügbar sein. Der Ansatz folgt also den Grundlagen des Internets und entwickelt eigene Inter-CLoud-Protokolle auf Basis von XMPP und RDF.
 	
 	
-	\item[STRATOS] ist eine Cloud-Management-Plattform mit integriertem Multi-Cloud-Broker. Anwendungen werden über das eigenentwickelte, XML-basierte \emph{Topology Descriptor File (TDF)} beschrieben. Es enthält die Service-Architektur und zusätzlich Policys und SLOs. Für den Zugriff auf externe Clouds existiert ein \emph{Translation Layer}, der eine einheitliche API bereitstellt. Die Arbeit fokussiert sich auf die Bereitstellung klassischer Web-Anwendungen und Kostenoptimierung. Der mittlerweile nicht mehr weiterentwickelte \emph{Service Measurement Index (SMI)} definiert die Ziele.
+	\item[STRATOS] ist eine Cloud-Management-Plattform mit integriertem Multi-Cloud-Broker \cite{pawluk:2012:stratos}. Anwendungen werden über das eigenentwickelte, XML-basierte \emph{Topology Descriptor File (TDF)} beschrieben. Es enthält die Service-Architektur und zusätzlich Policys und SLOs. Für den Zugriff auf externe Clouds existiert ein \emph{Translation Layer}, der eine einheitliche API bereitstellt. Die Arbeit fokussiert sich auf die Bereitstellung klassischer Web-Anwendungen und Kostenoptimierung. Der mittlerweile nicht mehr weiterentwickelte \emph{Service Measurement Index (SMI)} definiert die Ziele.
 %	https://www.google.de/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0ahUKEwju27vHs6DZAhUCWRQKHRv7BEcQFggrMAA&url=http%3A%2F%2Fwww.mikesmit.com%2Fwp-content%2Fpapercite-data%2Fpdf%2Fcloud2012.pdf&usg=AOvVaw3e6yhHYmhWBbIxtr7MqkuX
 	
-	\item[Meryn] ist eines der wenigen Implementierung eines SLA-bezogenen PaaS-Systems. Aktuelle Plattformen begrenzen hauptsächlich den Ressourcenverbrauch der Gastanwendungen -- Meryn schlägt zusätzlich eine Kostenoptimierung für Provider vor.
+	\item[Meryn] ist eines der wenigen Implementierung eines SLA-bezogenen PaaS-Systems \cite{dib:2013:meryn}. Aktuelle Plattformen begrenzen hauptsächlich den Ressourcenverbrauch der Gastanwendungen -- Meryn schlägt zusätzlich eine Kostenoptimierung für Provider vor.
 	
 	Cloud-interne \emph{Cluster-Manager} bieten in einem Wettbewerb um Ausführungsaufträge. Die Arbeit fokussiert sich auf Stapelverarbeitung mit Hadoop und anderen Framworks. Dabei entwickeln die Autoren für jedes Framework eine eigene VM, die jeweils einmal pro Cluster ausgeführt wird. Vorgestellt wird außerdem ein \emph{Cloud-Bursting-Ansatz}, bei dem zusätzliche Ressourcen in Public Clouds angemietet werden.
 	
 	
-	\item[SeaClouds] ist ein EU-finanziertes PaaS-Management-Projekt mit großem Umfang. Vorgeschlagen wir ein Referenzmodell aus \emph{Planner}, \emph{Deployer}, \emph{SLA Service} und \emph{Monitor}. Hierüber lassen sich verteilte Anwendungen modellieren, auf verschiedenen Providern bereitstellen und SLA-bezogen verwalten.
+	\item[SeaClouds] ist ein EU-finanziertes PaaS-Management-Projekt mit großem Umfang \cite{seaclouds:2015:architecture}. Vorgeschlagen wir ein Referenzmodell aus \emph{Planner}, \emph{Deployer}, \emph{SLA Service} und \emph{Monitor}. Hierüber lassen sich verteilte Anwendungen modellieren, auf verschiedenen Providern bereitstellen und SLA-bezogen verwalten.
 	
-	Besonderheit ist die Unterstützung von offenen Standards wie der \emph{Cloud Application Management for Platforms} für APIs und TOSCA zur Service-Modellierung. Angebote der Cloud-Provider werden kontinuierlich überwacht und als TOSCA-Graph abgebildet. SLAs nutzen allerdings nicht TOSCA, sondern \emph{WS-Agreements}.
+	Besonderheit ist die Unterstützung von offenen Standards wie der \emph{Cloud Application Management for Platforms} für APIs und TOSCA zur Service-Modellierung. Angebote der Cloud-Provider werden kontinuierlich überwacht und als \emph{TOSCA}-Graph abgebildet. SLAs nutzen allerdings nicht \emph{TOSCA}, sondern \emph{WS-Agreements}.
 %	http://wsag4j.sourceforge.net/site/wsag/wsag-language.html
 		
 	Erwähnt wird eine Provider-unabhängige Lösung, konkret umgesetzt ist dies jedoch nur für die Open-Source-PaaS-Projekte \emph{OpenShift} und \emph{CloudFoundry}.
 	
 	\item[TOSCAMP] oder \emph{End-to-End Orchestration of
-	Multi-Cloud Applications}, kombiniert in einem Prototypen die Standards \emph{TOSCA} und \emph{CAMP}. Eine verteilte Anwendung wird abstrakt als \emph{TOSCA}-Template inklusive einfacher Policys beschrieben. Anschließend wandelt \emph{TOSCAMP} diese Beschreibung in einen \emph{CAMP}-Plan zur Multi-Cloud-Installation.
+	Multi-Cloud Applications}, kombiniert in einem Prototypen die Standards \emph{TOSCA} und \emph{CAMP} \cite{korte:2017:toscamp}. Eine verteilte Anwendung wird abstrakt als \emph{TOSCA}-Template inklusive einfacher Policys beschrieben. Anschließend wandelt \emph{TOSCAMP} diese Beschreibung in einen \emph{CAMP}-Plan zur Multi-Cloud-Installation.
 
 	Im Gegensatz zu anderen Cloud-Management-Plattformen erstellt \emph{TOSCAMP} keinen internen Graph einer Anwendung -- stattdessen erweitert die Arbeit \emph{CAMP} um Policys und bildet alle Installationen in einer YAML-Datei ab. Einen ähnlichen Ansatz verfolgt das Projekt \emph{brooklyn-tosca\footnote{\url{https://github.com/cloudsoft/brooklyn-tosca}}}.
-%	http://ieeexplore.ieee.org/document/8008766/
 	
 %	\item[An SLA-based Broker for Cloud Infrastructures] Nicht nur Private Clouds sondern auch Personal Devices 
 %	
@@ -443,7 +410,6 @@ Auch nicht-funktionale Anforderungen werden betrachtet: Sind die Artefakte der P
 	
 \end{description}
 
-
 %Mist.io Open source 
 %Build on libcloud and cloudify
 %Can monitor costs (commercial)
@@ -453,7 +419,7 @@ Auch nicht-funktionale Anforderungen werden betrachtet: Sind die Artefakte der P
 Im Gegensatz zu den kommerziellen Projekten liegt der Fokus vieler Forschungsarbeiten auf Cloud-Föderationen und SLA-basiertem Brokering. Einige unterstützen über Adapter konzeptionell mehrere Bereitstellungsmodelle; je nachdem, ob dem Cloud-Provider die Mitgliedschaft in einer Föderation bewusst ist. Interne Adapter sprechen mit zusätzlichen, Cloud-internen Erweiterungen. Externe Adapter nutzen die öffentlichen APIs von Drittanbieter-Clouds. Hier entsteht zwar Mehraufwand, dieser könnte in weiteren Entwicklungen jedoch von einer Multi-Cloud-Bibliothek gemildert werden.
 
 Negativ fällt auf, dass die Artefakte der meisten (EU-)Forschungsprojekte
-nicht mehr verfügbar sind. Auch Matching-Algorithmen sind teilweise nicht veröffentlicht. Die Ergebnisse lassen sich so nicht mehr nachvollziehen. Ohnehin basieren sie oft auf veralteten Technologien: Formate wie OVF werden in modernen IaaS-Plattformen nicht mehr unterstützt. Demgegenüber spielen Container oder Serverless-Computing keine Rolle.
+nicht mehr verfügbar sind. Auch Matching-Algorithmen sind teilweise nicht veröffentlicht. Die Ergebnisse lassen sich so nicht mehr nachvollziehen. Ohnehin basieren sie oft auf veralteten Technologien: Formate wie \emph{OVF} werden in modernen IaaS-Plattformen nicht mehr unterstützt. Demgegenüber spielen Container oder Serverless-Computing keine Rolle.
 
 Wie bereits beschrieben, existieren eine Vielzahl von offenen Cloud-Standards. Von Service-Definition über SLAs bis zur standardisierten Kommunikation mit der Management Plattform. In der Forschung werden diese aber nur selten aufgegriffen und stattdessen neu erfunden. Besonders deutlich wird die in einer Forschungsübersicht der Europäischen Kommission.
 %Cloud Computing Service Level
