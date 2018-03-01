@@ -212,7 +212,7 @@ Selbst ein minimales OpenStack-Testsetup ist durch die diversen Dienste komplex.
 	\\\emph{Betrieb auf exklusiver Cloud-Infrastruktur}
 	
 	\item Lokale Testinstallation
-	\\\emph{Betrieb auf eigener physikalischer oder virtueller Infrastruktur}
+	\\\emph{Betrieb auf eigener physischer oder virtueller Infrastruktur}
 \end{enumerate}
 
 \noindent Eine Liste öffentlicher OpenStack-Angebote findet sich auf der Projekthomepage\footnote{\url{https://www.openstack.org/marketplace/hosted-private-clouds/}}. Dort werden auch weitere Informationen wie Funktionsumfang und Zertifizierungen aufgeführt. 
@@ -368,7 +368,7 @@ Vordefinierte Policys z.B. zum Verhalten im Fehlerfall. Aber auch Zusatzinformat
 
 Abhängigkeiten von Services und wie oft global vorhanden? Hier: global ein master, abhängig vom Dispatcher.
 
-\begin{listing}[]	
+\begin{listing}[ht]	
 	\inputminted[firstline=15]{yaml}{./src/hyrise-r.sample.yaml}
 	\caption{Providerübergreifende Servicevorlage. Der Ausschnitt zeigt die Definition des zentralen \emph{Hyrise-R-Dispatcher}-Dienstes. Nicht zu sehen sind Metadaten und die übrigen Anwendungsbestandteile. Parameter werden zur Laufzeit vom Broker eingesetzt.}
 	\label{listing:hyrise-r}

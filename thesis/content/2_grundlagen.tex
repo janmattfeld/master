@@ -18,15 +18,15 @@ Unabhängig von Liefer- und Servicemodell zeichnet sich ein Cloud-Dienst durch b
 % https://www.ietf.org/archive/id/draft-khasnabish-cloud-reference-framework-08.txt
 
 \begin{description}
-
+	
 	\item[On-demand Self-service] Ressourcen werden vom Cloud-Kunden selbstständig über ein Portal oder eine Web-Schnittstelle angefordert und anschließend automatisch provisioniert.
 	
 	\item[Breitbandzugriff] Die gemieteten Ressourcen werden über ein Netzwerk, typischerweise das Internet, bereitgestellt. Der Zugriff erfolgt über Standard-Schnittstellen wie HTTP; kann also von überall erfolgen und ist im Regelfall nicht auf bestimmte Geräte oder Software beschränkt.
 	
-	\item[Geteilte Infrastruktur] Die zugrundeliegenden physikalischen Ressourcen werden virtualisiert und flexibel unter mehreren Kunden aufgeteilt. Die vorhandene Hardware wird so möglichst optimal ausgelastet. Gleichzeitig ergeben sich hierdurch Datenschutzbedenken; die Daten einzelner Mandaten müssen streng getrennt sein.
+	\item[Geteilte Infrastruktur] Die zugrundeliegenden physischen Ressourcen werden virtualisiert und flexibel unter mehreren Kunden aufgeteilt. Die vorhandene Hardware wird so möglichst optimal ausgelastet. Gleichzeitig ergeben sich hierdurch Datenschutzbedenken; die Daten einzelner Mandaten müssen streng getrennt sein.
 	
 	\item[Elastizität] Durch einen hohen Grad an Automatisierung werden Ressourcen zeitnah zur Verfügung gestellt. Lastspitzen können ohne manuelle Eingriffe abgefangen werden.
-
+	
 	\item[Messbarkeit] Die Ressourcennutzung ist messbar und wird kontinuierlich überwacht. Abgerechnet wird zum Beispiel nach CPU-Zeit, Speicherkapazität oder Anzahl genutzter IP-Adressen.
 	
 \end{description}
@@ -36,7 +36,7 @@ Unabhängig von Liefer- und Servicemodell zeichnet sich ein Cloud-Dienst durch b
 
 \section{Service-Ebenen}
 
-Je nach Auswahl des Cloud-Angebots lassen sich verschiedene Kernebenen unterscheiden. Diese bauen jeweils aufeinander auf und verbergen die Komplexität der darunterliegenden Ebenen. Je weiter sich die Abstraktion von der physikalischen Ebene entfernt, desto weniger lässt sich das Angebot durch den Kunden anpassen:
+Je nach Auswahl des Cloud-Angebots lassen sich verschiedene Kernebenen unterscheiden. Diese bauen jeweils aufeinander auf und verbergen die Komplexität der darunterliegenden Ebenen. Je weiter sich die Abstraktion von der physischen Ebene entfernt, desto weniger lässt sich das Angebot durch den Kunden anpassen:
 
 \begin{description}
 	
@@ -197,18 +197,18 @@ Die folgende Auflistung zeigt die wichtigsten Policys und SLA-Metriken. Sie erl�
 
 \begin{description}
 	
-%	Klassifizierung
-%Level: Unternehmen, Service (hier service, aber auch als Unternehmensrichtlinie denkbar)
-%		Nutzer, Administration
-%Decision- \& Enforcement-Point
-% Typ: Hart, Weich, Optimierungsgröße
-% Lebenszyklus des Services: Deployment, Betrieb, Terminierung
-
+	%	Klassifizierung
+	%Level: Unternehmen, Service (hier service, aber auch als Unternehmensrichtlinie denkbar)
+	%		Nutzer, Administration
+	%Decision- \& Enforcement-Point
+	% Typ: Hart, Weich, Optimierungsgröße
+	% Lebenszyklus des Services: Deployment, Betrieb, Terminierung
+	
 	\item[Redundanz] Wie oft soll ein bestimmter Dienst repliziert und parallel betrieben werden? Dieser Wert beeinflusst maßgeblich die Verfügbarkeit.
-
+	
 	
 	\item[Geo-Lokation] Geographischer Standort des Datencenters. Mögliche Einschränkungen aufgrund von Datenschutzgesetzen. Beeinflusst außerdem die Antwortzeiten des Services.
-
+	
 	\item[Elastezität] Wie schnell können neue Ressourcen bereitgestellt oder wieder heruntergefahren werden? In einer IaaS-Umgebung ist dies meist der Zeitraum vom Start einer neuen VM bis zur Einsatzbereitschaft. Unsere Service-bezogene SLA misst zusätzlich die Zeit, bis eine neue Instanz tatsächlich Teil des Clusters ist, und einen Teil der Last abnimmt.
 	
 	\item[Agilität] Effizienzmetrik: Wie feingranular können die Ressourcen skaliert werden? Die Bedeutung für den Cloud-Broker ist vernachlässigbar:  Die verschiedenen Ressourcen-Angebote der Cloud Provider müssen im Voraus normalisiert werden. Zur Laufzeit werden sie nur noch verglichen.
@@ -228,7 +228,7 @@ Die folgende Auflistung zeigt die wichtigsten Policys und SLA-Metriken. Sie erl�
 	\item[Backup] Eine Sicherung von IaaS-Instanzen oder Datenbankinhalten in bestimmten Abständen, verteilt auf mehrere Speicherorte. In diesem Fall bezogen auf einen Service. Außerdem zu beachten: Die benötigte Zeit zur Wiederherstellung.
 	
 	\item[Zugriffskontrolle] Lesende und schreibende Aktionen auf Ressourcen müssen durch ein Identitäts- und Zugriffsmanagement geregelt und protokolliert werden. Dies ist jedoch ein eigenes Thema, das hier nicht weiter behandelt wird. Außerhalb der Administrationsebene implementiert die ausgeführte Anwendungssoftware oft eigene Mechanismen.
-		
+	
 	\item[Benachrichtigungssystem] Ein Trigger-Action System: Bei Eintreten bestimmter Ereignisse wie dem Ausfall einer Systemkomponente soll automatisiert eine festgelegte Nachricht versendet werden, dies können eine E-Mail oder ein REST-Call sein.
 	
 	\item[Speichertypen] unterscheiden sich deutlich in Zugriffszeit, Transferrate, verfügbarer Kapazität, Zuverlässigkeit und Preis. IaaS-Angebote lassen oft die Wahl zwischen SSD und HDD. Auf PaaS-Ebene kann auch die Art des Datenbankservices gemeint sein: In-Memory, hybrid oder klassisch.
@@ -242,7 +242,7 @@ Die folgende Auflistung zeigt die wichtigsten Policys und SLA-Metriken. Sie erl�
 	\item[Kosten] Verbunden mit einem SLA bieten Cloud Provider Ressourcen zu einem bestimmten Preis. Dieser ist oft dynamisch, daher sollte eine Optimierung nach Prüfung aller anderen \emph{harten} Kriterien erfolgen.
 	
 	Den beteiligten Abteilungen hilft die Anzeige der Kosten pro Service. Die CMP sollte Auslastung und Preise dienstübergreifend optimieren.
-	 	
+	
 	\item[Nachhaltigkeit/Energiequelle] Nutzt das Datencenter Ökostrom, wenn ja in welchem Umfang? Auch denkbar: Ausgleichsleistungen des Anbieters.
 	
 	%	https://www.researchgate.net/publication/234809221_Managing_energy_and_server_resources_in_hosting_centers 

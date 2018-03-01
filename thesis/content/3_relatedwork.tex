@@ -100,7 +100,7 @@ Besonders das Monitoring eines Services ist entscheidend um Ansprüche gegenübe
 	
 	Für jeden Praxiseinsatz muss eine domänenspezifische Erweiterung mit entsprechenden Metriken entwickelt werden. Der Einstieg ist insgesamt jedoch leichter als bei \emph{WSLA}. Die Referenzimplementierung ist \emph{WSAG4J}\footnote{\url{http://wsag4j.sourceforge.net}}. Zusätzlich zu \emph{SOAP} existiert auch eine modernere REST-Schnittstelle \cite{feigenbutz:2014:wsag-rest-performance}.
 
-	\begin{listing}[]
+	\begin{listing}[ht]
 		\inputminted[firstline=16, lastline=34]{xml}{./src/WS-Agreement.sample.xml}
 		\caption{Auszug aus einem erweiterten WS-Agreement; ohne Metainformationen, dem sogenannten \emph{Context}. Das Beispiel zeigt eine Vereinbarung zur Verfügbarkeit eines Webservices. Die \emph{ServiceDescriptionTerms} sind hier noch unvollständig, sie werden mit Laufzeitinformationen wie der IP-Adresse gefüllt. Alle messbaren Eigenschaften eines Services sind unter \emph{ServiceProperties} definiert. \emph{metric1} ist hierbei ein externer Verweis. Die eigentlichen SLOs nehmen Bezug auf die vorher definierte Metriken. Optional sind \emph{Business Values}, die konkrete Strafzahlungen und Zielerreichungsboni definieren.}
 		\label{listing:ws-agreement}
@@ -113,7 +113,7 @@ Besonders das Monitoring eines Services ist entscheidend um Ansprüche gegenübe
 
 	\item[Topology and Orchestration Specification for Cloud Applications (TOSCA)] dient nicht primär zur Abbildung von SLAs, sondern zur providerunabhängigen Modellierung von Cloud-Services \cite{oasis:2013:tosca}. Ursprünglich ebenfalls als XML-Schema entwickelt, existiert seit 2014 eine vereinfachte Variante auf YAML-Basis \cite{oasis:2018:tosca-simple}. Der Sprachumfang ist viel geringer als bei \emph{WS-Agreement} oder \emph{WSAL}, dafür enthält \emph{TOSCA} einsatzbereite Policy-Basistypen. Listing \ref{listing:tosca-policy} zeigt den Aufbau einer Redundanz-Regel über mehrere Regionen. Die weitere Besprechung erfolgt im nächsten Abschnitt zu Infrastruktur- und Service-Definitionen.
 		
-	\begin{listing}[]
+	\begin{listing}[ht]
 		\inputminted[]{yaml}{./src/TOSCA.policy.sample.yaml}
 		\caption{Definition einer TOSCA-Policy im YAML-Format: der Broker soll mindestens drei Instanzen in den ausgewählten Regionen bereitstellen. Erkennbar sind auch die Vererbung innerhalb der Policy-Typen und bereits vorgegebene Basistypen der TOSCA-Policy-Spezifikation.}
 		\label{listing:tosca-policy}
@@ -211,7 +211,7 @@ Durch die Marktdominanz von Amazon \emph{AWS} wurden zwischenzeitlich einige der
 	\todo{tosca-einordnung-diagramm}
 	% Literatur: TOSCA in a Nutshell: Promises and Perspectives
 	
-	\begin{listing}[]	
+	\begin{listing}[ht]	
 		\inputminted[]{yaml}{./src/TOSCA.service.sample.yaml}
 		\caption{Vereinfachte TOSCA-Service-Vorlage im YAML-Format. Das Beispiel zeigt einen MySQL-Server. Ein TOSCA-Interpreter füllt zentrale Parameter wie Port und Passwort zur Laufzeit (\emph{Inputs}). Sichtbar ist auch die Vererbung von einem generischen TOSCA-Rechenknoten zum MySQL-Datenbankserver.}
 		\label{listing:tosca-service}
@@ -233,7 +233,7 @@ Durch die Marktdominanz von Amazon \emph{AWS} wurden zwischenzeitlich einige der
 %	von Cloud Computing
 	\autoref{fig:occi} zeigt die Anwendungs- bzw. Service-bezogene Verbindung von IaaS-Komponenten, Dienstgüte-Vereinbarungen und Stakeholdern per OCCI.
 	
-	\begin{figure}[]
+	\begin{figure}[ht]
 		\centering
 		\includegraphics[width=\textwidth]{images/OCCI-relations.png}
 		\caption{\emph{OCCI} verknüpft Dienstgüte-Vereinbarungen mit verteilten Anwendungen, Stakeholdern und Cloud-Ressourcen. Die Zuordnung erfolgt Service-bezogen. In der Abbildung ist eine Vereinbarung markiert: Sie wird von einem Anwender beantragt (grüne Linie) und wirkt anschließend auf Ressourcen und darauf aufbauenden Anwendungen (rote Linien). Visualisierung über \emph{OCCIViz}.}

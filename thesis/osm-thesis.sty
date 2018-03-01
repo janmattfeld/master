@@ -6,7 +6,7 @@
 \RequirePackage{textcomp}
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[dvipsnames,usenames]{xcolor}
-\RequirePackage[backend=bibtex,bibencoding=utf8]{biblatex}
+\RequirePackage[backend=biber,bibencoding=utf8]{biblatex} % Switched to biber, avoiding TexStudio warnings
 \RequirePackage{amsmath}
 \RequirePackage{array}
 \RequirePackage{blindtext}
@@ -14,7 +14,7 @@
 \RequirePackage{chngcntr}
 \RequirePackage[automark]{scrlayer-scrpage}
 \RequirePackage[english,ngerman]{babel}
-\RequirePackage{csquotes}
+%\RequirePackage{csquotes} % Loaded later because of minted
 \RequirePackage[nottoc]{tocbibind}
 \RequirePackage{colortbl}
 \RequirePackage{etoolbox}
@@ -22,7 +22,7 @@
 \RequirePackage{float}
 \RequirePackage{footnote}
 \RequirePackage{graphicx}
-%\RequirePackage{listings}
+%\RequirePackage{listings} % Disabled in favor of minted
 \RequirePackage{makeidx}
 \RequirePackage{multirow}
 \RequirePackage{scrhack}

@@ -9,6 +9,7 @@
 \usepackage{tablefootnote}
 \newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
 \usepackage{minted} % Farbige Hervorhebung von Quellcode
+\RequirePackage{csquotes} % Loaded later because of minted
 
 \usepackage[multiple]{footmisc} % Trennung mehrerer Fußnoten durch Kommata
 % Requires \usepackage[hyperfootnotes=false,...]{hyperref}, see https://tex.stackexchange.com/a/35060
@@ -28,7 +29,7 @@
 \newcommand{\hpidate}{\today}
 
 % DOCUMENT
-%\KOMAoption{draft}{true} % <= z.B. zum "Debuggen" der Overfull-Boxes
+%\KOMAoption{draft}{true} % <= z.B. zum "Debuggen" der Overfull-Boxes und schnellerem Kompilieren https://tex.stackexchange.com/a/49369
 \bibliography{literature/bibliography}
 
 \begin{document}
@@ -42,26 +43,19 @@
 	% (Haupt-)Titelseite, Abstract, ggf. Danksagung & Inhaltsverzeichnis
 	\pagenumbering{roman}
 	\include{content/titlepage}
-%	\ifisbook\cleardoubleemptypage\fi\include{content/abstract}
-%	\ifisbook\cleardoubleemptypage\fi\include{content/dedication}
+	\ifisbook\cleardoubleemptypage\fi
+	% \include{content/abstract}
 	\tableofcontents
 	\cleardoublepage
 
 	% Textteil
 	\pagenumbering{arabic}
-	\include{content/0_einleitung}
-	\include{content/1_grundlagen}
-	\include{content/3_loesung}
-	\include{content/5_fazit}
-	\include{content/chapter1} % example
-	\include{content/2_relatedwork}
+	\include{content/1_einleitung}
+	\include{content/2_grundlagen}
+	\include{content/3_relatedwork}
 	\include{content/4_implementierung}
-%	\include{content/chapter2} % example
-%	\include{content/chapter3} % example
-
-	% ggf. Anhang
-%	\appendix\include{content/appendix} % example
-
+	\include{content/5_fazit}
+	
 	% Bibliographie
 	\ifisbook\cleardoubleemptypage\fi
 	\phantomsection\addcontentsline{toc}{chapter}{\refname}

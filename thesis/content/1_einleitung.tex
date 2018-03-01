@@ -1,6 +1,6 @@
 \chapter{Einleitung}
 
-Cloud-Angebote sind allgegenwärtig und werden mittlerweile von einer Mehrzahl deutscher Unternehmen genutzt. Laut Statista setzten bis 2016 mindestens fünfundsechzig Prozent aller Betriebe entsprechende Lösungen ein \cite{bitkom:2017:cloud-nutzung-unternehmen};
+Cloud-Angebote sind allgegenwärtig und werden mittlerweile von einer Mehrzahl deutscher Unternehmen genutzt. Laut \emph{Statista} setzten bis 2016 mindestens fünfundsechzig Prozent aller Betriebe entsprechende Lösungen ein \cite{bitkom:2017:cloud-nutzung-unternehmen};
 %https://de.statista.com/statistik/daten/studie/177484/umfrage/einsatz-von-cloud-computing-in-deutschen-unternehmen-2011/
 besonders gefragt sind Infrastrukturdienste, wie Rechenleistung und Speicher. Gleich darauf folgen Softwareangebote und E-Mail-Hosting. Etwas abgeschlagen bleiben Plattformdienste wie Datenbanken und Ausführungsumgebungen \cite{destatis:2016:cloud-nutzung-unternehmen-einsatzzweck}. %https://de.statista.com/statistik/daten/studie/381830/umfrage/einsatzzwecke-von-cloud-computing-in-unternehmen-in-deutschland/
 Der Trend zur Cloud wird sich vermutlich fortsetzen: So vervierfacht sich das prognostizierte Marktvolumen mit Cloud-Services bis 2020 auf über sechzehn Milliarden Euro allein im deutschen B2B-Markt \cite{isg:2017:cloud-ausgaben-2020}. %
@@ -13,7 +13,7 @@ Demgegenüber stehen Vorbehalte bezüglich Datenschutz, denn die gemietete Infra
 Aber auch durch Unachtsamkeit werden Cloud-Datenspeicher immer wieder der Öffentlichkeit zugänglich \cite{upguard:2017:breach-alteryx, upguard:2017:breach-centcom, kromtech:2018:breach-fedex}.
 %Amazon S3 Datenlecks
 
-Zugleich fordert aktuelle Gesetzgebung wie die Datenschutz-Grundverordnung unter anderem die Verarbeitung von personenbezogenen Daten europäischer Kunden ausschließlich innerhalb der EU \cite{eu:2016:bdsvg}. %http://data.consilium.europa.eu/doc/document/ST-12399-2016-INIT/en/pdf %Anbieter sind in der Pflicht. Haftung auch Gegenüber Endkunden, mit denen eigentlich keine direkte Geschäftsbeziehung besteht. Löschpflicht. Wo sind die Daten physikalisch? Portabilität Cloud->Kund und Cloud->Cloud
+Zugleich fordert aktuelle Gesetzgebung wie die Datenschutz-Grundverordnung unter anderem die Verarbeitung von personenbezogenen Daten europäischer Kunden ausschließlich innerhalb der EU \cite{eu:2016:bdsvg}. %http://data.consilium.europa.eu/doc/document/ST-12399-2016-INIT/en/pdf %Anbieter sind in der Pflicht. Haftung auch Gegenüber Endkunden, mit denen eigentlich keine direkte Geschäftsbeziehung besteht. Löschpflicht. Wo sind die Daten physisch? Portabilität Cloud->Kund und Cloud->Cloud
 %Weitere Anforderungen Diese Regelungen sind keineswegs auf Europa begrenzt. Gleiches in der USA (Amazon Gov CLoud)
 Gut neunzig Prozent aller Unternehmen achteten folglich bei der Auswahl eines Cloud-Providers auf Rechts- und Server-Standorte in Deutschland \cite{gartner:2017:cloud-market}. 
 
@@ -72,9 +72,9 @@ Das folgende Kapitel klassifiziert Cloud-Angebote anhand bestimmter Eigenschafte
 
 Anschließend entwickeln wir passende Policys und entsprechende Schemata. Diese sollen von dem eigens entwickelten Multi-Cloud-Broker verwendet werden. Er verteilt auch ältere -- nicht Cloud-native -- Anwendungen über verschiedene Cloud-Provider auf IaaS- und CaaS-Ebenen und optimiert die Cloud-Landschaft anschließend fortlaufend. Dabei beachtet er SLAs und Datenschutzanforderungen. Für diesen Vorschlag bewerten wir akademische und kommerzielle Projekte mit ähnlicher Zielsetzung.
 
-Der Implementierungsteil vergleicht verschiedene Multi-Cloud-Bibliotheken. Auf Basis von Apache \emph{libcloud} entwickeln wir eine CMP, die das Multi-Cloud-Brokering übernimmt. Auch Implementierungshürden und Besonderheiten der verschiedenen Clouds werden beschrieben. Als Beispielanwendung dient dabei die verteilte Forschungsdatenbank Hyrise-R. Auch die Entstehung eines OpenStack-Testbeds als Beispiel einer Private-Cloud wird besprochen. Es folgt eine abschließende Bewertung des Konzepts.
+Der Implementierungsteil vergleicht verschiedene Multi-Cloud-Bibliotheken. Auf Basis von Apache \emph{libcloud} entwickeln wir eine CMP, die das Multi-Cloud-Brokering übernimmt. Auch Implementierungshürden und Besonderheiten der verschiedenen Clouds werden beschrieben. Als Beispielanwendung dient dabei die verteilte Forschungsdatenbank \emph{Hyrise-R}. Auch die Entstehung eines \emph{OpenStack}-Testbeds als Beispiel einer Private-Cloud wird besprochen. Es folgt eine abschließende Bewertung des Konzepts.
 
-% Bei Benkanntwerden von SPectre/Meltdown waren noch keine Fixes, wohl aber POCs verfügbar. Eigene Anwendungen hätten also sofort von der öffentlichen in eine private Cloud umgezogen werden müssen, oder -- falls das auf grund mangelnder Portabilität nicht möglich ist -- abgeschaltet. Notfallplan?
+% Bei Benkanntwerden von Spectre/Meltdown waren noch keine Fixes, wohl aber POCs verfügbar. Eigene Anwendungen hätten also sofort von der öffentlichen in eine private Cloud umgezogen werden müssen, oder -- falls das auf grund mangelnder Portabilität nicht möglich ist -- abgeschaltet. Notfallplan?
 
 %- Klassifizierung von Cloud-Angebote und Risiken
 %- Datenschutzrechtliche Bewertung von Daten 
