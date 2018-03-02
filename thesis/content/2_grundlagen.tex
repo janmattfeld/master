@@ -19,11 +19,11 @@ Unabhängig von Liefer- und Servicemodell zeichnet sich ein Cloud-Dienst durch b
 
 \begin{description}
 	
-	\item[On-demand Self-service] Ressourcen werden vom Cloud-Kunden selbstständig über ein Portal oder eine Web-Schnittstelle angefordert und anschließend automatisch provisioniert.
+	\item[On-demand Self-service] Ressourcen werden vom Cloud-Kunden selbstständig über ein Portal oder eine Webschnittstelle angefordert und anschließend automatisch provisioniert. % Bereit gestellt und verwaltet.
 	
-	\item[Breitbandzugriff] Die gemieteten Ressourcen werden über ein Netzwerk, typischerweise das Internet, bereitgestellt. Der Zugriff erfolgt über Standard-Schnittstellen wie HTTP; kann also von überall erfolgen und ist im Regelfall nicht auf bestimmte Geräte oder Software beschränkt.
+	\item[Breitbandzugriff] Die gemieteten Ressourcen werden über ein Netzwerk, typischerweise das Internet, bereitgestellt. Der Zugriff erfolgt über Standardschnittstellen wie HTTP; kann also von überall erfolgen und ist im Regelfall nicht auf bestimmte Geräte oder Software beschränkt.
 	
-	\item[Geteilte Infrastruktur] Die zugrundeliegenden physischen Ressourcen werden virtualisiert und flexibel unter mehreren Kunden aufgeteilt. Die vorhandene Hardware wird so möglichst optimal ausgelastet. Gleichzeitig ergeben sich hierdurch Datenschutzbedenken; die Daten einzelner Mandaten müssen streng getrennt sein.
+	\item[Geteilte Infrastruktur] Die zugrunde liegenden physischen Ressourcen werden virtualisiert und flexibel unter mehreren Kunden aufgeteilt. Die vorhandene Hardware wird so möglichst optimal ausgelastet. Gleichzeitig ergeben sich hierdurch Datenschutzbedenken; die Daten einzelner Mandaten müssen streng getrennt sein.
 	
 	\item[Elastizität] Durch einen hohen Grad an Automatisierung werden Ressourcen zeitnah zur Verfügung gestellt. Lastspitzen können ohne manuelle Eingriffe abgefangen werden.
 	
@@ -44,9 +44,9 @@ Je nach Auswahl des Cloud-Angebots lassen sich verschiedene Kernebenen untersche
 	
 	\item[Container as a Service (CaaS)] Variante von IaaS, bei dem eine Laufzeitumgebung für Container bereitgestellt wird. In diesen sind alle Abhängigkeiten der Gastanwendung vorinstalliert und laufen auf dem bereits initialisierten Kernel des Hosts. Vorteil ist eine höhere Elastizität durch geringeren Overhead. Im Folgenden ist bei der Erwähnung von IaaS immer auch CaaS inkludiert.
 	
-	\item[Platform as a Service (PaaS)] Hier übernimmt der Cloud Provider die Bereitstellung der zuvor genannten Bestandteile. Der Kunde betreibt auf dieser Ebene eine selbst erstellte Anwendungssoftware. Über Bibliotheken und Schnittstellen des Cloud Providers greift er auf Laufzeitumgebungen, Datenbanken und Entwicklungswerkzeuge zu.
+	\item[Platform as a Service (PaaS)] Hier übernimmt der Cloud-Provider die Bereitstellung der zuvor genannten Bestandteile. Der Kunde betreibt auf dieser Ebene eine selbst erstellte Anwendungssoftware. Über Bibliotheken und Schnittstellen des Cloud-Providers greift er auf Laufzeitumgebungen, Datenbanken und Entwicklungswerkzeuge zu.
 	
-	\item[Function as a Service (FaaS)] Auch als \emph{Serverless Computing} populär: Entgegen des Namens arbeiten auch hier noch Server, diese sind für den Kunden jedoch weitestgehend unsichtbar. Es stellt eine Evolution des PaaS-Modells dar und ist besser als FaaS beschrieben -- der Kunde lädt nur noch Quellcode in die Cloud. Dieser wird nun Ereignis-getrieben ausgeführt, skaliert und abgerechnet. Im Gegensatz zu vielen PaaS-Angeboten fallen im Ruhebetrieb keine weiteren Kosten an \cite{crisp:2016:serverless-infrastructure}.
+	\item[Function as a Service (FaaS)] Auch als \emph{Serverless-Computing} populär: Entgegen dem Namen arbeiten auch hier noch Server, diese sind für den Kunden jedoch weitestgehend unsichtbar. Es stellt eine Evolution des PaaS-Modells dar und ist besser als FaaS beschrieben -- der Kunde lädt nur noch Quellcode in die Cloud. Dieser wird nun Ereignis-getrieben ausgeführt, skaliert und abgerechnet. Im Gegensatz zu vielen PaaS-Angeboten fallen im Ruhebetrieb keine weiteren Kosten an \cite{crisp:2016:serverless-infrastructure}.
 	%https://www.crisp-research.com/serverless-infrastructure-der-schmale-grat-zwischen-einfachheit-und-kontrollverlust/
 	
 	\item[Software as a Service (SaaS)] Eine bestehende Anwendungssoftware wird komplett vom Cloud Provider bezogen. Die Verantwortlichkeit des Kunden beschränkt sich meist auf kleinere Anpassungen, Nutzerverwaltung und das Einspielen eigener Daten.
@@ -54,7 +54,7 @@ Je nach Auswahl des Cloud-Angebots lassen sich verschiedene Kernebenen untersche
 \end{description}
 
 \noindent
-Besonders interessant für eigene Entwicklungen im Rahmen des \emph{SSICLOPS}-Forschungskontextes sind dabei die Ebenen IaaS und CaaS \cite{ssiclops:2015:d6.1-project-presentation}. Sie bieten genug Flexibilität um die Fragestellung mit folgenden Produkten zu erproben:
+Besonders interessant für eigene Entwicklungen im Rahmen des \emph{SSICLOPS}-Forschungskontextes sind dabei die Ebenen IaaS und CaaS \cite{ssiclops:2015:d6.1-project-presentation}. Sie bieten genug Flexibilität, um die Fragestellung mit folgenden Produkten zu erproben:
 
 \begin{enumerate}
 	\item \emph{OpenStack} als zentraler Infrastrukturprovider
@@ -72,7 +72,7 @@ Die \emph{NIST}-Klassifizierung unterscheidet hier speziell weitere, teils exter
 % The Treacherous 12, Cloud Computing Top Threats in 2016, CSA, https://cloudsecurityalliance.org/group/top-threats/
 % Security and Privacy Challenges in Cloud Computing Environments, https://www.researchgate.net/publication/224202015_Security_and_Privacy_Challenges_in_Cloud_Computing_Environments
 
-Moderne IT-Infrastruktur ist hochkomplex. Allein hierdurch ergibt sich ein großes Potential für Bedrohungen. Im Cloud Computing steigt das Risiko durch gemietete und geteilte Infrastruktur weiter \cite{csa:2016:cloud-top-threats, Pearson:2010:issues-arising-cloud, 2011:takabi:security-challenges}. Zusätzlich zu allgemeinen Risiken sollen mögliche Auswirkungen auf folgende Eigenschaften beschrieben werden:
+Moderne IT-Infrastruktur ist hochkomplex. Allein hierdurch ergibt sich ein großes Potenzial für Bedrohungen. Im Cloud-Computing steigt das Risiko durch gemietete und geteilte Infrastruktur weiter \cite{csa:2016:cloud-top-threats, Pearson:2010:issues-arising-cloud, 2011:takabi:security-challenges}. Zusätzlich zu allgemeinen Risiken sollen mögliche Auswirkungen auf folgende Eigenschaften beschrieben werden:
 
 \begin{enumerate}
 	\item Verfügbarkeit
@@ -96,16 +96,16 @@ Verschlusssachen der Kategorie drei meint hier alle Daten, deren Verlust, Verän
 
 Diese Arbeit konzentriert sich auf die Risiken, die direkt von Cloud-Kunden und -Providern auf den Ebenen IaaS und PaaS beeinflusst werden können. So ist zum Beispiel die Sicherheit der Client-Geräte, von denen auf die Cloud-Dienste zugegriffen wird entscheidend, aber nicht Teil dieser Betrachtung.
 
-Aus der Datenkategorie ergeben sich Anforderungen an die Risikoanalyse. Je höher und je wahrscheinlicher ein potentieller Schaden, desto aufwendiger und teurer sollte die Absicherung ausfallen. Grundsätzlich lassen sich zwei Kategorien von Risikofaktoren unterscheiden \cite{monjur:2017:security-taxonomy}:
+Aus der Datenkategorie ergeben sich Anforderungen an die Risikoanalyse. Je höher und je wahrscheinlicher ein potenzieller Schaden, desto aufwendiger und teurer sollte die Absicherung ausfallen. Grundsätzlich lassen sich zwei Kategorien von Risikofaktoren unterscheiden \cite{monjur:2017:security-taxonomy}:
 % https://www.researchgate.net/publication/308691801_Taxonomy_for_Identification_of_Security_Issues_in_Cloud_Computing_Environments
 \begin{itemize}
 	\item Menschlich
 	\item Technisch
 \end{itemize}
 
-\noindent Menschliche Fehlhandlungen sind entweder absichtlich oder unabsichtlich. Dies können Fehlinterpretation von SLAs, Manipulationen, Angriffe durch \emph{Social Engineering} oder schlicht Inkompetenz sein. Im Cloud Computing treten diese Risiken verstärkt auf, da die Infrastruktur von Dritten betreut wird. Auch Gesetzesänderungen zählen zu diesen Risiken. Viele lassen sich durch passende Standard-Prozesse, Notfallpläne, Rechtemanagement und Audits vermindern.
+\noindent Menschliche Fehlhandlungen sind entweder absichtlich oder unabsichtlich. Dies können Fehlinterpretation von SLAs, Manipulationen, Angriffe durch \emph{Social-Engineering} oder schlicht Inkompetenz sein. Im Cloud-Computing treten diese Risiken verstärkt auf, da die Infrastruktur von Dritten betreut wird. Auch Gesetzesänderungen zählen zu diesen Risiken. Viele lassen sich durch passende Standardprozesse, Notfallpläne, Rechtemanagement und Audits vermindern.
 
-Technisch gilt Ähnliches: Klassische Risiken, wie der Ausfall von Hardware, wird vom Cloud-Provider vor dem Kunden verborgen. Speziell auf Cloud-Projekte bezogen eröffnen sich aber auch neue Angriffsflächen wie die Cloud-Plattform selbst. Die Virtualisierungsebene kann durch mangelhafte Mandanten-Trennung Datenlecks öffnen. Viele Cloud-Provider arbeiten mit proprietären Protokollen, die Portabilität ist also eingeschränkt. Umso herausfordernder wird ein Notfallplan, der den Ausfall des Anbieters abfangen soll.
+Technisch gilt Ähnliches: Klassische Risiken, wie der Ausfall von Hardware, wird vom Cloud-Provider vor dem Kunden verborgen. Speziell auf Cloud-Projekte bezogen eröffnen sich aber auch neue Angriffsflächen wie die Cloud-Plattform selbst. Die Virtualisierungsebene kann durch mangelhafte Mandantentrennung Datenlecks öffnen. Viele Cloud-Provider arbeiten mit proprietären Protokollen, die Portabilität ist also eingeschränkt. Umso herausfordernder wird ein Notfallplan, der den Ausfall des Anbieters abfangen soll.
 
 All diese Risiken müssen durch SLAs und Policys abgebildet werden. Diese sollten maschinenlesbar sein, um automatisiert angewandt und überprüft zu werden. Detaillierte Leitfäden hierzu bieten BSI und CSA \cite{bsi:2014:Sicherheitsrichtlinie, csa:2015:star}. Insgesamt hängt das Risiko stark vom Bereitstellungsmodell ab, also von Standort und Nutzerkreis der Infrastruktur.
 % Sichere Nutzung von Cloud-Diensten | Der sichere Weg in die Cloud
@@ -118,17 +118,17 @@ All diese Risiken müssen durch SLAs und Policys abgebildet werden. Diese sollte
 % Grozev
 % Consuming Resources and Services from Multiple Clouds, From Terminology to Cloudware Support, Dana Petcu
 
-Cloud-Angeboten können von öffentlichen Anbietern oder intern bereitgestellt werden. Weiter differenzieren lassen sich die Angebote nach Nutzerkreis, mit dem die Infrastruktur geteilt wird und Anzahl der genutzten Clouds \cite{petcu:2014:cloud-taxonomy, grozev:2014:cloud-taxonomy}:
+Cloud-Angebote können von öffentlichen Anbietern oder intern bereitgestellt werden. Weiter differenzieren lassen sich die Angebote nach Nutzerkreis, mit dem die Infrastruktur geteilt wird und Anzahl der genutzten Clouds \cite{petcu:2014:cloud-taxonomy, grozev:2014:cloud-taxonomy}:
 
 \begin{description}
 	
-	\item[Public Cloud] Alle Leistungen werden von einem öffentlichem Anbieter bezogen. Dies sind zum Beispiel Amazon, Microsoft und Google. Die Infrastruktur wird unter mehreren Kunden flexibel aufgeteilt.
+	\item[Public Cloud] Alle Leistungen werden von einem öffentlichen Anbieter bezogen. Dies sind zum Beispiel Amazon, Microsoft und Google. Die Infrastruktur wird unter mehreren Kunden flexibel aufgeteilt.
 	
 	\item[Private Cloud] Eine eigen- oder fremd-betriebene Infrastruktur mit exklusivem Zugriff für einen Kunden. Wird die Private Cloud im eigenen Datencenter betrieben, erhalten Kunden größtmögliche Vertraulichkeit. Gleichzeitig müssen aber Überkapazitäten vorgehalten werden, wodurch der Kostenvorteil kleiner als bei Nutzung öffentlicher Angebote ausfallen kann.
 	
 	\item[Hybrid Cloud] Heterogene Infrastruktur mit Bestandteilen in privaten und öffentlichen Cloud-Umgebungen. Die öffentliche Cloud übernimmt hier oft die Speicherung großer Datenmengen und das Abfangen von Lastspitzen.
 	
-	\item[Community Cloud] Ein Zusammenschluss von Unternehmen, Behörden oder Forschungseinrichtungen, die gemeinsam eine Cloud-Infrastruktur betreiben. Die beteiligten Cloud-Anbieter bilden eine freiwillige \emph{Föderation} der gemeinsamen Ressourcen.
+	\item[Community-Cloud] Ein Zusammenschluss von Unternehmen, Behörden oder Forschungseinrichtungen, die gemeinsam eine Cloud-Infrastruktur betreiben. Die beteiligten Cloud-Anbieter bilden eine freiwillige \emph{Föderation} der gemeinsamen Ressourcen.
 	
 	\item[Multi-Cloud] Eine Erweiterung der Hybrid Cloud: Die Leistungen werden nicht nur aus einer privaten und einer öffentlichen Cloud bezogen, sondern explizit aus mehreren. Wichtiger Unterschied zur Föderation: Die Multi-Cloud-Umgebung wird vom Cloud-Anwender initiiert und verwaltet. Beteiligte Cloud-Provider wirken nicht aktiv mit und sind sich ihrer Partizipation meist nicht einmal bewusst.
 	
@@ -159,7 +159,7 @@ Um eine automatisierte Bewertung der Cloud-Angebote vorzunehmen, müssen die Anf
 
 Cloud-Nutzer und -Provider haben gegenseitige Erwartungen, die abgestimmt werden müssen. Innerhalb von Unternehmen gelten außerdem bestimmte Regeln zum Umgang mit Informationen (\emph{Compliance}), angelehnt an die Gesetzeslage und externe Zertifizierungen wie ISO 27001 \cite{iso:2013:27001}. Über die gesetzlichen Regelungen hinaus kann ein Unternehmen weitere Ziele setzen: Kosteneinsparungen oder der Einsatz klimafreundlicher Energie. 
 
-Dieser Abschnitt definiert die verschiedenen Formen für den späteren Einsatz im Multi-Cloud-Broker. Er liefert Verweise zu Standards und entwickelt Beispiele für den späteren Prototypen. Wir unterscheiden für die Verwendung im Broker:
+Dieser Abschnitt definiert die verschiedenen Formen für den späteren Einsatz im Multi-Cloud-Broker. Er liefert Verweise zu Standards und entwickelt Beispiele für den späteren Prototyp. Wir unterscheiden für die Verwendung im Broker:
 
 \begin{description}
 	\item[Policys] Maßnahmenorientiert, Regeln, \\
@@ -170,9 +170,9 @@ Dieser Abschnitt definiert die verschiedenen Formen für den späteren Einsatz i
 	z.\,B. \emph{minimale Gesamtkosten bei Berücksichtigung aller Policys und SLAs}
 \end{description}
 
-\noindent Alle drei Themen beeinflussen sich gegenseitig: Richtlinien werden -- wenn möglich -- in das SLA übernommen, alle übrigen setzt der Cloud-Kunde selbst um. Eine Überschneidung ist ebenfalls möglich: neben einer 99,99\,\%-Uptime-Klausel kann es zusätzlich eine Replikations-Policy geben; beide bestimmen die Verfügbarkeit.
+\noindent Alle drei Themen beeinflussen sich gegenseitig: Richtlinien werden -- wenn möglich -- in das SLA übernommen, alle übrigen setzt der Cloud-Kunde selbst um. Eine Überschneidung ist ebenfalls möglich: Neben einer \emph{99,99\,\%-Uptime}-Klausel kann es zusätzlich eine Replikations-Policy geben; beide bestimmen die Verfügbarkeit.
 
-Typischerweise enthalten die Policys und SLAs weitere Informationen zu Vertragspartnern, Eskalationsmanagement, Vertragsstrafen und Laufzeit. Da diese Punkte für die Untersuchung nicht relevant sind, konzentrieren wir uns auf die in SLAs enthaltenen Metriken, sogenannte \emph{Service Level Objectives}. Wir nehmen zusätzlich einen vereinfachten Gültigkeitszeitraum über den gesamten Lebenszyklus eines Services an. 
+Typischerweise enthalten die Policys und SLAs weitere Informationen zu Vertragspartnern, Eskalationsmanagement, Vertragsstrafen und Laufzeit. Da diese Punkte für die Untersuchung nicht relevant sind, konzentrieren wir uns auf die in SLAs enthaltenen Metriken, sogenannte \emph{Service-Level-Objectives (SLOs)}. Wir nehmen zusätzlich einen vereinfachten Gültigkeitszeitraum über den gesamten Lebenszyklus eines Services an.
 
 Hierarchien innerhalb der Policys bleiben ebenso außen vor: So könnte es zum Beispiel die strategische Entscheidung geben, Daten nur innerhalb bestimmter Länder zu verarbeiten -- gleichzeitig gilt auf dem Service-Level eine weitere Einschränkung auf die EU. Wir konzentrieren uns direkt auf letzteren Fall. Weitere Ziele wie die Ausfallsicherheit unterscheiden sich ebenso individuell pro Service\todo{Definition: verteilte Anwendung}.
 
@@ -190,7 +190,7 @@ Sowohl Policys als auch SLAs sollten bestimmte Eigenschaften erfüllen. Eine Erw
 \end{enumerate}
 
 \noindent 
-Einige Metriken sind typisch für Dienstleistungsverträge, zum Beispiel der Durchsatz. Andere wie die Löschfrist sind durch neuere Gesetzesvorgaben entstanden oder betreffen wie die Nachhaltigkeit das Image eines Unternehmens. Alle lassen sich grob in Kategorien sortieren; Allgemein, Performance, Zuverlässigkeit, Datenmanagement, Sicherheit, Datenschutz.
+Einige Metriken sind typisch für Dienstleistungsverträge, zum Beispiel der Durchsatz. Andere wie die Löschfrist sind durch neuere Gesetzesvorgaben entstanden oder betreffen wie die Nachhaltigkeit das Image eines Unternehmens. Alle lassen sich grob in Kategorien sortieren; allgemein, Performance, Zuverlässigkeit, Datenmanagement, Sicherheit, Datenschutz.
 \todo{Tabelle mit Klassifizierung?}
 
 Die folgende Auflistung zeigt die wichtigsten Policys und SLA-Metriken. Sie erläutert außerdem die Bedeutung für diese Arbeit:
@@ -207,41 +207,41 @@ Die folgende Auflistung zeigt die wichtigsten Policys und SLA-Metriken. Sie erl�
 	\item[Redundanz] Wie oft soll ein bestimmter Dienst repliziert und parallel betrieben werden? Dieser Wert beeinflusst maßgeblich die Verfügbarkeit.
 	
 	
-	\item[Geo-Lokation] Geographischer Standort des Datencenters. Mögliche Einschränkungen aufgrund von Datenschutzgesetzen. Beeinflusst außerdem die Antwortzeiten des Services.
+	\item[Geo-Lokation] Geografischer Standort des Datencenters. Mögliche Einschränkungen aufgrund von Datenschutzgesetzen. Beeinflusst außerdem die Antwortzeiten des Services.
 	
-	\item[Elastezität] Wie schnell können neue Ressourcen bereitgestellt oder wieder heruntergefahren werden? In einer IaaS-Umgebung ist dies meist der Zeitraum vom Start einer neuen VM bis zur Einsatzbereitschaft. Unsere Service-bezogene SLA misst zusätzlich die Zeit, bis eine neue Instanz tatsächlich Teil des Clusters ist, und einen Teil der Last abnimmt.
+	\item[Elastezität] Wie schnell können neue Ressourcen bereitgestellt oder wieder heruntergefahren werden? In einer IaaS-Umgebung ist dies meist der Zeitraum vom Start einer neuen VM bis zur Einsatzbereitschaft. Unsere servicebezogene SLA misst zusätzlich die Zeit, bis eine neue Instanz tatsächlich Teil des Clusters ist, und einen Teil der Last abnimmt.
 	
-	\item[Agilität] Effizienzmetrik: Wie feingranular können die Ressourcen skaliert werden? Die Bedeutung für den Cloud-Broker ist vernachlässigbar:  Die verschiedenen Ressourcen-Angebote der Cloud Provider müssen im Voraus normalisiert werden. Zur Laufzeit werden sie nur noch verglichen.
+	\item[Agilität] Effizienzmetrik: Wie feingranular können die Ressourcen skaliert werden? Die Bedeutung für den Cloud-Broker ist vernachlässigbar: Die verschiedenen Ressourcen-Angebote der Cloud Provider müssen im Voraus normalisiert werden. Zur Laufzeit werden sie nur noch verglichen.
 	
-	\item[Durchsatz] Wie viele Anfragen könne (pro Sekunde) bearbeitet und beantwortet werden? Die Anfrage ist vorher zu definieren. Typischerweise wird nicht das Mittel aller Anfragen gemessen, sondern von 99\% -- Ausreißer sind erlaubt.
+	\item[Durchsatz] Wie viele Anfragen können (pro Sekunde) bearbeitet und beantwortet werden? Die Anfrage ist vorher zu definieren. Typischerweise wird nicht das Mittel aller Anfragen gemessen, sondern von 99\% -- Ausreißer sind erlaubt.
 	
-	\item[Latenz] Zeit um eine Anfrage zu beantworten. Beeinflusst von Geo-Lokation, Datenbankstandort und Auslastung.
+	\item[Latenz] Zeit um eine Anfrage zu beantworten. Beeinflusst von Geolokation, Datenbankstandort und Auslastung.
 	
 	\item[Datenstandort] Datenbank und Anwendung sollten immer in unmittelbarer Nähe zueinander platziert werden. Dies wirkt sich positiv auf die Latenz einer Anfrage aus, kann aber zu höheren Kosten führen.
 	
 	\item[Bevorzugen eigener Ressourcen] Solange in der eigenen Private Cloud Ressourcen vorhanden sind, sollten diese zuerst -- vor öffentlichen Drittangeboten -- genutzt werden. Auch hier müssen zusätzlich Leistungsmetriken wie die Latenz berücksichtigt werden.
 	
-	\item[Verfügbarkeitszeit (Uptime)] Zeitanteil, innerhalb dessen Anfragen den übrigen Metriken entsprechend beantwortet werden. Üblicherweise ab 99,9\,\% eines Jahres. Könnte durch die Gemeinsame Nutzung mehrerer Clouds erhöht werden.	
+	\item[Verfügbarkeitszeit (Uptime)] Zeitanteil, innerhalb dessen Anfragen den übrigen Metriken entsprechend beantwortet werden. Üblicherweise ab 99,9\,\% eines Jahres. Könnte durch die gemeinsame Nutzung mehrerer Clouds erhöht werden.
 	
 	\item[Wiederherstellungszeit] Durchschnittlicher Zeitraum, nachdem ein Service nach Ausfall wieder vollständig zur Verfügung steht. Dies beinhaltet die zügige und korrekte Beantwortung aller Anfragen sowie die Erfüllung aller übrigen SLOs.
 	
-	\item[Backup] Eine Sicherung von IaaS-Instanzen oder Datenbankinhalten in bestimmten Abständen, verteilt auf mehrere Speicherorte. In diesem Fall bezogen auf einen Service. Außerdem zu beachten: Die benötigte Zeit zur Wiederherstellung.
+	\item[Backup] Eine Sicherung von IaaS-Instanzen oder Datenbankinhalten in bestimmten Abständen verteilt auf mehrere Speicherorte. In diesem Fall bezogen auf einen Service. Außerdem zu beachten: die benötigte Zeit zur Wiederherstellung.
 	
 	\item[Zugriffskontrolle] Lesende und schreibende Aktionen auf Ressourcen müssen durch ein Identitäts- und Zugriffsmanagement geregelt und protokolliert werden. Dies ist jedoch ein eigenes Thema, das hier nicht weiter behandelt wird. Außerhalb der Administrationsebene implementiert die ausgeführte Anwendungssoftware oft eigene Mechanismen.
 	
-	\item[Benachrichtigungssystem] Ein Trigger-Action System: Bei Eintreten bestimmter Ereignisse wie dem Ausfall einer Systemkomponente soll automatisiert eine festgelegte Nachricht versendet werden, dies können eine E-Mail oder ein REST-Call sein.
+	\item[Benachrichtigungssystem] Ein Trigger-Action-System: Bei Eintreten bestimmter Ereignisse wie dem Ausfall einer Systemkomponente soll automatisiert eine festgelegte Nachricht versendet werden, dies können eine E-Mail oder ein REST-Call sein.
 	
 	\item[Speichertypen] unterscheiden sich deutlich in Zugriffszeit, Transferrate, verfügbarer Kapazität, Zuverlässigkeit und Preis. IaaS-Angebote lassen oft die Wahl zwischen SSD und HDD. Auf PaaS-Ebene kann auch die Art des Datenbankservices gemeint sein: In-Memory, hybrid oder klassisch.
 	
-	\item[Löschfrist] Handels- und Steuerrecht verlangen für einige Daten die rechtssichere Speicherung und Revisionssicherheit. Umgekehrt gilt für personenbezogene Daten laut BDSG auch eine Löschpflicht, sobald die Daten nicht mehr für den ursprünglichen Zweck benötigt werden. Dies kann meist nur auf Datensatz-Ebene durchgesetzt werden. 
+	\item[Löschfrist] Handels- und Steuerrecht verlangen für einige Daten die rechtssichere Speicherung und Revisionssicherheit. Umgekehrt gilt für personenbezogene Daten laut BDSG auch eine Löschpflicht, sobald die Daten nicht mehr für den ursprünglichen Zweck benötigt werden. Dies kann meist nur auf Datensatzebene durchgesetzt werden.
 	
 	Eine befristete Bereitstellung von Service-Instanzen ist jedoch auch denkbar. Die Löschung könnte dann im Rahmen von \emph{Aufräum}-Zyklen erfolgen und Kosten durch Überprovisionierung sparen.
 	
 	\item[Verschlüsselung] Je nach Service-Ebene entweder die Festplatte einer IaaS-Instanz oder der PaaS-Datenbankservice. Eine Verschlüsselung der Übertragungswege wird angenommen. Auf Datensatz- und Anwendungsebene sind eigene Implementierungen, unabhängig von der CMP üblich.
 	
-	\item[Kosten] Verbunden mit einem SLA bieten Cloud Provider Ressourcen zu einem bestimmten Preis. Dieser ist oft dynamisch, daher sollte eine Optimierung nach Prüfung aller anderen \emph{harten} Kriterien erfolgen.
+	\item[Kosten] Verbunden mit einem SLA bieten Cloud-Provider Ressourcen zu einem bestimmten Preis. Dieser ist oft dynamisch, daher sollte eine Optimierung nach Prüfung aller anderen \emph{harten} Kriterien erfolgen.
 	
-	Den beteiligten Abteilungen hilft die Anzeige der Kosten pro Service. Die CMP sollte Auslastung und Preise dienstübergreifend optimieren.
+	Den beteiligten Abteilungen hilft die Anzeige der Kosten pro Service. Die CMP sollte Auslastung und Preise Dienst übergreifend optimieren.
 	
 	\item[Nachhaltigkeit/Energiequelle] Nutzt das Datencenter Ökostrom, wenn ja in welchem Umfang? Auch denkbar: Ausgleichsleistungen des Anbieters.
 	
@@ -254,7 +254,7 @@ Die folgende Auflistung zeigt die wichtigsten Policys und SLA-Metriken. Sie erl�
 \end{description}
 
 \noindent 
-Diese Ziele gelten immer zusätzlich zu allgemeinen Hardware- und Softwareanforderungen. Voraussetzung für die Durchsetzung sind weitreichende Zusatzinformationen zum gegenwärtigen Zustand der Cloud und Umgebungsinformationen wie aktuellen Preisen. Innerhalb des \emph{Policy Enforcement Points}, also zum Beispiel der CMP, müssen diese Zusatzinformationen gesammelt werden.
+Diese Ziele gelten immer zusätzlich zu allgemeinen Hardware- und Softwareanforderungen. Voraussetzung für die Durchsetzung sind weitreichende Zusatzinformationen zum gegenwärtigen Zustand der Cloud und Umgebungsinformationen wie aktuellen Preisen. Innerhalb des \emph{Policy-Enforcement-Points}, also zum Beispiel der CMP, müssen diese Zusatzinformationen gesammelt werden.
 
 Herausforderung hierbei: Die wichtigsten Cloud-Provider veröffentlichen die nötigen Informationen zu ihrem Angebot meist weder maschinenlesbar, noch in einem einheitlichen Format.
 %TU Darmstadt: Scheint nicht erfolgreich zu sein. http://www.sla-ready.eu/sla-repository
