@@ -14,6 +14,23 @@
 \usepackage[multiple]{footmisc} % Trennung mehrerer Fußnoten durch Kommata
 % Requires \usepackage[hyperfootnotes=false,...]{hyperref}, see https://tex.stackexchange.com/a/35060
 
+\usepackage{subcaption}
+
+% Import SVG directly via Inkscape-pdf_tex-Export
+\usepackage{import}
+\graphicspath{{images/}}
+\newcommand{\executeiffilenewer}[3]{%
+	\ifnum\pdfstrcmp{\pdffilemoddate{#1}}%
+	{\pdffilemoddate{#2}}>0%
+	{\immediate\write18{#3}}\fi%
+} 
+\newcommand{\includesvg}[1]{%
+	\executeiffilenewer{#1.svg}{#1.pdf}%
+	{inkscape -z -D --file=#1.svg %
+		--export-pdf=#1.pdf --export-dpi=72 --export-latex}%
+	\input{#1.pdf_tex}%
+}
+
 % ABOUT
 \newcommand{\hpitype}{Masterarbeit}
 \newcommand{\hpiauthor}{Jan-Henrich Mattfeld}

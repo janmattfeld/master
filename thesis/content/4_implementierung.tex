@@ -118,7 +118,8 @@ Hyrise-R ist eine Erweiterung des Basisprojektes um Replikation \cite{schwalb:20
 
 	\begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.95\textwidth]{images/hyrise-r_architecture.pdf}
+	\def\svgwidth{\textwidth}
+	\includesvg{images/hyrise-r}
 	\caption{Verteilte \emph{Hyrise-R}-Architektur mit getrennter Verarbeitung von Lese- und Schreibanfragen. Der Master-Knoten dient als \emph{Single Source of Truth}. Zur Leistungssteigerung übernehmen Spiegelserver die Beantwortung der meisten Leseanfragen. Kleinere Inkonsistenzen werden dabei in Kauf genommen. Aus \cite{ssiclops:d42:experiments-measurements}.}	
 	\label{fig:hyrise-r}
 \end{figure}
@@ -242,7 +243,35 @@ Ziel ist DevStack in einem Container auszuführen, genauso wie die darin gestart
 
 \noindent Auch eine virtuelle Maschine löst die oben genannten Probleme. Theoretisch. Problematisch wird die Ausführungsgeschwindigkeit von Gastanwendungen in einem mit \emph{VirtualBox} virtualisierten OpenStack. Eine Lösung ist \emph{verschachteltes KVM}, das bereits in der Arbeit [1] erprobt wurde. Die Autoren empfehlen ihren Vorschlag bei bestehenden Erfahrungen mit \emph{libvirt}. Der damalige Versuchsaufbau stellt sich allerdings als instabil und nicht mehr reproduzierbar heraus.
 
-% OpenStack-Ansible benötigt zu lang zur Installation.
+\begin{figure}[ht]
+	\centering
+	\begin{subfigure}[b]{0.46\textwidth}
+		\def\svgwidth{\linewidth}
+		{\small
+			\includesvg{images/devstack-bare-metal}}	
+		\caption{Bare-Metal-Installation}
+		\label{fig:sub:devstack-bare-metal}
+	\end{subfigure}\hfill%
+	\begin{subfigure}[b]{0.49\textwidth}
+		\def\svgwidth{\linewidth}
+		{\small
+			\includesvg{images/devstack-vm}}	
+		\caption{All-in-One-VM}
+		\label{fig:sub:devstack-vm}
+	\end{subfigure}\\[8pt]%
+	\begin{subfigure}[b]{0.49\textwidth}
+		\def\svgwidth{\linewidth}
+		{\small
+			\includesvg{images/devstack-docker}}	
+		\caption{DevStack in Docker}
+		\label{fig:sub:devstack-docker}
+	\end{subfigure}
+	\begin{subfigure}{0.45\textwidth}
+	\end{subfigure}
+	
+	\caption{Verschiedene Installationsvarianten für eine OpenStack-Testinstallation mit DevStack auf einem einzelnen Host -- inklusive Unterstützung für Docker-Compute-Container und klassische VMs. Eine direkte Installation verändert unwiderruflich das gesamte Host-System \emph{(a)}. Eine VM benötigt mehr Ressourcen und kann die Geschwindigkeit der Gastanwendungen negativ beeinflussen \emph{(b)}. Die Installation in einem Container schafft Abstraktion und Reproduzierbarkeit ohne Geschwindigkeitskompromisse. Die Gastcontainer nutzen weiterhin den Kernel des Host-OS \emph{(c)}.}
+	\label{fig:devstack}
+\end{figure}
 
 \emph{LXD}-Container könnten sich ebenfalls eignen. Im Gegensatz zu Docker führen sie mehrere Prozesse aus, erinnern also mehr an eine klassische virtuelle Maschine (ohne deren Overhead). Laut Entwickler \emph{Canonical} fokussiert sich \emph{LXD} speziell auf IaaS-Aufgaben\footnote{\url{https://www.ubuntu.com/containers/lxd}}. Ein LXD-DevStack-Setup birgt allerdings die gleichen Hürden\footnote{\url{https://docs.openstack.org/devstack/latest/guides/lxc.html}} wie ein Docker-Setup \cite{graber:2016:openstack-lxd}. Beachtenswert ist noch das OpenStack-Projekt \emph{Kolla}, das jeden OpenStack-Dienst in einem eigenen Docker-Container installiert\footnote{\url{https://cloudbase.it/openstack-kolla-hyper-v/}}.
 
@@ -262,14 +291,13 @@ Um Container innerhalb von OpenStack auszuführen, gibt es mehrere, teils konkur
 
 \noindent DevStack in Docker wurde bereits vor einiger Zeit umgesetzt\footnote{\url{https://github.com/ewindisch/dockenstack}}. Da das Projekt nicht mehr gepflegt wird und auf das ebenfalls beendete \emph{Nova Docker} aufsetzt, erfolgt die Neuimplementierung mit folgenden Änderungen:
 
-\todo{visualisieren Veränderung mit Pfeilen!}
 \begin{itemize}
 	
-	\item Ubuntu 16.04 LTS Basis-Image
-	\item systemd\footnote{\url{https://docs.openstack.org/devstack/latest/systemd.html}}
-	\item OpenStack Ocata and Pike
+	\item Ubuntu-LTS-Basis-Image 14.04 $\Rightarrow$ 17.10
+	\item Mehrprozessunterstützung per \emph{systemd}\footnote{\url{https://docs.openstack.org/devstack/latest/systemd.html}}
+	\item OpenStack-Version Kilo $\Rightarrow$ Pike
 	\item libvirt/QEMU-Instanzen
-	\item Zun statt Nova Docker
+	\item Nova Docker $\Rightarrow$ Zun
 	\item Container-angepasste DevStack-Konfiguration
 	\item Vollständige Netzwerkkonfiguration
 	
@@ -283,7 +311,7 @@ Um Container innerhalb von OpenStack auszuführen, gibt es mehrere, teils konkur
 
 Nach erfolgreichem Start reicht das Kommando \emph{make run}, um per Zun einen \emph{Cirros}-Basis-Container\footnote{\url{https://docs.docker.com/samples/library/cirros/}} zu starten. Der Stand der gesamten OpenStack-Installation lässt sich per \emph{docker commit} oder experimentell per \emph{Docker-Snapshots}\footnote{\url{https://criu.org/Docker}} sichern.
 
-Anpassbar sind im Skript OpenStack-Services und -Versionen, da DevStack direkt aus den Quellen installiert wird. So ändern sich allerdings selbst die Abhängigkeiten der als stabil gekennzeichneten Versionen. Das Prinzip Infrastruktur als Code geht hier nicht auf -- an den zuverlässig reproduzierbaren DevStack-Einsatz ist nicht zu denken. 
+Anpassbar sind im Skript OpenStack-Services und -Versionen, da DevStack direkt aus den Quellen installiert wird. So ändern sich allerdings selbst die Abhängigkeiten der als stabil gekennzeichneten Versionen. Das Prinzip Infrastruktur als Code geht hier nicht immer auf -- DevStack ist nicht zuverlässig reproduzierbar. \autoref{fig:devstack} vergleicht die Installationsvarianten.
 
 Als \emph{Proof-of-Concept} ist die Integration von Docker, DevStack und Zun bisher einmalig. Der Code ist daher auf GitHub\footnote{\url{https://github.com/janmattfeld/DockStack}} veröffentlicht und zeigt einige \emph{Best Practices} und \emph{Lessons Learned} in Bezug auf die genannten Projekte.
 
