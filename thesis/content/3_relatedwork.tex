@@ -287,21 +287,23 @@ Nichtsdestotrotz sollte die CMP unabhängig entwickelt und betrieben werden. Clo
 	
 	Ein Dashboard zeigt Empfehlungen zur Kostenoptimierung, allerdings ohne SLAs einzubeziehen.
 	
-	\item[Scalr] 
+	\item[Scalr\footnotemark]\footnotetext{\url{https://www.scalr.com/}} war ursprünglich quelloffen unter GPL verfügbar. Diese Version wurde nach kurzer Ankündigung\footnote{\url{https://groups.google.com/forum/\#!topic/scalr-discuss/khFayhYJlhA}} im September 2017 innerhalb weniger Tage eingestellt. Seit dem existiert ausschließlich eine kommerzielle Closed-Source-Variante zum Betrieb auf eigener Hardware.	
 	
-	%	Whitepaper! 
+	Verteilte Anwendungen werden mithilfe des \emph{Farm Builders} deklarativ in einer proprietären YAML-Datei beschrieben. Die Zuteilung von Cloud-Providern und Ressourcen ist explizit. Zusätzliche Regeln sind optional, werden aber nicht für ein Cloud-Brokering genutzt. Über einen internen Katalog können so beschriebene Anwendungen veröffentlicht werden.
 	
-	\item[Cloudify\footnotemark]\footnotetext{\url{https://cloudify.co/}} implementiert den \emph{TOSCA}-Standard und ist in einer Open-Source-Version erhältlich. Mithilfe (grafischer) Werkzeuge lassen sich Cloud-Infrastrukturen und Services modellieren. Plugins erweitern Cloudify um wichtige Provider; sowohl auf IaaS- (AWS, Azure, GCP, OpenStack) als auch auf CaaS-Ebene (Kubernetes). Konfiguration wie das Start-Skript kann direkt übergeben, oder über ein Tool wie Puppet weitergeleitet werden. 
+	Die Policy-Unterstützung fokussiert sich auf Zugriffsrechte, Namenskonventionen, Kostenalarme und die Erfüllung bestimmter Audit-Anforderungen. Das Interface ist service- und anwenderbezogen. Dabei entsteht eine echte Abstraktion verschiedener Cloud-Infrastrukturen. Alle Funktionen sind jedoch nur für Amazon EC2 verfügbar.
+	
+	\item[Cloudify\footnotemark]\footnotetext{\url{https://cloudify.co/}} implementiert den \emph{TOSCA}-Standard und ist in einer Open-Source-Version erhältlich. Mithilfe (grafischer) Werkzeuge lassen sich Cloud-In\-fra\-struk\-tur\-en und Services modellieren. Plugins erweitern Cloudify um wichtige Provider; sowohl auf IaaS- (AWS, Azure, GCP, OpenStack) als auch auf CaaS-Ebene (Kubernetes). Konfiguration wie das Start-Skript kann direkt übergeben, oder über ein Tool wie Puppet weitergeleitet werden. 
 	
 	Einfache Policys sind integriert, mithilfe eines rudimentären Monitorings und der Provider-Plugins werden diese umgesetzt. Der (grafische) TOSCA-Editor und echtes Cluster-Management sind allerdings nur in der proprietären Enterprise-Ausgabe enthalten.
 
 
 \end{description}
 
+Die kommerziellen Cloud-Management-Plattformen fokussieren sich auf Kostenoptimierungen und Zugriffskontrolle. Portabilität von Anwendungen und Daten spielt aber nur eine untergeordnete Rolle. Ein Brokering auf SLA-Basis findet entgegen den Werbeversprechen nicht statt. Inwieweit Forschungsprojekte diese Lücke schließen können, prüft der nächste Abschnitt.
+
 % https://www.embotics.com/solutions-cloud-governance
 % Nur Azure und Amazon. Cloud Governance: Die richtigen Meta-Tags zu Instanzen hinzufügen. Kostenoptimierungsvorschläge, aber nur die Wahl zwischen zwei Providern.
-
-
 
 
 %DivvyCloud (Commercial) 
@@ -319,25 +321,10 @@ Nichtsdestotrotz sollte die CMP unabhängig entwickelt und betrieben werden. Clo
 %
 %only cost monitoring and optimization 
 %
-%Also, Rightscale, Cloudhealth, CloudCheckr 
+%Also, Cloudhealth, CloudCheckr 
 
-
-%Apache Scalr (complex, freemium) 
 
 \section{Bisherige Forschungsarbeiten}
-
-% Multi-Cloud Übersichtspaper: Umfagreichste Cloud-Hierarchie Betrachtung! Einleitung, Produkte, Herausforderungen
-%the  security  breaks  have  brought
-%into discussions the trustfulness of the Hybrid Cloud.
-%A  solution  to  a
-%recommendation  system
-%is  therefore
-%needed in Multi-Cloud, and very few prototypes are
-%currently available as the trust management problem
-%is more than a technical one.
-%Consuming Resources and Services from Multiple Clouds
-%From Terminology to Cloudware Support
-%Dana Petcu
 
 Besonders interessant sind bisherige Arbeiten, die neben einer Föderation auch Hybrid- oder Multi-Cloud-Brokering unterstützen. Es sollten also keine Cloud-internen Plugins oder Agenten nötig sein.
 
@@ -345,8 +332,7 @@ Die folgende Übersicht geht besonders auf den Umfang der Policy- und SLA-Fähig
 
 Auch nicht-funktionale Anforderungen werden betrachtet: Sind die Artefakte der Projekte noch als Code verfügbar oder sogar in Open-Source-Tools und kommerziellen Produkten aufgegangen?
 
-%policy-driven service placement optimization in federated clouds 
-
+%policy-driven service placement optimization in federated clouds
 
 \begin{description}	
 	
