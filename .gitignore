@@ -1,3 +1,7 @@
+# Random Text Files and Images
+*.txt
+thesis/images/ideas/
+
 # Modified App Templates
 deployments/
 
@@ -92,6 +96,7 @@ ENV/
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/dictionaries
+.vscode
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
@@ -114,6 +119,7 @@ ENV/
 # *.ps
 # *.eps
 # *.pdf
+*.pdf_tex
 
 ## Generated if empty string is given at "Please type another file name for output:"
 *.pdf
@@ -133,6 +139,7 @@ ENV/
 *.synctex.gz
 *.synctex.gz(busy)
 *.pdfsync
+pdfsizeopt.single
 
 ## Auxiliary and intermediate files from other packages:
 # algorithms

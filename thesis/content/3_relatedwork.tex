@@ -136,36 +136,23 @@ Sowohl \emph{WS-Agreement} als auch \emph{WSLA} nutzen XML. Sie sind streng form
 \section{Einheitliche Infrastruktur- und Service-Definitionen}%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Durch die Definition von SLAs und Policys steht nun fest, wo und wie ein Service bereitgestellt werden soll. Die konkrete technische Umsetzung ist bisher allerdings offen. Oberstes Ziel der CMP-Service-Definition ist Portabilität: Die gleiche Anwendung muss auf verschieden Hypervisoren, IaaS/CaaS- und Plattform-Angeboten ausgeführt werden. Nur so ergeben sich die Vorteile der Multi-Cloud-MP:
+Durch die Definition von SLAs und Policys steht nun fest, wo und wie ein Service bereitgestellt werden soll. Die konkrete technische Umsetzung ist bisher allerdings offen. Oberstes Ziel der Multi-Cloud-Service-Definition ist Portabilität: Die gleiche Anwendung muss auf verschieden Hypervisoren, IaaS/CaaS- und Plattform-Angeboten ausgeführt werden können. Nur so ergeben sich die Vorteile des Multi-Cloud-Ansatzes.
 
-\begin{description}
-	
-	\item[Notfallplan] Bei Ausfall der gesamten Ausführungsplattform kann eine Migration zu einem anderen Anbieter erfolgen.
-	
-	\item[Abfangen von Lastspitzen] Zusätzliche Service-Instanzen auf externen Ressourcen bearbeiten bei Bedarf weitere Anfragen.
-	
-	\item[Lebenszyklus-Verwaltung] Typischerweise durchläuft eine neue Service-Version die Phasen Entwicklung, Test, Qualitätssicherung und Produktion. Hierfür existieren oft unterschiedliche Ausführungsumgebungen.
-	
-\end{description}
-
-%Rightscale Video: https://www.rightscale.com/solutions/problems-we-solve/self-service-it
-
-\noindent
-Diese Vorteile zeigen sich jedoch nur, wenn sich die Anwendung auch für eine Cloud-Nutzung eignet. Je nach Entstehungsgeschichte können sich Softwarearchitektur und Migrationsmaßnahmen grundlegend unterscheiden:
+Aber wann eignet sich eine Anwendung für die Nutzung in der Cloud? Je nach Entstehungsgeschichte können sich Softwarearchitektur und Migrationsmaßnahmen grundlegend unterscheiden:
 
 \begin{description}
 	
 	\item[Klassisch] (Legacy-)Anwendung mit monolithischem Design
 	
-	$\Rightarrow$ Ausführungsumgebung portabel bereitstellen, z.\,B. als (Container-)Image
+	\emph{$\Rightarrow$ Ausführungsumgebung portabel bereitstellen, z.\,B. als (Container-)Image}
 	
-	\item[Web App] Mehrere skalierbare Komponenten
+	\item[Web-App] Mehrere, skalierbare Anwendungsteile
 	
-	$\Rightarrow$ Zusätzlich die Nutzbarkeit von PaaS-Komponenten prüfen
+	\emph{$\Rightarrow$ Zusätzlich die Nutzbarkeit von PaaS-Komponenten prüfen}
 	
-	\item[Cloud-Native] Abhängigkeiten zu proprietären Cloud-Services (interner Broker)
+	\item[Cloud-native] Abhängigkeiten zu proprietären Cloud-Services (interner Broker)
 	
-	$\Rightarrow$ Refactoring und Öffnung der Schnittstellen zur CMP
+	\emph{$\Rightarrow$ Refactoring und Öffnung der App-Schnittstellen zur CMP}
 	
 \end{description}
 
@@ -196,7 +183,7 @@ Durch die Marktdominanz von Amazon \emph{AWS} wurden zwischenzeitlich einige der
 	
 	\item[Ausführungsumgebungen] Innerhalb der Service-Ebenen stehen je nach Cloud-Provider unterschiedliche Ausführungsumgebungen zur Verfügung. Die zugehörige initiale Konfiguration einer neuen Instanz kann über interne Werkzeuge erfolgen oder Drittanbieter einbinden.
 	
-	Auf Hypervisor- und IaaS-Ebene sind \emph{Cloud Images} wie die von Ubuntu\footnote{\url{https://cloud-images.ubuntu.com/}} inoffizieller Standard. Im Gegensatz zu den Standard-Ausgaben sind sie speziell für den Einsatz in virtuellen Umgebungen vorbereitet. Sie integrieren \emph{Canonicals cloud-init\footnote{\url{https://cloudinit.readthedocs.io/}}}: Die initiale Konfiguration kann hierüber Provider-unabhängig per Konfigurationsdatei und/oder Skript übergeben werden. Optional bindet \emph{cloud-init} über Plugins die Metadatendienste des Providers ein.
+	Auf Hypervisor- und IaaS-Ebene sind \emph{Cloud Images} wie die von Ubuntu\footnote{\url{https://cloud-images.ubuntu.com/}} inoffizieller Standard. Im Gegensatz zu den Standardausgaben sind sie speziell für den Einsatz in virtuellen Umgebungen vorbereitet. Sie integrieren \emph{Canonicals cloud-init\footnote{\url{https://cloudinit.readthedocs.io/}}}: Die initiale Konfiguration kann hierüber Provider-unabhängig per Konfigurationsdatei und/oder Skript übergeben werden. Optional bindet \emph{cloud-init} über Plugins die Metadatendienste des Providers ein.
 	
 	Eine ähnliche Verbreitung auf CaaS-Ebene haben \emph{Docker}-Container\footnote{\url{https://www.docker.com/what-docker}}. Besonderheiten sind die zentrale Container-Verwaltung, eine Vielzahl vorgefertigter Basis-Images und Konfigurationsmöglichkeiten per \emph{Dockerfile} und/oder Startparameter\footnote{\url{https://docs.docker.com/engine/reference/builder/}}. Die Container sind so flexibel, dass sie lokal auf Entwicklerrechnern, im Continuous-Integration-Prozess und im Produktivbetrieb eingesetzt werden. Docker bildet außerdem die Grundlage für diverse PaaS-Projekte.
 	
@@ -219,7 +206,7 @@ Durch die Marktdominanz von Amazon \emph{AWS} wurden zwischenzeitlich einige der
 	
 	Die Kommunikation mit Service-Providern über die TOSCA-Referenz-Implementierung ist theoretisch möglich, die Plugins sind jedoch wenig verbreitet und als experimentell gekennzeichnet. Im Fall von OpenStack ist die Unterstützung bei \emph{Kilo} stehen geblieben\footnote{\url{https://docs.cloudify.co/4.2.0/plugins/openstack/}}. Eine externe Lösung ist also erfolgversprechender. Implementiert wird TOSCA außerdem von der Open-Source-CMP \emph{Cloudify\footnote{\url{https://cloudify.co/}}} und im EU-Forschungsprojekt \emph{SeaClouds} \cite{seaclouds:2015:architecture}.
 	
-	Verwandt ist das Projekt \emph{Cloud Application Management for Platforms (CAMP)}: Auch hier ist eine verteilte Anwendung als YAML-Plan definiert \cite{oasis:2014:camp}. Die Topologie muss allerdings konkret ausformuliert werden. Im Gegensatz zu \emph{TOSCA} steht die Zielplattform zur Modellierungszeit schon fest. Daher eignet sich \emph{CAMP} nicht für Broker.
+	Verwandt ist das Projekt \emph{Cloud Application Management for Platforms (CAMP)}: Auch hier ist eine verteilte Anwendung als YAML-Plan definiert \cite{oasis:2014:camp}. Die Topologie muss allerdings konkret ausformuliert werden. Im Gegensatz zu \emph{TOSCA} steht die Zielplattform zur Modellierungszeit schon fest. Daher eignet sich \emph{CAMP} nicht als Eingabesprache für Broker.
 	
 	\todo{Tabelle mit Cloud-Standards?}
 
@@ -257,7 +244,7 @@ Container sind nicht für jede Anwendung einsetzbar. Entsprechend müssen auch k
 
 Insgesamt ist der Support für offene Standards im Open-Source-IaaS-Projekt OpenStack am größten. Auf allen Ebenen der Service-Bereitstellung sind zumindest experimentelle Implementierungen verfügbar: \emph{cloud-init} zur Imagekonfiguration, \emph{TOSCA} zur Service-Definition und \emph{OCCI} zur Kommunikation mit der Cloud unter Berücksichtigung von SLAs. 
 
-Einige weitere technische Herausforderungen löst ein Multi-Cloud-Broker oder eine CMP: Management von statischen und virtuellen IPs, SSL-Zertifikaten, sowie Load-Balancing. Andere Migrationshürden bleiben: Verfügbarkeit von Betriebssystemen, Frameworks und Bibliotheken, ebenso wie die Vereinbarkeit mit vorhandenen Lizenzen. Der folgende Abschnitt gibt eine Übersicht kommerzieller Cloud Management Plattformen sowie bisheriger Forschung zu Inter- und Multi-Cloud-Brokern mit besonderem Blick auf SLAs und Policys. 
+Einige weitere technische Herausforderungen löst ein Multi-Cloud-Broker oder eine CMP: Management von statischen und virtuellen IPs, SSL-Zertifikaten, sowie Load-Balancing. Andere Migrationshürden bleiben: Verfügbarkeit von Betriebssystemen, Frameworks und Bibliotheken, ebenso wie die Vereinbarkeit mit vorhandenen Lizenzen. Der folgende Abschnitt gibt eine Übersicht kommerzieller Cloud-Management-Plattformen sowie bisheriger Forschung zu Inter- und Multi-Cloud-Brokern mit besonderem Blick auf SLAs und Policys. 
 
 \section{Die Limitierungen Kommerzieller CMPs}
 

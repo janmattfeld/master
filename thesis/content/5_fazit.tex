@@ -8,3 +8,40 @@
 %Ergebnisse der Arbeit dürfen auch hier erwähnt werden.
 %Wenn nötig, kann die Terminologie hier schon eingeführt werden.
 %Die Problemdomäne kurz anreißen und ggf. auf weiterführende Literatur verwiesen.
+
+\chapter{Zusammenfassung und Ausblick}
+
+
+
+\begin{description}
+	
+	\item[Notfallplan] Bei Ausfall der gesamten Ausführungsplattform kann eine Migration zu einem anderen Anbieter erfolgen.
+	
+	\item[Abfangen von Lastspitzen] Zusätzliche Service-Instanzen auf externen Ressourcen bearbeiten bei Bedarf weitere Anfragen.
+	
+	\item[Lebenszyklus-Verwaltung] Typischerweise durchläuft eine neue Service-Version die Phasen Entwicklung, Test, Qualitätssicherung und Produktion. Hierfür existieren oft unterschiedliche Ausführungsumgebungen.
+	
+\end{description}
+
+%Rightscale Video: https://www.rightscale.com/solutions/problems-we-solve/self-service-it
+
+Einheitliche Standards zu Services, SLAs und Kommunikation.
+
+Policys innerhalb von Instanzen 
+%(allow SSH, check for security vulnerabilities)
+
+Policys auf Datenebene
+
+Ausbau zu einer produktiven CMP
+Identity
+Discovery
+Monitoring
+Dashboard
+
+Trend: Serverless
+
+Migrationshürden von Apps auf die CMP: OS Version, SSL-Zertifikate, statische und virtuelle IPs, Lizenzen, Load Balancing, Clustering, Bandbreite, Mandantenfähigkeit.
+
+Failover-Handling nicht definiert. Im Moment: Bereitstellung eines Services mit der gleichen Adresse bei Ausfall. Weitere Arbeit auf Anwendungsebene (Hyrise-R) nötig. Oder Ausgliederung der Service-Discovery an ein externes Tool.
+
+Überwachung der SLAs und Durchsetzen von Schadensersatz.
