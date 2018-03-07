@@ -48,10 +48,10 @@ Folgende weitere Aspekte sollen bei der Betrachtung der CMPs berücksichtigt wer
 	
 	Ausgenommen: spezielle Big-Data-Analytics- und Forschungsszenarien, die unter Umständen besondere Features, Rechte und Architekturen benötigen.
 	
-	\item[Funktionsumfang] Über die grundlegende Provisionierung hinaus sollte die CMP auch bei weiteren Orchestrationsaufgaben unterstützen: Konfiguration, Monitoring und Skalierung.
+	\item[Funktionsumfang] Über die grundlegende Provisionierung hinaus sollte die CMP auch bei weiteren Orchestrationsaufgaben unterstützen: (1) Konfiguration, (2) Monitoring und (3) Skalierung \cite{weerasiri:2017:orchestration}.
 %	https://dzone.com/articles/cloud-management-roundup-orchestration-vs-paas-vs-cmp
 	
-	Die Unterstützung aktueller Container-Technologien und Cloud-native-Architekturen ist wünschenswert. Keine Rolle spielt \emph{Bare Metal}: Eine installierte Virtualisierungsschicht oder Container-Laufzeitumgebung wird vorausgesetzt. 
+	Die Unterstützung aktueller Container-Technologien und Cloud-native-Architekturen ist wünschenswert. Keine Rolle spielt \emph{Bare Metal}: Eine installierte Virtualisierungsschicht oder Container-Laufzeitumgebung wird vorausgesetzt. Die noch jungen \emph{Unikernels} erfordern größere Anpassungen beim Betrieb eigener Anwendungen. Sie sind vielversprechend, aber -- auch aufgrund ihrer noch geringen Verbreitung -- potenzielles Thema weiterer Forschungsarbeiten \cite{plauth:2017:unikernels}.
 	
 	Die Auswertung der SLAs und Policys ist auf die verteilten Anwendungen selbst beschränkt. Darüber liegende (CMP-Nutzer) oder tiefer gehende Schichten (Service-Nutzer und -Daten) werden extern verwaltet. Damit unterscheidet sich der Ansatz von anderen \emph{SSICLOPS}-Arbeiten, die eine Annotation auf Datenebene mit anschließender Policy-Durchsetzung auf allen Cloud-Schichten vorsehen \cite{ssiclops:d21:secure-data-storage, ssiclops:d22:intercloud-policies}.
 		
