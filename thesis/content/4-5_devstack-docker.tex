@@ -18,22 +18,22 @@ Ziel ist DevStack in einem Container auszuführen, genauso wie die darin gestart
 	\centering
 	\begin{subfigure}[b]{0.29\textwidth}
 		\def\svgwidth{\linewidth}
-		{\tiny
-			\includesvg{images/devstack-bare-metal}}	
+		{\tiny \textsf{
+			\includesvg{images/devstack-bare-metal}}}
 		\caption{Bare-Metal-Installation}
 		\label{fig:sub:devstack-bare-metal}
 	\end{subfigure}\hfill%
 	\begin{subfigure}[b]{0.31\textwidth}
 		\def\svgwidth{\linewidth}
-		{\tiny
-			\includesvg{images/devstack-vm}}	
+		{\tiny \textsf{
+			\includesvg{images/devstack-vm}}}
 		\caption{All-in-One-VM}
 		\label{fig:sub:devstack-vm}
 	\end{subfigure}\hfill%
 	\begin{subfigure}[b]{0.31\textwidth}
 		\def\svgwidth{\linewidth}
-		{\tiny
-			\includesvg{images/devstack-docker}}	
+		{\tiny \textsf{
+			\includesvg{images/devstack-docker}}}
 		\caption{DevStack in Docker}
 		\label{fig:sub:devstack-docker}
 	\end{subfigure}
@@ -71,8 +71,6 @@ Um Container innerhalb von OpenStack auszuführen, gibt es mehrere, teils konkur
 	\item Vollständige Netzwerkkonfiguration
 	
 \end{itemize}
-
-\todo{Architektur-Diagramm}
 
 \noindent Größte Hürde ist die Limitierung auf einen Prozess innerhalb eines Standard-Docker-Containers. Neuere DevStack-Versionen setzen auf \. Daher muss dies über die Umgebungsvariable \emph{ENV container docker} bekannt gemacht werden. Anschließend lässt sich \emph{systemd} über zwei weitere Workarounds starten\footnote{\url{https://github.com/moby/moby/issues/27202}}\footnote{\url{https://github.com/moby/moby/issues/9212}}.
 

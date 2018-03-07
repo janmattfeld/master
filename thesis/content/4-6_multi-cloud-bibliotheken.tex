@@ -1,10 +1,21 @@
 \section{Multi-Cloud-Bibliotheken}
 \label{sec:bibliotheken}
-\todo{Kleines Architektur Diagramm}
 
-Ziel ist die Implementierung eines externen Broker-Services oder die Aufwertung einer verteilten Anwendung für den automatischen Betrieb in mehreren Clouds. Da unabhängige Cloud-Provider keine einheitlichen APIs anbieten, stellt dieses Kapitel verschiedene Bibliotheken vor, um möglichst viel der zusätzlichen Komplexität zu verbergen.
+Ziel ist die Implementierung eines externen Broker-Services für den automatischen Betrieb mit mehreren Clouds. Da unabhängige Cloud-Provider keine einheitlichen APIs anbieten, stellt dieses Kapitel verschiedene Bibliotheken vor, um möglichst viel der zusätzlichen Komplexität zu verbergen, siehe \autoref{fig:multi-cloud-library}.
 
-Ohne weitere Bibliotheken müsste für jede zu berücksichtigende Cloud das jeweilige SDK eingebunden werden. Auch Namensgebung, Architektur und Prozesse unterscheiden sich von Anbieter zu Anbieter. \todo{Mention Standard Cloud API OASIS TOSCA}
+Ohne weitere Bibliotheken müsste für jede zu berücksichtigende Cloud das jeweilige SDK eingebunden werden. Auch Namensgebung, Architektur und Prozesse unterscheiden sich von Anbieter zu Anbieter.
+
+\begin{figure}[ht]
+%\begin{wrapfigure}{O}{0.3\textwidth}
+	\centering
+%	\includegraphics[width=0.48\textwidth]{images/multi-cloud-library.pdf}
+		\def\svgwidth{0.48\textwidth}
+		{\footnotesize \textsf{
+		\includesvg{images/multi-cloud-library}}}
+	\caption{Eingebette Bibliothek zur Multi-Cloud-Kommunikation.}	
+	\label{fig:multi-cloud-library}
+%\end{wrapfigure}
+\end{figure}
 
 Durch den Einsatz einer Drittbibliothek ergibt sich allerdings eine potenzielle Schwachstelle. Falls diese fehlerhaft ist oder gar nicht weiter entwickelt wird, gefährdet dies das ganze Projekt. Historie und Zukunftschancen spielen bei der Auswahl eine zentrale Rolle. Im Optimalfall abstrahiert die Bibliothek Änderungen der Provider-SDKs. Ob und wie groß die Arbeitserleichterung ausfällt, prüft der Praxisteil.
 

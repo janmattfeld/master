@@ -24,7 +24,7 @@
 %	{\tiny
 %	\includesvg{images/broker-cycle}}
 	\includegraphics[width=\linewidth]{images/broker-cycle}
-	\caption{Arbeitsweise des Multi-Cloud-Brokers als Zyklus: (1) Sammeln der Meta-Informationen alle Cloud-Provider, (2) Sammeln der Laufzeitinformationen der Anwendungen, (3) Sammeln der SLAs, (4) Nutzeränderungen: Neue Anwendungen oder Anpassung von SLAs, (5) Optimierungsplanung, (6) Planausführung auf den Cloud-Infrastrukturen}
+	\caption{Arbeitsweise des Multi-Cloud-Brokers als Zyklus: (1) Sammeln der Meta-Informationen aller Cloud-Provider, (2) Sammeln der Laufzeitinformationen der Anwendungen, (3) Sammeln der SLAs, (4) Nutzeränderungen: Neue Anwendungen oder Anpassung von SLAs, (5) Optimierungsplanung, (6) Planausführung auf den Cloud-Infrastrukturen}
 	\label{fig:cycle}
 \end{figure}
 
@@ -113,7 +113,7 @@
 %https://awstcocalculator.com/# 
 %
 
-\section{Testumgebung: OpenStack \& Hyrise-R}
+\section{Testanwendung: Hyrise-R}
 
 Hyrise\footnote{\url{https://hpi.de/plattner/projects/hyrise.html}} ist eine In-Memory-Forschungsdatenbank der Fachgruppe \emph{Enterprise Platform and Integration Concepts (EPIC)} am Hasso-Plattner-Institut \cite{grund:2010:hyrise}. Die Datenbank teilt sich einige Eigenschaften mit \emph{SAP HANA}\footnote{\url{https://www.sap.com/products/hana.html}}: Ein \emph{Delta Store}, spaltenorientierte Speicherung, Wörterbuchkodierung und weitere Komprimierungstechniken sowie den \emph{Insert-Only}-Ansatz und Partitionierung. Herausragend ist die OLAP-Performance, enthalten sind aber auch Optimierungen für OLTP-Aufgaben.
 
@@ -121,8 +121,9 @@ Hyrise-R ist eine Erweiterung des Basisprojektes um Replikation \cite{schwalb:20
 
 	\begin{figure}[ht]
 	\centering
-	\def\svgwidth{0.95\textwidth}
-	\includesvg{images/hyrise-r}
+	\def\svgwidth{0.9\textwidth}
+	\textsf{
+	\includesvg{images/hyrise-r}}
 	\caption{Verteilte \emph{Hyrise-R}-Architektur mit getrennter Verarbeitung von Lese- und Schreibanfragen. Der Master-Knoten dient als \emph{Single Source of Truth}. Zur Leistungssteigerung übernehmen Spiegelserver die Beantwortung der meisten Leseanfragen. Kleinere Inkonsistenzen werden dabei in Kauf genommen. Aus \cite{ssiclops:d42:experiments-measurements}.}	
 	\label{fig:hyrise-r}
 \end{figure}
