@@ -269,9 +269,20 @@ Könnte auch zu einem konkreten CAMP-Plan umgewandelt werden. So wie TOSCAMP. St
 
 \section{Tests und Diskussion}
 
-%Hyrise-R Images: Test-DB integriert
+\begin{figure}[ht]
+	%\begin{wrapfigure}{O}{0.3\textwidth}
+	\centering
+	%	\includegraphics[width=0.48\textwidth]{images/multi-cloud-library.pdf}
+	\def\svgwidth{0.75\textwidth}
+	{\footnotesize \textsf{
+			\includesvg{images/hyrise-r-deployment}}}
+	\caption{Test-Deployment mit zwei Hyrise-R-Clustern, verteilt auf eine Public- und eine Private-Cloud. Orchestriert werden beide Services durch die selbstentwickelte Cloud-Management-Plattform aus der Private-Cloud heraus -- sie überwindet Provider- und Infrastrukturgrenzen.}	
+	\label{fig:hyrise-r-deployment}
+	%\end{wrapfigure}
+\end{figure}
+
 Der Dispatcher empfängt alle Anfragen an den Hyrise-R-Cluster. Jede Anfrage mit Schreibanteil leitet der Dispatcher an den Master-Knoten. Hier wird die Anfrage bearbeitet, in das Log geschrieben und anschließend mit allen Replicas synchronisiert. Enthält eine Anfrage nur Leseanteile, verteilt der Dispatcher sie an einen beliebigen Knoten.
-% Benchmarks in \cite{ssiclops:d42:experiments-measurements}
+
 % query performacne und synchronisations overhead.
 Wir starten Hyrise-R immer als Cluster aus Dispatcher, Master und drei Replicas oder skalieren dynamisch je nach Leistungsanforderungen und SLO-Bedingungen.
 
@@ -282,11 +293,29 @@ Wir starten Hyrise-R immer als Cluster aus Dispatcher, Master und drei Replicas 
 % Hier: Startzeit des Clusters als Metrik zur Bewertung des Brokerings. Stark abhängig von der Performance der Cloud-Infrastruktur und Netzwerverbindungen.
 %Gemessen wird also nicht die Synchronisationszeit der Hyrise-R-Lösung, sondern die Skalierungsfähigkeiten der verwendeten Cloud-Lösungen und Orchestrierungstechniken.
 
-HTTP-Schnittstelle empfängt Anfragen im JSON-Format: NoOp startet keine Datenbank-Operation, durchläuft aber alle 
+HTTP-Schnittstelle empfängt Anfragen im JSON-Format: NoOp startet keine Datenbank-Operation, durchläuft aber alle Datenbankkomponenten von HTTP-Handling über Parser bis Executor.
 
-Enthält der Benchmark Schreiboperationen? Ist er deshalb im ersten Durchlauf langsamer als in allen darauffolgenden?
+Python-Code überarbeitet und parallelisiert.
 
-TODO: Describe query from sample.json
+
+Stattdessen wollen wir eine echte Anfrage Ausführen. Dazu nutzen wir die vorbereitete Beispieldatenbank und Anfrage aus einer früheren Arbeit.
+
+Um sowohl OLTP- als auch OLAP-Fähigkeiten der In-Memory-Datenbank zu überprüfen, nutzen vorherige Arbeiten \cite{ssiclops:d42:experiments-measurements} den CH-benCHmark der TU München \cite{cole:2011:db-benchmark}. Dieser ist eine Mischung aus Transaktions- und Analysebenchmark, angelehnt an den hybriden Einsatz aktueller Datenbanksysteme in Unternehmen: Die gleichen Tabellen eines einzigen Datenbanksystems erfüllen alle Aufgaben des täglichen Geschäfts und liefern gleichzeitig umfassende Analysen. Trotzdem bleibt die Vergleichbarkeit des Benchmarks mit klassischen, getrennten Systemen.
+
+Die Beispieldatenbank enthält eine Auftragshistorie mit knapp 300\,000 Datensätzen. Jede Zeile besteht aus sieben zufälligen Integer-, zwei String- und einem Float-Wert. So ergibt sich eine Rohgröße von 21,3\,MB. Die Beispielanfrage\footnote{\url{https://db.in.tum.de/research/projects/CHbenCHmark/}} liefert alle Bestellungen eines bestimmten Zeitraumes, sowie Summe, Gesamt- und Durchschnittswert aller enthaltenen Posten. Sie dient uns als \emph{Smoke-Test} -- liefert der Hyrise-R-Cluster eine valide Antwort im vorgegebenen Zeitrahmen, ist die generelle Funktionsfähigkeit gegeben und das Deployment erfolgreich abgeschlossen:
+
+\begin{minted}{sql}
+SELECT ol_number,
+       SUM(ol_quantity) AS sum_qty,
+       SUM(ol_amount)   AS sum_amount,
+       AVG(ol_quantity) AS avg_qty,
+       AVG(ol_amount)   AS avg_amount,
+       COUNT(*)         AS count_order
+FROM orderline 
+WHERE ol_delivery_d > '2007-01-02 00:00:00.000000' 
+GROUP BY ol_number
+ORDER BY ol_number
+\end{minted}
 
 
 %Kosten: Rechenzeit und Bandbreite (außerhalb einer Cloud) also gegenläufiges Ziel zu Portabilität und Ausfallsicherheit, denn die geringsten Kosten fallen bei dem Betrieb in einer einzelnen Cloud eines Providers an.
