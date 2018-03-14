@@ -1,0 +1,64 @@
+\section{Testanwendung: Hyrise-R}
+
+Hyrise\footnote{\url{https://hpi.de/plattner/projects/hyrise.html}} ist eine In-Memory-Forschungsdatenbank der Fachgruppe \emph{Enterprise Platform and Integration Concepts (EPIC)} am Hasso-Plattner-Institut \cite{grund:2010:hyrise}. Die Datenbank teilt sich einige Eigenschaften mit \emph{SAP HANA}\footnote{\url{https://www.sap.com/products/hana.html}}: Ein \emph{Delta Store}, spaltenorientierte Speicherung, Wörterbuchkodierung und weitere Komprimierungstechniken sowie den \emph{Insert-Only}-Ansatz und Partitionierung. Herausragend ist die OLAP-Performance, enthalten sind aber auch Optimierungen für OLTP-Aufgaben.
+
+Hyrise-R ist eine Erweiterung des Basisprojektes um Replikation \cite{schwalb:2015:hyrise-r}. Es folgt dabei dem \emph{Scale-Out}-Ansatz: Alle schreibenden Operationen werden auf einem einzigen \emph{Master-Node} durchgeführt. Dessen Datensatz wird in weniger als einer Sekunde (\emph{lazy}) mit beliebig vielen \emph{Replica-Nodes} abgeglichen. Diese Spiegelungen bearbeiten alle reinen Leseanfragen und machen den Verbund so skalierbar, siehe \autoref{fig:hyrise-r}. Nach dem \emph{CAP-Theorem} sind Verfügbarkeit und Partitionstoleranz hier also wichtiger als Konsistenz. 
+
+\begin{figure}[ht]
+	\centering
+	\def\svgwidth{0.9\textwidth}
+	\textsf{
+	\includesvg{images/hyrise-r}}
+	\caption{Verteilte \emph{Hyrise-R}-Architektur mit getrennter Verarbeitung von Lese- und Schreibanfragen. Der Master-Knoten dient als \emph{Single Source of Truth}. Zur Leistungssteigerung übernehmen Spiegelserver die Beantwortung der meisten Leseanfragen. Kleinere Inkonsistenzen werden dabei in Kauf genommen. Nicht im Bild ist der Dispatcher zur Anfrageverteilung. Aus \cite{ssiclops:d42:experiments-measurements}.}	
+	\label{fig:hyrise-r}
+\end{figure}
+
+Durch die verteilte Architektur ist Hyrise-R ein potenzieller Kandidat als Testanwendung innerhalb der Multi-Cloud-Umgebung. Einige \emph{SSICLOPS}-Teilprojekte untersuchten bereits Zuverlässigkeit, Performance, Datensicherheit und Vertraulichkeit in einer privaten OpenStack-Föderation \cite{ssiclops:d23:security-extensions, ssiclops:d42:experiments-measurements, bastian:2017:openstack-policies}.
+
+Im Rahmen dieser Arbeiten sind einige Infrastrukturteile als Code veröffentlicht: So existiert zum Beispiel eine Docker-Teststellung mit grafischem Cluster-Manager, um die Performance bei verschiedenen Replikationsstufen zu prüfen. Diese Infrastruktur wurde in mehreren Studienarbeiten weiter angepasst, um Hyrise-R-KVM-Images in OpenStack bereitzustellen \cite{eschrig:2016:ssiclops-masterproject, maschler:2017:ssiclops-masterproject}.
+
+Um als Testanwendung über mehrere Cloud-Ebenen zu dienen, sollte Hyrise-R auf den verbreiteten Hypervisoren, IaaS- und CaaS-Providern ausführbar sein. Aufgrund der Softwarestruktur -- als eigenentwickelte \emph{Low-Level-C++-Anwendung} --  eignet Hyrise-R sich nicht direkt\footnote{\url{https://cloud.google.com/appengine/docs/flexible/custom-runtimes/}} als Testanwendung für die PaaS-Integration. Hierfür nutzen wir andere Standardsoftware, die auf den üblichen PaaS-Sprachen wie Java, Python oder Node.js aufbauen.
+
+Hyrise-R ist von Anfang an für die Skalierung über externe Broker konzeptioniert. Die bisherigen Arbeiten haben \emph{Standalone-Cluster-Manager} umgesetzt, erst für Docker und später für OpenStack\footnote{\url{https://github.com/DukeHarris/hyrise_rcm}}\footnote{\url{https://github.com/SSICLOPS/openstack-testbed-vm}}. Die nötigen Clusterinformationen werden Hyrise-Instanzen direkt beim Start als Parameter übergeben. Variablen zur Laufzeitumgebung müssen während des Deployments vom Broker ausgefüllt werden: Konkret benötigt Hyrise einen TCP-Port und eine eindeutige Knoten-ID. Über ihre ID registrieren sich Knoten am Dispatcher. Hierzu benötigen sie dessen IP-Adresse und Port -- der Dispatcher muss also immer als Erstes in einem Cluster bereitstehen. Erst dann können Start und Registrierung des Masters erfolgen. Plattformunabhängig ergeben sich folgende Startskripte für einen Hyrise-R-Cluster:
+
+\begin{description}
+	
+\item[{[1]} Dispatcher] einmal pro Cluster, zentrale Lastverteilung für alle Anfragen
+	
+\begin{minted}{jinja}
+./dispatcher {{dispatcher.port}} settings.json
+\end{minted}
+	
+\item[{[1]} Master] einmal pro Cluster als \emph{Single-Source-of-Truth}, bearbeitet alle Schreibanfragen, gekennzeichnet durch \emph{nodeId=0}
+	
+\begin{minted}{jinja}
+./hyrise \
+  --dispatcherurl={{dispatcher.ip}} \
+  --dispatcherport={{dispatcher.port}} \
+  --nodeId=0 \
+  --port={{master.port}}
+\end{minted}
+
+\item[{[0-n]} Replica] optional, beliebig viele Instanzen pro Cluster zur Entlastung des Master-Knotens bei Leseanfragen
+
+\begin{minted}{jinja}
+./hyrise \
+  --dispatcherurl={{dispatcher.ip}} \
+  --dispatcherport={{dispatcher.port}} \
+  --nodeId={{replica.id}} \
+  --port={{replica.port}}
+\end{minted}
+	
+\end{description}
+
+In vorherigen Projekten entwickelte Images für virtuelle Maschinen laufen auf der verbreiteten Hypervisorkombination aus QEMU und KVM. Die Erstkonfiguration erfolgte bisher über direkte SSH-Kommandos an die gestartete virtuelle Maschine. Dies erfordert die Konfiguration von SSH in den VMs und die Verwaltung von Schlüsseln in der CMP. Zusätzlich entsteht eine Wartezeit zwischen VM-Startkommando und Erstkonfiguration, die vorherige Projekte durch Polling noch ausdehnten. Eine elegantere Lösung ist \emph{cloud-init}: Die CMP füllt ein Konfigurationstemplate und schickt es direkt im Startkommando an den Infrastruktur-Provider. Dieser führt das Skript sofort ohne weitere Wartezeit aus.
+
+Auch Docker-Images existieren bereits\footnote{\url{https://github.com/hyrise/hyrise-v1/tree/feature/docker}}, wurden aber seit 2015 nicht aktualisiert: Docker, diverse Abhängigkeiten und Hyrise selbst wurden in der Zwischenzeit weiterentwickelt. Innerhalb eines Clusters sollten alle Knoten dieselbe Hyrise-Version ausführen. Daher aktualisieren wir Dispatcher und Hyrise auf Basis des aktuellsten Hyrise-NVM-Branches\footnote{\url{https://github.com/janmattfeld/dispatcher/tree/docker}}\footnote{\url{https://github.com/janmattfeld/hyrise_nvm/tree/feature/docker}}.
+
+Die Aktualisierung enthält das aktuelle Docker-Basis-Image Ubuntu 16.04. Wir integrieren außerdem korrekte Metadaten und Dokumentation zur Imageerstellung und Ausführung. Einige eingebundene Git-Submodule wurden in der Zwischenzeit verschoben oder existieren nicht mehr -- die verwendete CSV-Bibliothek muss zum Beispiel ausgetauscht werden. Dies erfordert kleinere Änderungen am Quellcode. Genauso wie neue \emph{Non-Uniform-Memory-Access-Funktionen (NUMA)}: Die Funktion \emph{membind} erfordert erweitere Rechte. In einem Standard-Docker-Container sind diese aber nicht vorhanden. Der neue Startparameter \mbox{\emph{-\,-disable\_membind}} deaktiviert die speziellen NUMA-Funktionen. Unsere Images laufen daher auch in Container-Laufzeitumgebungen der Public-Cloud-Provider.
+
+Das Image ist zum Produktivbetrieb gedacht: Docker Build entfernt nach dem Image-Erstellungsprozess alle Abhängigkeiten, die zum Betrieb nicht notwendig sind. So reduziert sich die Image-Größe von über 500 auf weniger als 300\,MB -- entsprechend verkürzt sich die Startzeit. Enthalten ist außerdem eine Beispieldatenbank, die wir später als Benchmark und initialen Funktionstest nutzen werden. Gemessen wird also nicht die Synchronisationszeit der Hyrise-R-Lösung, sondern die Skalierungsfähigkeiten der verwendeten Cloud-Lösungen und Orchestrierungstechniken. Wir setzen außerdem pragmatische Startparameter für Hyrise-R auf Docker: \emph{-\,-corecount=2} \emph{-\,-disable\_membind}. Die neuen Images sind zur leichteren Integration auf Docker Hub veröffentlicht\footnote{\url{https://hub.docker.com/r/hyrise/dispatcher/}}\footnote{\url{https://hub.docker.com/r/janmattfeld/hyrise_r/}}. Um auch zukünftige Weiterentwicklungen von Hyrise nutzen zu können, automatisiert ein neues Makefile Docker-Build-Voränge und den Realease auf Docker Hub.
+
+Aus der bisher losen Sammlung von Quellcode, Shell-Skripten und Makefiles in mehreren GitHub-Repositorys haben wir eine nachhaltige Pipeline zur automatisierten Image-Erstellung für verschiedene Infrastrukturen entwickelt\footnote{\url{https://github.com/janmattfeld/hyrise_nvm/commit/cfe3aa8}}. Ausführungsumgebung, Programm, Testdaten und Konfiguration werden flexibel integriert -- Hyrise-R eignet sich nun als Testanwendung für den Multi-Cloud-Broker.
+
+Als Weiterentwicklung zu den bisherigen Hyrise-R-Arbeiten soll der Broker nicht nur nach Leistungsanforderungen skalieren, sondern auch SLAs und Geostandorte beachten sowie diverse Infrastrukturanbieter nutzen.
