@@ -59,6 +59,26 @@ Die Aktualisierung enthält das aktuelle Docker-Basis-Image Ubuntu 16.04. Wir in
 
 Das Image ist zum Produktivbetrieb gedacht: Docker Build entfernt nach dem Image-Erstellungsprozess alle Abhängigkeiten, die zum Betrieb nicht notwendig sind. So reduziert sich die Image-Größe von über 500 auf weniger als 300\,MB -- entsprechend verkürzt sich die Startzeit. Enthalten ist außerdem eine Beispieldatenbank, die wir später als Benchmark und initialen Funktionstest nutzen werden. Gemessen wird also nicht die Synchronisationszeit der Hyrise-R-Lösung, sondern die Skalierungsfähigkeiten der verwendeten Cloud-Lösungen und Orchestrierungstechniken. Wir setzen außerdem pragmatische Startparameter für Hyrise-R auf Docker: \emph{-\,-corecount=2} \emph{-\,-disable\_membind}. Die neuen Images sind zur leichteren Integration auf Docker Hub veröffentlicht\footnote{\url{https://hub.docker.com/r/hyrise/dispatcher/}}\footnote{\url{https://hub.docker.com/r/janmattfeld/hyrise_r/}}. Um auch zukünftige Weiterentwicklungen von Hyrise nutzen zu können, automatisiert ein neues Makefile Docker-Build-Voränge und den Realease auf Docker Hub.
 
+\begin{figure}[ht]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\def\svgwidth{\linewidth}
+		{\scriptsize \textsf{
+				\includesvg{images/hyrise-r-runtime-vm}}}
+		\caption{Virtuelle Maschine}
+		\label{fig:sub:hyrise-r-runtime-vm}
+	\end{subfigure}\hfill%
+	\begin{subfigure}[b]{0.45\textwidth}
+		\def\svgwidth{\linewidth}
+		{\scriptsize \textsf{
+				\includesvg{images/hyrise-r-runtime-docker}}}
+		\caption{Container}
+		\label{fig:sub:hyrise-r-runtime-docker}
+	\end{subfigure}	
+	\caption{Aktualisierte Ausführungsumgebungen für Hyrise-R-Master/Replica auf IaaS- und CaaS-Plattformen. Die Anmerkungen auf der linken Seite beschreiben verwendete Technologien und Schnittstellen.}
+	\label{fig:devstack}
+\end{figure}
+
 Aus der bisher losen Sammlung von Quellcode, Shell-Skripten und Makefiles in mehreren GitHub-Repositorys haben wir eine nachhaltige Pipeline zur automatisierten Image-Erstellung für verschiedene Infrastrukturen entwickelt\footnote{\url{https://github.com/janmattfeld/hyrise_nvm/commit/cfe3aa8}}. Ausführungsumgebung, Programm, Testdaten und Konfiguration werden flexibel integriert -- Hyrise-R eignet sich nun als Testanwendung für den Multi-Cloud-Broker.
 
 Als Weiterentwicklung zu den bisherigen Hyrise-R-Arbeiten soll der Broker nicht nur nach Leistungsanforderungen skalieren, sondern auch SLAs und Geostandorte beachten sowie diverse Infrastrukturanbieter nutzen.
