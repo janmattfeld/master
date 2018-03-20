@@ -1,0 +1,71 @@
+\section{Modularer Architekturvorschlag}
+
+%Komponenten des Brokers.
+%
+%
+%In der CMP: Polling oder Notification?
+%
+%Was löst eine Aktion aus?
+%- Monitoring der Services
+%- Änderung der Umgebung
+%- User-Aktion
+%- Ergebnis einer anderen Policy
+
+\begin{figure}
+	\centering	
+%	\def\svgwidth{0.95\textwidth}
+%	{\tiny
+%	\includesvg{images/broker-cycle}}
+	\includegraphics[width=\linewidth]{images/broker-cycle}
+	\caption{Arbeitsweise des Multi-Cloud-Brokers als Zyklus: (1) Sammeln der Meta-Informationen aller Cloud-Provider, (2) Sammeln der Laufzeitinformationen der Anwendungen, (3) Sammeln der SLAs, (4) Nutzeränderungen: Neue Anwendungen oder Anpassung von SLAs, (5) Optimierungsplanung, (6) Planausführung auf den Cloud-Infrastrukturen}
+	\label{fig:cycle}
+\end{figure}
+
+%Zyklus\autoref{fig:cycle}:
+
+%\begin{description}
+%	\item[Nummerierte Aufzählung]~\par
+\begin{enumerate}
+	
+	\item Sammeln der Meta-Informationen alle Cloud-Provider
+	\begin{enumerate}
+		\item Kapazität (CPU, RAM, HDD, Network)
+		\item Features (Verschlüsselung, CUDA, …)
+		\item Geo-Lokation 
+		\item Preis
+	\end{enumerate}
+	
+	\item Sammeln der Laufzeitinformationen der PaaS/Anwendungen
+	\begin{enumerate}
+		\item Auslastung
+		\item Fehler
+		\item Ausfälle
+	\end{enumerate}
+	
+	\item Sammeln der SLAs
+	\begin{enumerate}
+		\item Policy-Definitionen
+		\item Policy-Konfiguration
+		\item Placement-Algorithmen
+	\end{enumerate}
+	
+	\item Neue Anwendung/Änderung eines SLA
+	
+	\item Optimierung
+	\begin{enumerate}
+		\item Feste Vorgaben (Geo, Backup)
+		\item Weiche (Preis, Latenz, Verfügbarkeit)
+	\end{enumerate}
+	
+	
+	\item Ausführung
+	\begin{enumerate}
+		\item Netzwerkkonfiguration
+		\item Allokation/De-Allokation von Ressourcen
+		\item Deployment
+		\item Migration
+		\item Logging/Benachrichtigung
+		\item Backup
+	\end{enumerate}
+	
+\end{enumerate}
