@@ -1,7 +1,66 @@
 \section{Softwarearchitektur und Entwicklungsumgebung}
 
+Dieser Abschnitt beschreibt die konkrete technische Umsetzung des Brokers. Die Architektur orientiert sich lose an den in \autoref{sec:architektur} definierten Komponenten. Die Konfiguration basiert außerdem auf den in \autoref{sec:service-schema} definierten YAML-Schemata für Cloud-Zugänge, Anwendungen und Qualitätsvereinbarungen. Insgesamt soll der Prototyp eine Grundmenge der Brokering-Strategie aus \autoref{sec:brokering} umsetzen --  also eine Anwendung anhand verschiedener Anforderungen auf unterschiedlicher Cloud-Infrastruktur verteilen. Hierzu haben wir bereits Libcloud als Python-Bibliothek zur Abstraktion ausgewählt und nutzen für die gesamte Projekt ausschließlich Python 3.6
+
+Der Prototyp ist dabei vereinfacht und demonstriert eine Teilmenge des möglichen Konzeptumfangs. Aus den vorgestellten Aufgaben und dem Brokering-Zyklus ergeben sich im Detail folgende Programmkomponenten, siehe auch Abbildung 4.6:
+
+Services unabhängig beurteilt, werden der Reihe nach abgearbeitet. Die unbedingt notwendigen, globalen Dienste ohne weitere Abhängigkeiten werden zuerst ausgerollt, dies können zum Beispiel Load-Balancer sein. Anschließend folgen die Primärdienste, später Redundante 
+Apps sind unabhängig voneinander (First-Come-First-Serve) -> Optimierungspotenzial
+
+
+Libcloud Aufbau
+Link zur Doku\footnote{\url{text}}
+
+Cloud
+Cloud-agnostisch Pythonic
+Benötigte Komponenten: Compute, Container, Treiber für Amazon ECS, OpenStack Node und Docker
+
+
+Klassen, Zusammenhang aus Diagramm.
+
+
+App
+
+Service
+
+Template (App und SLOs)
+import jinja2
+import ruamel.yaml
+
+Scheduler
+- Filter     """Remove non-supported clouds"""
+- Gewichtung """Find the most suitable cloud"""
+- Platzierung
+- Check/Monitor """Are the requirements still satisfied?"""
+
+%#     Constraints during deployment planning:
+%#         - Service Dependencies -> Handled by the app itself
+%#         - Hard Constraints (Geo-Location, Technology, Resources, Features) -> Scheduler
+%#         - Soft Constraints (Availability, Performance, Price) -> Scheduler
+
+
+Logger
+
+
+
+
+
+Latenz
+Aufwand aus AWS-Integration, nicht der Konzeption des Brokers.
+
+Test von Amazon Web Services: Jedes Deployment kostet. Die Gefahr unbemerkter laufender Kosten ist außerdem hoch. 100 Dollar-test-Budget sind schnell verbraucht. Entweder per Mock Projekt
+
+Längerfristig von Libcloud profitieren, da der Aufwand nur einmalig anfällt. Anschließend existiert die Abstraktionsebene unabhängig von potenziellen Schnittstellenänderungen des Providers.
+
+Mock = Platzhalter
+
+\footnote{\url{http://docs.getmoto.org/en/latest/}}
+\footnote{\url{https://localstack.cloud/}}
+
 % Tatsächliche Broker Architektur
 % Code-Eigenheiten
 %as in Grozev 42: Federated CLoud Management: There is a central repository of images. this is replicated to the specific iaas/caas providers on demand.
 %
 %Alle weiteren Managementprozesse sind für Clients transparent.
+
+Überleitung zum Testteil. Validierung der Forschungshypothese.
