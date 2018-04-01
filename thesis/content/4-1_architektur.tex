@@ -12,13 +12,15 @@
 %- User-Aktion
 %- Ergebnis einer anderen Policy
 
+%Regelkreis: Soll- (Template) und Istzustand (Cloud-Deployment).
+
 \begin{figure}
 	\centering	
-%	\def\svgwidth{0.95\textwidth}
-%	{\tiny
-%	\includesvg{images/broker-cycle}}
-	\includegraphics[width=\linewidth]{images/broker-cycle}
-	\caption{Arbeitsweise des Multi-Cloud-Brokers als Zyklus: (1) Sammeln der Meta-Informationen aller Cloud-Provider, (2) Sammeln der Laufzeitinformationen der Anwendungen, (3) Sammeln der SLAs, (4) Nutzeränderungen: Neue Anwendungen oder Anpassung von SLAs, (5) Optimierungsplanung, (6) Planausführung auf den Cloud-Infrastrukturen}
+	\def\svgwidth{0.95\textwidth}
+	{\tiny
+	\includesvg{images/broker-cycle-reworked}}
+%	\includegraphics[width=\linewidth]{images/broker-cycle}
+	\caption{Arbeitsweise des Multi-Cloud-Brokers als Regelkreis: (1) Sammeln der Meta-Informationen aller Cloud-Provider, (2) Sammeln der Laufzeitinformationen der Anwendungen, (3) Sammeln der SLAs, (4) Nutzeränderungen: Neue Anwendungen oder Anpassung von SLAs, (5) Optimierungsplanung, (6) Planausführung auf den Cloud-Infrastrukturen}
 	\label{fig:cycle}
 \end{figure}
 
