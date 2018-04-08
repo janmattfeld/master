@@ -11,12 +11,58 @@
 \usepackage{minted} % Farbige Hervorhebung von Quellcode
 \RequirePackage{csquotes} % Loaded later because of minted
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[edges]{forest} % Verzeichnisbäume
+
+\definecolor{folderbg}{RGB}{124,166,198}
+\definecolor{folderborder}{RGB}{110,144,169}
+\newlength\Size
+\setlength\Size{4pt}
+
+% TODO Use real icons
+\tikzset{%
+	folder/.pic={%
+		\filldraw [draw=folderborder, top color=folderbg!50, bottom color=folderbg] (-1.05*\Size,0.2\Size+5pt) rectangle ++(.75*\Size,-0.2\Size-5pt);
+		\filldraw [draw=folderborder, top color=folderbg!50, bottom color=folderbg] (-1.15*\Size,-\Size) rectangle (1.15*\Size,\Size);
+	},
+	file/.pic={%
+		\filldraw [draw=folderborder, top color=folderbg!5, bottom color=folderbg!10] (-\Size,.4*\Size+5pt) coordinate (a) |- (\Size,-1.2*\Size) coordinate (b) -- ++(0,1.6*\Size) coordinate (c) -- ++(-5pt,5pt) coordinate (d) -- cycle (d) |- (c) ;
+	},
+}
+\forestset{%
+	declare autowrapped toks={pic me}{},
+	pic dir tree/.style={%
+		for tree={%
+			folder,
+			font=\ttfamily,
+			grow'=0,
+		},
+		before typesetting nodes={%
+			for tree={%
+				edge label+/.option={pic me},
+			},
+		},
+	},
+	pic me set/.code n args=2{%
+		\forestset{%
+			#1/.style={%
+				inner xsep=2\Size,
+				pic me={pic {#2}},
+			}
+		}
+	},
+	pic me set={directory}{folder},
+	pic me set={file}{file},
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \usepackage[multiple]{footmisc} % Trennung mehrerer Fußnoten durch Kommata
 % Requires \usepackage[hyperfootnotes=false,...]{hyperref}, see https://tex.stackexchange.com/a/35060
 
 \usepackage{wrapfig}
 \usepackage{subcaption}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Import SVG directly via Inkscape-pdf_tex-Export
 \usepackage{import}
 \graphicspath{{images/}}
@@ -31,6 +77,7 @@
 		--export-pdf=#1.pdf --export-dpi=72 --export-latex}%
 	\input{#1.pdf_tex}%
 }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % ABOUT
 \newcommand{\hpitype}{Masterarbeit}
