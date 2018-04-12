@@ -12,7 +12,7 @@
 Um eine Anwendung automatisiert auf verschiedene Clouds zu verteilen, ist ein Broker-Mechanismus nötig. Dieser sollte nach verschiedenen, festzulegenden Kriterien vorgehen. Konkret erfüllt ein Broker in der Regel folgende Aufgaben \cite{gartner:2017:cloud-market-multicloud-trend}:
 
 \begin{enumerate}
-	\item Bereitstellen der Ressourcen für eine Applikation; starten einer virtuellen Maschine oder Reservierung von Speicherplatz
+	\item Bereitstellen der Ressourcen für eine Applikation; Starten einer virtuellen Maschine oder Reservierung von Speicherplatz
 	\item Starten der Anwendung auf den vorher reservierten Ressourcen
 	\item Verteilen eingehender Anfragen auf gestartete Anwendungs-Instanzen
 	\item Management der Ressourcen
@@ -21,7 +21,7 @@ Um eine Anwendung automatisiert auf verschiedene Clouds zu verteilen, ist ein Br
 \noindent
 Zusätzlich sollte der Multi-Cloud-Broker Policys und SLAs auswerten und umsetzen können. Denkbar ist das automatische Re-provisionieren anhand von 
 
-\begin{enumerate}
+\begin{enumerate}[label=(\Alph*)]
 	\item Lastspitzen oder Ausfällen von Hardware und Netzwerkressourcen 
 	%	(Monitoring)
 	\item Geänderten Umfeldparametern wie der Gesetzgebung, Preisen oder AGBs
@@ -255,8 +255,6 @@ Eine CMP kann diese Arbeiten automatisieren. Sie helfe laut \emph{Rightscale} di
 
 Nichtsdestotrotz sollte die CMP unabhängig entwickelt und betrieben werden. Cloud-Provider-eigene Lösungen werden daher nicht betrachtet. Weniger geeignet sind auch SaaS-Angebote: Hier entsteht eine neue Abhängigkeit und \emph{Single-Point-of-Failure}. Die nachfolgende Aufzählung zeigt die aktuell verbreitetsten CMP-Lösungen mit besonderem Fokus auf Bereitstellungsmodelle, Funktionsumfang und Offenheit der Schnittstellen.
 
-\todo{(Zusatz) Tabelle OS + Kommerziell}
-
 %Automatisierung oder nur schöne Dashboards?
 
 \begin{description}
@@ -352,6 +350,63 @@ Auch nicht-funktionale Anforderungen werden betrachtet: Sind die Artefakte der P
 	
 	
 	\item[Bernsetein InterCloud Blueprint] Eine weltweite Föderation der Cloud-Ressourcen \cite{bernstein:2011:intercloud}. Interessant ist der dezentrale Ansatz des Brokerings. Nur in dieser Arbeit wird der Broker als \emph{Single-Point-of-Failure} erkannt: Deshalb soll er zwangsläufig repliziert und in allen Regionen mindestens einmal verfügbar sein. Der Ansatz folgt also den Grundlagen des Internets und entwickelt eigene Inter-Cloud-Protokolle auf Basis von XMPP und RDF.
+	
+	
+% Project
+% Architecture
+% Runtimes/Workloads
+% SLA and API Standards
+% Policy/SLA
+
+% Alogorithm?
+
+	\newcolumntype{L}{>{\raggedright\arraybackslash}X}% Linksbündige Spalte ohne Trennung
+	\begin{table}%
+		\centering%
+			\caption{Kategorisierung von kommerziellen, Forschungs- und EU-geförderten Cloud-Brokern. Alle unterstützen das Verteilen einmaliger Stapelverarbeitungsaufgaben, besonders gekennzeichnet sind interaktive Anwendungen. Für PaaS-Angebote ist die unterstützte Programmiersprache oder ein Framework angegeben. \emph{Unterstützte Standards} beziehen sich auf die Cloud- und Broker-APIs, SLA-Definition und -Verhandlung sowie die Service-Modellierung. \emph{Policy-Brokering} meint einfache Wenn-dann-Regeln. SLAs hingegen überwachen kontinuierlich einen dynamischen Zielwert und reagieren proaktiv auf Änderungen. Beispiel: die Skalierung bei einer bestimmten Anzahl TCP-Verbindungen (Policy) gegen dynamische Ressourcenverwaltung nach tatsächlicher Antwortzeit in Millisekunden (SLA). \emph{Awareness}: weitere Infrastrukturinformationen über Anwendungsstatistiken hinaus, wie den geografischen Rechenzentrumsstandort.}%
+			%
+			\ra{1.3}%
+			%
+			\begin{tabularx}{\textwidth}{LLLLL}%
+				%
+				\toprule%
+				%
+				Project or \newline Product & Cloud Architecture & Workload \& Runtimes & Supported Standards & Brokering \& Awareness\\%
+				%
+				\midrule%
+				%
+				InterCloud \emph{(Research)} & Centralised Federation & (IaaS, ASP.Net) & Proprietary  & SLA (Geo, Pricing)\\
+				%
+				Contrail \newline \emph{(EU)} & Centralised Federation & (Hadoop) & Proprietary, OCCI & SLA (Pricing)\\%
+				%
+				RESERVOIR \newline \emph{(EU)} & Peer-to-peer Federation & Interactive (Java) & OWL, SPARQL & SLA \& Policy (Pricing)\\%
+				%
+				Optimis \newline \emph{(EU)} & Peer-to-peer Federation & Interactive (IaaS) & Proprietary, OVF & SLA (Pricing)\\%
+				%
+				Bernsetein \emph{(Research)}  & Peer-to-peer Federation & Interactive (IaaS) & Proprietary, XMPP, RDF & SLA (Ress. \& Data Loc.)\\%
+				%
+				STRATOS \emph{(Research)} & Multi-Cloud & Interactive (IaaS) & Proprietary, SMI  & Policy (Geo, Pricing, Loc.)\\%
+				%
+				Meryn \emph{(Research)} & Peer-to-peer Federation & (IaaS, Hadoop) & Proprietary  & SLA (Pricing) \\%
+				%
+				SeaClouds \newline \emph{(EU)} & Multi-Cloud & Interactive (CF) & TOSCA, CAMP, WS-A & Policy, SLA (App Metrics)\\%
+				%
+				TOSCAMP \emph{(Research)} & Multi-Cloud & Interactive (IaaS) & TOSCA, CAMP & Policy\\%
+				%
+				%
+				Red Hat CloudForms & Multi-Cloud & Interactive (IaaS, CaaS) & Proprietary, Ansible, Heat & Policy\\%
+				%
+				Rightscale \newline \emph{(CMP)} & Multi-Cloud & Interactive (IaaS, CaaS, PaaS) & Proprietary & Policy (Pricing) \\%
+				%
+				Scalr \newline \emph{(CMP)} & Multi-Cloud & Interactive (IaaS, CaaS) & Proprietary, Chef, Puppet & Policy (Pricing)\\%
+				%
+				Cloudify \newline \emph{(CMP)} & Multi-Cloud  & Interactive (IaaS, CaaS)& TOSCA, Puppet & Policy\\%
+				%
+				\bottomrule%
+				%
+			\end{tabularx}
+			\label{tab:relatedwork}
+	\end{table}
 	
 	
 	\item[STRATOS] ist eine Cloud-Management-Plattform mit integriertem Multi-Cloud-Broker \cite{pawluk:2012:stratos}. Anwendungen werden über das eigenentwickelte, XML-basierte \emph{Topology Descriptor File (TDF)} beschrieben. Es enthält die Service-Architektur und zusätzlich Policys und SLOs. Für den Zugriff auf externe Clouds existiert ein \emph{Translation-Layer}, der eine einheitliche API bereitstellt. Die Arbeit fokussiert sich auf die Bereitstellung klassischer Web-Anwendungen und Kostenoptimierung. Der mittlerweile nicht mehr weiterentwickelte \emph{Service Measurement Index (SMI)} definiert die Ziele.
