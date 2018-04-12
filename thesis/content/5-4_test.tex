@@ -1,17 +1,18 @@
 \section{Praxis: Multi-Cloud-Brokering}
+\label{sec:brokering-test}
 
 In den vorherigen Abschnitten haben wir die Funktionsweise des Brokers erläutert, den modularen Vorschlag als Python-Service implementiert, sowie Hyrise-R zum Cloud-Betrieb vorbereitet. Auf dem virtualisierten OpenStack-Testbed soll nun die Funktionsweise des Gesamtsystems geprüft werden: Zwei Hyrise-R-Cluster laufen über zwei Clouds verteilt und werden dynamisch skaliert, siehe \autoref{fig:hyrise-r-deployment}.
 
 \begin{figure}[ht]
 	\centering
 	\def\svgwidth{0.85\textwidth}
-	{\footnotesize \textsf{
+	{\scriptsize \textsf{
 			\includesvg{images/hyrise-r-deployment}}}
 	\caption{Testarchitektur mit zwei Hyrise-R-Clustern, verteilt auf eine Public- und eine Private-Cloud. Cluster \emph{B} nutzt AWS, um unkritische Daten kostengünstig auszulagern. Orchestriert werden beide Services durch die selbst entwickelte Cloud-Management-Plattform aus der Private-Cloud heraus -- die CMP harmonisiert Provider- und Infrastrukturgefälle.}	
 	\label{fig:hyrise-r-deployment}
 \end{figure}
 
-Wir starten Hyrise-R immer als Cluster aus Dispatcher, Master und einer per SLO-Template bestimmten Anzahl an Replicas. Anschließend skalieren wir den Cluster dynamisch nach Leistungsanforderungen und SLO-Bedingungen. Das Re-deployment anhand von veränderter Umgebung ist eingeschränkt: Hyrise-R unterstützt keine Live-Migration. Einzig die Replicas lassen sich ohne Probleme an- und abmelden -- für Tests des Cloud-Burstings, also dem Abfangen erhöhter Last durch weitere Instanzen, ist das kein Problem: Entweder der Broker sucht eine passende Infrastruktur und startet einen neuen Hyrise-R-Replica-Knoten, oder er fährt einen Knoten herunter und meldet ihn ab. Die Tests sind rein qualitativ und decken folgende Fälle ab:
+Wir starten Hyrise-R immer als Cluster aus Dispatcher, Master und einer per SLO-Vorlage bestimmten Anzahl an Replika. Anschließend skalieren wir den Cluster dynamisch nach Leistungsanforderungen und SLO-Bedingungen. Das erneute Starten anhand von veränderter Umgebung ist eingeschränkt: Hyrise-R unterstützt keine Echtzeitmigration. Einzig die Replika lassen sich ohne Probleme an- und abmelden -- für Tests des Cloud-Burstings, also dem Abfangen erhöhter Last durch weitere Instanzen, ist das kein Problem. Entweder der Broker sucht eine passende Infrastruktur und startet einen neuen Hyrise-R-Replika-Knoten, oder er fährt einen Knoten herunter und meldet ihn ab. Die Tests sind rein qualitativ und decken folgende Fälle ab:
 
 \begin{enumerate}
 	\item Betrieb über Cloud-Grenzen hinweg
@@ -22,7 +23,7 @@ Wir starten Hyrise-R immer als Cluster aus Dispatcher, Master und einer per SLO-
 
 \todo{Tabelle der Testfälle}
 
-In einem funktionsfähigen Hyrise-R-Cluster empfängt der Dispatcher alle Anfragen. Jede Anfrage mit Schreibanteil leitet er an den Master-Knoten. Hier wird die Anfrage bearbeitet, in das Log geschrieben und anschließend mit allen Replicas synchronisiert. Enthält eine Anfrage nur Leseanteile, verteilt der Dispatcher sie an einen beliebigen Knoten. Frühere Arbeiten bewerteten an dieser Stelle die Anfrageperformance und den Synchronisationsoverhead. Beide Metriken sind jedoch stark abhängig von der Performance der Cloud-Infrastruktur und Netzwerkverbindungen.
+In einem funktionsfähigen Hyrise-R-Cluster empfängt der Dispatcher alle Anfragen. Jede Anfrage mit Schreibanteil leitet er an den Master-Knoten. Hier wird die Anfrage bearbeitet, in das Log geschrieben und anschließend mit allen Replika synchronisiert. Enthält eine Anfrage nur Leseanteile, verteilt der Dispatcher sie an einen beliebigen Knoten. Frühere Arbeiten bewerteten an dieser Stelle die Anfrageperformance und den Synchronisationsoverhead. Beide Metriken sind jedoch stark abhängig von der Performance der Cloud-Infrastruktur und Netzwerkverbindungen.
 
 Als Metrik zur Bewertung des Brokerings gilt -- neben Einhaltung der SLOs -- die volle Funktionsfähigkeit des Clusters. Eine Beispieldatenbank ist bereits in den Images enthalten. Alle Anfragen haben ausschließlich lesende Anteile, die Tabelle wird nicht durch Schreibanfragen verändert und muss deshalb nicht synchronisiert werden. Gemessen wird also nicht die Synchronisationszeit der Hyrise-R-Lösung, sondern die Skalierungsfähigkeiten der verwendeten Cloud-Lösungen und Orchestrierungstechniken.
 
@@ -54,3 +55,16 @@ ORDER BY ol_number
 \end{minted}
 
 To-do: Konkreter Test, SLOs: Verlinken aus vorherigem Abschnitt. Forschungshypothese: Steigerung von  Datensicherheit, Vertraulichkeit und Portabilität.
+
+\begin{minted}{python}
+init_clouds(filter=['docker', 'openstack'])
+deploy_app('hyrise')
+get_throughput('hyrise')
+teardown(filter='all')
+\end{minted}
+
+\todo{Screenshot Terminal}
+
+% Eher Machbarkeitsstudie als Test oder Benchmark.
+% Messung des Query Durchsatzes (SLA)
+% Replikationsfaktor (Policy)
