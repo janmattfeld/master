@@ -1,18 +1,21 @@
 \section{Modularer Architekturvorschlag}
 \label{sec:architektur}
 
-%Komponenten des Brokers.
-%
-%
-%In der CMP: Polling oder Notification?
-%
-%Was löst eine Aktion aus?
-%- Monitoring der Services
-%- Änderung der Umgebung
-%- User-Aktion
-%- Ergebnis einer anderen Policy
+Aus der gerade beschriebenen Brokering-Strategie und den bisherigen technischen und nicht-funktionalen Anforderungen leiten wir einen modularen Architekturvorschlag ab. Dieser Abschnitt beschreibt die einzelnen Komponenten, ihre Aufgaben und das Zusammenwirken der Module. 
 
-%Regelkreis: Soll- (Template) und Istzustand (Cloud-Deployment).
+Das Brokering kann als Regelkreis verstanden werden: Zielwert sind die definierten Anwendungen und Qualitätskriterien. Der Broker startet die entsprechenden Services auf Cloud-Ressourcen, liest den tatsächlichen Zustand der Anwendungen und passt sie zum Beispiel durch Skalierung an. \autoref{fig:cycle} visualisiert dieses Verhalten.
+
+\begin{description}
+	
+	\item[Anwendungsvorlage] beinhaltet die abstrakte Beschreibung der einzelnen Services und die zugehörigen Qualitätserwartungen des Anwenders. Diese beinhaltet zum Beispiel Hard- und Softwareanforderungen, aber auch SLO-Metriken wie die erwartete Zuverlässigkeit oder eine Restriktion möglicher Rechenzentrumsstandorte. Alle Informationen leitet er an den Scheduler weiter.	
+	
+	\item[Monitor] sammelt hauptsächlich Anwendungslaufzeitinformationen mithilfe in der Vorlage definierter Schnittstellen. Dies können zum Beispiel Auslastung, Ausfälle und Fehler sein. Über Adapter hat der Monitor Zugriff auf Provider-Daten.	
+	
+	\item[Scheduler] der eigentliche Broker, der die im vorherigen Abschnitt beschriebene Strategie umsetzt. Er wählt anhand der Vorlagen, Benutzereingaben und Cloud-Angebote einen passenden Platz zum Start eines Services. Außerdem betrachtet er eine verteilte Anwendung als Ganzes und skaliert sie, wenn nötig.	
+	
+	\item[Cloud-Adapter] ermöglicht die einheitliche, lesende und schreibende Kommunikation mit verschiedenen Cloud-Providern. Er liest Metadaten wie Standorte und Fähigkeiten sowie aktuelle Preisinformtionen und Kapazitäten. Anschließend setzt er Schedulerpläne um; reserviert Ressourcen, konfiguriert Netzwerke und Firewalls. Denkbar ist auch die Vereinheitlichung verschiedener Leistungsklassen einzelner Anbieter.
+	
+\end{description}
 
 \begin{figure}
 	\centering	
@@ -20,11 +23,11 @@
 	{\tiny \textsf{
 	\includesvg{images/broker-cycle}}}
 %	\includegraphics[width=\linewidth]{images/broker-cycle}
-	\caption{Arbeitsweise des Multi-Cloud-Brokers als Regelkreis: (1) Sammeln der Meta-Informationen aller Cloud-Provider, (2) Sammeln der Laufzeitinformationen der Anwendungen, (3) Sammeln der SLAs, (4) Nutzeränderungen: Neue Anwendungen oder Anpassung von SLAs, (5) Optimierungsplanung, (6) Planausführung auf den Cloud-Infrastrukturen}
+	\caption{Vereinfachte Arbeitsweise des Multi-Cloud-Brokers als Regelkreis: (1) Sammeln der SLAs, Anwendungsvorlagen und Nutzeränderungen (2) Sammeln der Metainformationen aller Cloud-Provider, (3) Optimierungsplanung und Ausführung auf den Cloud-Infrastrukturen, (4) Sammeln der Laufzeitinformationen der Anwendungen.}
 	\label{fig:cycle}
 \end{figure}
 
-
+%Ausführlicher Regelkreis mit einzelnen Parametern und Teilschritten.
 \begin{minipage}[b]{0.45\linewidth}
 \begin{flushleft}
 \begin{enumerate}
@@ -75,4 +78,7 @@
 \end{enumerate}
 \end{minipage}
 
-	
+\vspace{0.5cm}
+
+\noindent
+Aus der abstrakten Definition der Komponenten und des Brokeringmechanismus lässt sich noch nicht ganz ein Prototyp bauen. Zusätzlich benötigen wir eine formale Definition der Cloudzugangsdaten, Anwendungen und SLAs. Nach deren Einführung beschreiben wir Multi-Cloud-Bibliotheken und anschließend die Implementierung.
