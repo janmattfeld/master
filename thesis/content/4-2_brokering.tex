@@ -1,43 +1,59 @@
 \section{Brokering-Strategie}
 \label{sec:brokering}
 
-Was soll in welcher Reihenfolge mit welcher Priorität beachtet werden? Warum? Welche Informationen sind dazu nötig?
+% \todo{Presentation: 1. Harte Kriterien, 2. SLOs, 3. Optimierung; 1. Placement 2. Skalierung}
+%\todo{Service-Abhängigkeiten in Präsentation erwähnen}
+Der Broker soll die einzelnen Services einer Anwendung auf die verfügbaren Cloud-Ressourcen verteilen. Dabei muss er die verschiedenen Anforderungen der Anwendung und der benutzerdefinierten Qualitätsziele beachten, um eine erste Vorauswahl geeigneter Clouds zu treffen. Anschließend muss diese Liste anhand weiterer Kriterien optimiert und priorisiert werden. Hierzu zeigen wir mehrere Ansätze und entwickeln eine Strategie für den Multi-Cloud-Broker, die wir anhand von Pseudo-Code erläutern.
 
-Außerdem: Algorithmen und Related Work.
-%Genetic Algorithm for Multi-Objective Optimization of Container Allocation in Cloud Architecture
+Zu Beginn der Servicemodellierung müssen minimale Hard- und Softwareanforderungen definiert werden. Der Scheduler bildet diese Anforderungen später auf geeignete Cloud-Instanzen der verschiedenen Anbieter ab. Weitere harte Kriterien sind Geo-Standorte anhand der Gesetzgebung, Verschlüsselung und Redundanz. Hinzu kommen dynamische SLO-Metriken wie die Latenz aus verschiedenen Regionen, Durchsatz als Anfragen pro Sekunde und die tatsächliche Verfügbarkeit. Um die Ressourcennutzung zu optimieren, bevorzugen wir eigene Infrastruktur der Private Clouds. Aus den geeigneten Drittanbietern wählen wir den jeweils günstigsten.
 
-%https://de.wikipedia.org/wiki/Constraintprogrammierung
-%https://de.wikipedia.org/wiki/Scheduling
+\begin{listing}[ht]
+\begin{minted}{python}
+def place_service(clouds, service_template, sla):
+  req_instance_types = service_template.instances
+  req_regions = sla.regions
+	
+  offered_clouds = filter(c.instance in req_instance_types, clouds)
+  offered_regions = filter(c.location in req_regions, offered_clouds)
+	
+  offered_prices = sorted(offered_availability, key=k['price'])
+  allocated_place = offered_prices[0]
+	
+  if allocated_place is None:
+    raise SchedulerError("No match. Check resources or change SLA.")
+  else:
+    return allocated_place
+\end{minted}
+\caption{Algorithmus zur Service-Platzierung: Aus der Liste verfügbarer Clouds werden die technisch und regulatorisch geeigneten ausgewählt. Anschließend wird der Service innerhalb des günstigsten Angebots platziert.}
+\label{listing:placing}
+\end{listing}
 
-%entailing multiple constraint satisfaction (MCS)
-%
-%\todo{Schaubild, was wird wann gematcht}
-%% Pseudocode des Algorithmus, wie in Meryn
-%
-%Kostenoptimierung
-%
-%Preisentwicklung? 
-%
-%Migration je nach Tageszeit? 
-%
-%Kosten der Datentransfers 
-%
-%Subscription On-Demand/Monthly/Yearly 
-%
-%Kompliziert durch undurchsichtige Staffelpreise
-% https://www.rightscale.com/blog/cloud-cost-analysis/aws-vs-azure-vs-google-cloud-pricing-compute-instances
+\begin{listing}[ht]
+\begin{minted}{python}
+def scale(clouds, app_template, sla):
+  running_instances = filter_by_app(app_template, clouds)
+  idle_instances = filter(has_no_connection(i), running_instances)
+	
+  is_replicated = len(running_instances) >= sla.replication_factor
+  is_overprovisioned = len(running_instances) >= sla.replication_factor + 1
+  meets_throughput = benchmark(app_template, sla) >= sla.throughput
 
-%https://www.rightscale.com/blog/cloud-cost-analysis/comparing-cloud-instance-pricing-aws-vs-azure-vs-google-vs-ibm
+  if is_replicated and meets_throughput and is_overprovisioned:
+    expensive_idle = sorted(idle_instances, key=i['price'], reverse=True)
+    expensive_idle[0].shutdown()
+  elif not is_replicated or not meets_throughput:
+    place_service(clouds, service_template, sla)
+\end{minted}
+\caption{Vereinfachter Algorithmus zur horizontalen Skalierung einer verteilten Anwendung. Sollte der Cluster die Mindestredundanz sowie alle Leistungsvereinbarungen übertreffen, kann eine Instanz zur Kosteneinsparung heruntergefahren werden. Sinnvollerweise sollte dies die teuerste sein. Bei Nichterfüllung der Anforderungen, beauftragen wir den Scheduler einen geeigneten Platz für eine weitere Instanz zu finden. Nicht abgebildet: die Auflösung von internen Service-Abhängigkeiten.}
+\label{listing:scaling}
+\end{listing}
 
-%
-%Cost Calculators 
-%
-%http://go.appscale.com/cloud-cost-calculator-help 
-%
-%https://github.com/ifosch/accloudtant 
-%
-%https://awstcocalculator.com/# 
-%
-%Kosten: Rechenzeit und Bandbreite (außerhalb einer Cloud) also gegenläufiges Ziel zu Portabilität und Ausfallsicherheit, denn die geringsten Kosten fallen bei dem Betrieb in einer einzelnen Cloud eines Providers an.
-%i) providers’ pricing models, (ii) application’s communication patterns and (iii) distribution of nodes over providers.
-%https://www.google.de/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0ahUKEwju27vHs6DZAhUCWRQKHRv7BEcQFggrMAA&url=http%3A%2F%2Fwww.mikesmit.com%2Fwp-content%2Fpapercite-data%2Fpdf%2Fcloud2012.pdf&usg=AOvVaw3e6yhHYmhWBbIxtr7MqkuX
+Dabei nehmen wir folgende Vereinfachungen an: Der Broker wählt die passenden Ressourcen zum Start der Services und skaliert sie anschließend horizontal mithilfe statischer VM- und Containergrößen. Die Lastverteilung von Clientanfragen übernimmt die Anwendung selbst. Statt simpler Schwellwerten für CPU- oder RAM-Auslastung, nutzen wir die SLO-Metrik beantwortete Anfragen pro Sekunde, die in jedem Brokerdurchgang geprüft wird.
+
+Mögliche Strategien zur Auswahl des Hosts aus der Liste aller vorgefilterten Clouds sind vielfältig. Neben aufwendigeren Methoden, wie möglichst niedriger Latenz oder hoher Zuverlässigkeit, nutzen wir diese Möglichkeiten; der Host mit niedrigster CPU-/RAM-Auslastung oder Container-Anzahl \emph{(Spread)}, der Host mit höchster Auslastung \emph{(Binpack)}, eine zufällige Auswahl \emph{(Random)}, oder die Cloud mit den niedrigsten erwarteten Kosten \emph{(Cheapest)}.
+
+Die Kostenberechnung allein eines einzelnen Anbieters ist komplex: Je nach Abnahmemenge und Vertragslaufzeit können die Preise stark variieren \footnote{\url{https://www.rightscale.com/blog/cloud-cost-analysis/aws-vs-azure-vs-google-cloud-pricing-compute-instances}}. Zusatzkosten können durch den Datentransfer außerhalb eines Anbieters entstehen. Diese Preisstrukturen stehen den Zielen Portabilität und Ausfallsicherheit entgegen, denn die geringsten Kosten fallen bei dem Betrieb in einer einzelnen Cloud eines Providers an. Für den Prototyp beschränken wir uns trotzdem auf die Berechnung der Rechenkapazität und des Speicherplatzes. Den Platzierungsprozess zeigt Listing \autoref{listing:placing}.
+
+Die Leistung eines Rechenknotens der Cloud-Provider kann sich durch Updates und Rekonfigurationen signifikant ändern -- aber auch, sobald die Aufgaben der Nachbar-VMs wechseln. Daher gibt es Machine-Learning-Ansätze, um die Performance-Charakteristika einer Anwendung und eines bestimmten Infrastrukturknotens zu \emph{lernen}. Hierdurch kann die optimale Angebotsgröße der Provider gewählt werden, um weitere Kosteneinsparungen zu erreichen \cite{grozev:2016:ml-brokering}. Ein klassischerer Ansatz sind Simulationen und Graph-basierte Ansätze. Gleiches ist für die Verfügbarkeit eines bestimmten Anbieters denkbar: Wie zuverlässig war das Angebot wirklich? Ist eine Entschädigung fällig? Möglicherweise kann die Anzahl der Provider reduziert werden, solange die Minimale Replikationsstufe nicht unterschritten wird. Den Algorithmus hierzu zeigt Listing \autoref{listing:scaling}.
+
+Ob einzelne Instanzen sich einfach stoppen lassen, ist allerdings abhängig vom Anwendungsmodell: Zustandslose Architekturen sind einfacher zu handhaben. Für sitzungsgetriebene Anwendungen ist eine Zusammenarbeit mit Lastverteilungssystemen denkbar. Diese könnten, unter Beachtung der Qualitätskriterien, alle Verbindungen auf möglichst wenige Hosts bündeln. Auch messbar ist die Bootzeit eines bestimmten Providers. Wie elastisch ist das Angebot? Mit welcher Kombination aus Anbietern kann eine akzeptable Wiederherstellungszeit erreicht werden? Dies sind mögliche Aspekte weiterer Forschung. Aktuell ist die Strategie für Brokering und automatischer Skalierung reaktiv, aber noch nicht vorausschauend oder proaktiv. Wir erwarten trotzdem eine Erhöhung von Ausfallsicherheit und Portabilität. Der folgende Abschnitt zeigt die Broker-Architektur.
