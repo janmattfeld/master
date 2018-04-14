@@ -63,6 +63,12 @@ class App:
     #  - Hard Constraints (Hardware, Features) -> Scheduler
     #  - Soft Constraints (Availability, Performance, Price) -> Scheduler
     #
+    # Constraints during runtime:
+    #  - Service Dependencies -> Handled here
+    #  - Overall Performance -> Handled here
+    #  - Hard Constraints (Hardware, Features) -> Scheduler
+    #  - Soft Constraints (Availability, Performance, Price) -> Scheduler
+    #
     def __init__(self, template, sla, clouds):
         self.id = utils.create_uuid(template['name'])
         self._template = Template(self.id, template)
@@ -74,6 +80,13 @@ class App:
     # def __del__(self):
     #     """Remove all of the app's service instances"""
     #     del self._services[:]
+
+    # TODO: Checks at App-level
+    # 0. Are all deployed instances still alive?
+    #    a) Reconstruct Template from running instance information (labels)
+    # 1. Measure Throughput, Response Time
+    # 2. Change Template, if needed
+    # 3. Re-run _deploy_services()
 
     def _get_service_by_role(self, role):
         """Return ONE service of a given role"""
