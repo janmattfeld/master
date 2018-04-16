@@ -30,7 +30,7 @@ Zusätzlich sollte der Multi-Cloud-Broker Policys und SLAs auswerten und umsetze
 \end{enumerate}
 
 \noindent
-In einer Community-Cloud könnten Cloud-Provider selbst einen Mechanismus zum Brokering oder zumindest offene APIs bereitstellen. Der Broker wäre also Teil der Cloud. Möglich sind entweder ein zentraler Broker, der direkt auf Cloud-Interna zugreift, oder aber ein Peer-to-Peer-Verbund.\todo{Grafik Architekturübersicht}
+In einer Community-Cloud könnten Cloud-Provider selbst einen Mechanismus zum Brokering oder zumindest offene APIs bereitstellen. Der Broker wäre also Teil der Cloud. Möglich sind entweder ein zentraler Broker, der direkt auf Cloud-Interna zugreift, oder aber ein Peer-to-Peer-Verbund.
 
 Für Multi-Clouds kommen diese Lösungen nicht infrage: Sie bestehen aus mehreren unabhängigen, meist privaten, Cloud-Providern. Aufgrund gegenläufiger Geschäftsinteressen sind diese nicht an einer Föderation mit anderen Anbietern interessiert. Sie werden also weder Interna ihrer Cloud-Plattform anpassen, noch einheitliche APIs bereitstellen.
 
@@ -188,7 +188,6 @@ Durch die Marktdominanz von Amazon \emph{AWS} wurden zwischenzeitlich einige der
 	
 	Eine ähnliche Verbreitung auf CaaS-Ebene haben \emph{Docker}-Container\footnote{\url{https://www.docker.com/what-docker}}. Besonderheiten sind die zentrale Container-Verwaltung, eine Vielzahl vorgefertigter Basis-Images und Konfigurationsmöglichkeiten per \emph{Dockerfile} und/oder Startparameter\footnote{\url{https://docs.docker.com/engine/reference/builder/}}. Die Container sind so flexibel, dass sie lokal auf Entwicklerrechnern, im Continuous-Integration-Prozess und im Produktivbetrieb eingesetzt werden. Docker bildet außerdem die Grundlage für diverse PaaS-Projekte.
 	
-	\todo{Schaubild Konfiguration und Ausführungsumgebungen}
 	Während auf den bisherigen Service-Ebenen zumindest inoffizielle Standards existieren, ist die PaaS-Landschaft noch in großer Bewegung: Mit \emph{Open\-Shift}\footnote{\url{https://www.openshift.com/}} und \emph{Cloud\-Foundry}\footnote{\url{https://www.cloudfoundry.org/}} existieren mindestens zwei populäre Open-Source-Ansätze parallel zu den proprietären Angeboten der Public-Cloud-Provider.
 	
 	\item[Infrastruktur- und Service-Schemata] Eine Service-Definition soll die verschiedenen Komponenten einer Anwendung in Zusammenhang bringen und Abhängigkeiten festlegen. Auf CaaS-Ebene existieren hierfür unter vielen anderen \emph{Docker Compose}\footnote{\url{https://docs.docker.com/compose/overview/}} und \emph{Kubernetes}\footnote{\url{https://kubernetes.io/}}. PaaS-Services lassen sich über \emph{CloudFoundry} definieren. Alle drei Lösungen sind jedoch auf ihre Service-Ebene beschränkt -- daher können sie zwangsläufig nicht alle Anwendungsszenarien abbilden.
@@ -196,7 +195,6 @@ Durch die Marktdominanz von Amazon \emph{AWS} wurden zwischenzeitlich einige der
 	Die Definition sollte erst einmal Provider-unabhängig erfolgen; so entsteht eine Topologie, die anschließend von einem Orchestrator oder Broker interpretiert und umgesetzt wird.
 	
 	Ein offenes, Provider- und Service-Ebenen-übergreifendes Schema ist die \emph{Topology and Orchestration Specification for Cloud Applications} (TOSCA) \cite{oasis:2018:tosca-simple}. Sie unterstützt	weitere Details, unter anderem Variablen, Vererbung, Start- und Stopp-Aktionen sowie einfache Policys. Ein Service-Beispiel mit den grundlegenden Möglichkeiten zeigt Listing \ref{listing:tosca-service}.
-	\todo{tosca-einordnung-diagramm}
 	% Literatur: TOSCA in a Nutshell: Promises and Perspectives
 	
 	\begin{listing}[ht]	
@@ -208,8 +206,6 @@ Durch die Marktdominanz von Amazon \emph{AWS} wurden zwischenzeitlich einige der
 	Die Kommunikation mit Service-Providern über die TOSCA-Referenz-Implementierung ist theoretisch möglich, die Plugins sind jedoch wenig verbreitet und als experimentell gekennzeichnet. Im Fall von OpenStack ist die Unterstützung bei \emph{Kilo} stehen geblieben\footnote{\url{https://docs.cloudify.co/4.2.0/plugins/openstack/}}. Eine externe Lösung ist also erfolgversprechender. Implementiert wird TOSCA außerdem von der Open-Source-CMP \emph{Cloudify\footnote{\url{https://cloudify.co/}}} und im EU-Forschungsprojekt \emph{SeaClouds} \cite{seaclouds:2015:architecture}.
 	
 	Verwandt ist das Projekt \emph{Cloud Application Management for Platforms (CAMP)}: Auch hier ist eine verteilte Anwendung als YAML-Plan definiert \cite{oasis:2014:camp}. Die Topologie muss allerdings konkret ausformuliert werden. Im Gegensatz zu \emph{TOSCA} steht die Zielplattform zur Modellierungszeit schon fest. Daher eignet sich \emph{CAMP} nicht als Eingabesprache für Broker.
-	
-	\todo{Tabelle mit Cloud-Standards?}
 
 	% Im Bereich PaaS überschneidet sich der Abschnitt Infrastruktur-Schemata architekturbedingt mit dem der Ausführungsumgebungen; diese wird meist einfach in einer Konfigurationsdatei deklariert und muss nicht selbst bereitgestellt werden.
 	
@@ -349,10 +345,9 @@ Auch nicht-funktionale Anforderungen werden betrachtet: Sind die Artefakte der P
 	Die Arbeit geht auch auf die Bereitstellung von Laufzeitumgebungen und Provider-spezifischen Images ein: Er schlägt eine Erweiterung des \emph{Open Virtualization Formats (OVF)} vor. Zusätzliche Metadaten beschreiben die nötige Cloud-Konfiguration.
 	
 	
-	\item[Bernsetein InterCloud Blueprint] Eine weltweite Föderation der Cloud-Ressourcen \cite{bernstein:2011:intercloud}. Interessant ist der dezentrale Ansatz des Brokerings. Nur in dieser Arbeit wird der Broker als \emph{Single-Point-of-Failure} erkannt: Deshalb soll er zwangsläufig repliziert und in allen Regionen mindestens einmal verfügbar sein. Der Ansatz folgt also den Grundlagen des Internets und entwickelt eigene Inter-Cloud-Protokolle auf Basis von XMPP und RDF.\todo{Additional Graph} %: Federation/Multi-CLoud, Policy/SLA, Commercial/Research -> Conclusion: No project combining all.
+	\item[Bernsetein InterCloud Blueprint] Eine weltweite Föderation der Cloud-Ressourcen \cite{bernstein:2011:intercloud}. Interessant ist der dezentrale Ansatz des Brokerings. Nur in dieser Arbeit wird der Broker als \emph{Single-Point-of-Failure} erkannt: Deshalb soll er zwangsläufig repliziert und in allen Regionen mindestens einmal verfügbar sein. Der Ansatz folgt also den Grundlagen des Internets und entwickelt eigene Inter-Cloud-Protokolle auf Basis von XMPP und RDF.
 	
 	
-	\newcolumntype{L}{>{\raggedright\arraybackslash}X}% Linksbündige Spalte ohne Trennung
 	\begin{table}%
 		\centering%
 			\caption{Kategorisierung von kommerziellen, Forschungs- und EU-geförderten Cloud-Brokern. Alle unterstützen das Verteilen einmaliger Stapelverarbeitungsaufgaben, besonders gekennzeichnet sind interaktive Anwendungen. Für PaaS-Angebote ist die unterstützte Programmiersprache oder ein Framework angegeben. \emph{Unterstützte Standards} beziehen sich auf die Cloud- und Broker-APIs, SLA-Definition und -Verhandlung sowie die Service-Modellierung. \emph{Policy-Brokering} meint einfache Wenn-dann-Regeln. SLAs hingegen überwachen kontinuierlich einen dynamischen Zielwert und reagieren proaktiv auf Änderungen. Beispiel: die Skalierung bei einer bestimmten Anzahl TCP-Verbindungen (Policy) gegen dynamische Ressourcenverwaltung nach tatsächlicher Antwortzeit in Millisekunden (SLA). \emph{Awareness}: weitere Infrastrukturinformationen über Anwendungsstatistiken hinaus, wie den geografischen Rechenzentrumsstandort.}%

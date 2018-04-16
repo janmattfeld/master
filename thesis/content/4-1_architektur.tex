@@ -1,9 +1,7 @@
 \section{Modularer Architekturvorschlag}
 \label{sec:architektur}
 
-Aus der gerade beschriebenen Brokering-Strategie und den bisherigen technischen und nicht-funktionalen Anforderungen leiten wir einen modularen Architekturvorschlag ab. Dieser Abschnitt beschreibt die einzelnen Komponenten, ihre Aufgaben und das Zusammenwirken der Module. 
-
-Das Brokering kann als Regelkreis verstanden werden: Zielwert sind die definierten Anwendungen und Qualitätskriterien. Der Broker startet die entsprechenden Services auf Cloud-Ressourcen, liest den tatsächlichen Zustand der Anwendungen und passt sie zum Beispiel durch Skalierung an. \autoref{fig:cycle} visualisiert dieses Verhalten.
+Aus der gerade beschriebenen Brokering-Strategie und den bisherigen technischen und nicht-funktionalen Anforderungen leiten wir einen modularen Architekturvorschlag ab. Dieser Abschnitt beschreibt die einzelnen Komponenten, ihre Aufgaben und das Zusammenwirken der Module. Das Brokering kann als Regelkreis verstanden werden: Zielwert sind die definierten Anwendungen und Qualitätskriterien. Der Broker startet die entsprechenden Services auf Cloud-Ressourcen, liest den tatsächlichen Zustand der Anwendungen und passt sie zum Beispiel durch Skalierung an. \autoref{fig:cycle} visualisiert dieses Verhalten.
 
 \begin{description}
 	
@@ -13,7 +11,7 @@ Das Brokering kann als Regelkreis verstanden werden: Zielwert sind die definiert
 	
 	\item[Scheduler] der eigentliche Broker, der die im vorherigen Abschnitt beschriebene Strategie umsetzt. Er wählt anhand der Vorlagen, Benutzereingaben und Cloud-Angebote einen passenden Platz zum Start eines Services. Außerdem betrachtet er eine verteilte Anwendung als Ganzes und skaliert sie, wenn nötig.	
 	
-	\item[Cloud-Adapter] ermöglicht die einheitliche, lesende und schreibende Kommunikation mit verschiedenen Cloud-Providern. Er liest Metadaten wie Standorte und Fähigkeiten sowie aktuelle Preisinformtionen und Kapazitäten. Anschließend setzt er Schedulerpläne um; reserviert Ressourcen, konfiguriert Netzwerke und Firewalls. Denkbar ist auch die Vereinheitlichung verschiedener Leistungsklassen einzelner Anbieter.
+	\item[Cloud-Adapter] ermöglicht die einheitliche, lesende und schreibende Kommunikation mit verschiedenen Cloud-Providern. Er liest Metadaten wie Standorte und Fähigkeiten sowie aktuelle Preisinformationen und Kapazitäten. Anschließend setzt er Schedulerpläne um; reserviert Ressourcen, konfiguriert Netzwerke und Firewalls. Denkbar ist auch die Vereinheitlichung verschiedener Leistungsklassen einzelner Anbieter.
 	
 \end{description}
 
@@ -22,7 +20,6 @@ Das Brokering kann als Regelkreis verstanden werden: Zielwert sind die definiert
 	\def\svgwidth{0.95\textwidth}
 	{\tiny \textsf{
 	\includesvg{images/broker-cycle}}}
-%	\includegraphics[width=\linewidth]{images/broker-cycle}
 	\caption{Vereinfachte Arbeitsweise des Multi-Cloud-Brokers als Regelkreis: (1) Sammeln der SLAs, Anwendungsvorlagen und Nutzeränderungen (2) Sammeln der Metainformationen aller Cloud-Provider, (3) Optimierungsplanung und Ausführung auf den Cloud-Infrastrukturen, (4) Sammeln der Laufzeitinformationen der Anwendungen.}
 	\label{fig:cycle}
 \end{figure}
@@ -35,7 +32,7 @@ Das Brokering kann als Regelkreis verstanden werden: Zielwert sind die definiert
 \begin{enumerate}
 	\item Kapazität% (CPU, RAM, HDD, Netzwerk)
 	\item Features% (Verschlüsselung, CUDA, \ldots)
-	\item Geo-Lokation
+	\item Geo-Standort
 	\item Preis
 \end{enumerate}
 \item Laufzeitinformationen% der PaaS/Anwendungen

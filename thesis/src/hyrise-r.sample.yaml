@@ -21,21 +21,11 @@ services:
       - None
     deploy:
       mode: global
-      resources:
-        # omitted
+      resources: #omitted
     networks:
       - frontend
       - backend
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost"]
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
-    restart_policy:
-      condition: on-failure
-      delay: 5s
-      max_attempts: 3
-      window: 120s
+    restart_policy: !import policy.restart.default.yaml
     provider:
       docker:
         image: hyrise/dispatcher:docker

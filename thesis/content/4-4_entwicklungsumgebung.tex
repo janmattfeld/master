@@ -4,7 +4,7 @@ Dieser Abschnitt beschreibt die konkrete technische Umsetzung des Brokers. Die A
 
 Hierzu haben wir bereits Libcloud als Python-Bibliothek zur Cloud-Abstraktion ausgewählt und nutzen für das gesamte Projekt ausschließlich Python 3.6. Stil-Leitfaden ist PEP\,8\footnote{\url{https://www.python.org/dev/peps/pep-0008/}} zusammen mit einigen bekannten Python-Best-Practices\footnote{\url{http://docs.python-guide.org/en/latest/\#writing-great-python-code}}\footnote{\url{http://pyvideo.org/speaker/raymond-hettinger.html}}. Wir nutzen zum Beispiel \emph{@property} um Getter- und Setter-Methoden zu verbergen; in eigenen Klassen implementieren wir \emph{Magic Methods} wie \emph{\_\_getitem\_\_}. Ganz nach dem \emph{Zen of Python}\footnote{\url{https://www.python.org/dev/peps/pep-0020/}} soll die Implementierung möglichst leicht zu verstehen und zu warten sein.
 
-Alle weiteren Abhängigkeiten installiert der Paketmanager Pipenv\footnote{\url{https://docs.pipenv.org/}} aus dem Pipfile (ähnlich \emph{requirements.txt}), er integriert außerdem \emph{virtualenv} -- der Broker lässt sich so unabhängig von bereits auf Systemebene installierten Python-Versionen und -Modulen  betreiben. Das gesamte Setup und alle Testprozesse sind in einem Makefile zusammengefasst. Außer dem Hyrise-R-Fork und den AWS-/DevStack-Teststellungen enthält das zentrale Broker-Repository folgendes:
+Alle weiteren Abhängigkeiten installiert der Paketmanager Pipenv\footnote{\url{https://docs.pipenv.org/}} aus dem Pipfile (ähnlich \emph{requirements.txt}), er integriert außerdem \emph{virtualenv} -- der Broker lässt sich damit unabhängig von bereits auf Systemebene installierten Python-Versionen und -Modulen  betreiben. Das gesamte Setup und alle Testprozesse sind in einem Makefile zusammengefasst. Außer dem Hyrise-R-Fork und den AWS-/DevStack-Teststellungen enthält das zentrale Broker-Repository folgendes:
 
 \begin{forest}
 	pic dir tree,
@@ -37,19 +37,19 @@ Der Prototyp ist vereinfacht und demonstriert eine Teilmenge des möglichen Konz
 
 \begin{description}
 	
-	\item[Cloud] ist die Basisklasse für den Zugriff auf Ressourcen. Sie definiert bestimmte Schnittstellen; zum Beispiel die Methode \emph{deploy()}, um aus einer ausgefüllten Vorlage eine Service-Instanz zu starten. Die Klasse verwaltet außerdem Zugangsdaten und den Zugriff auf Qualitätsmetriken, Kosten und Administrationsschnittstellen einer Cloud.
+	\item[Cloud] ist die Basisklasse für den Zugriff auf Ressourcen. Sie definiert bestimmte Schnittstellen, zum Beispiel die Methode \emph{deploy()}, um aus einer ausgefüllten Vorlage eine Service-Instanz zu starten. Die Klasse verwaltet zusätzlich Zugangsdaten und den Zugriff auf Qualitätsmetriken, Kosten und Administrationsschnittstellen einer Cloud.
 	
 	Für jeden Provider existiert eine Adapterklasse, die \emph{Cloud} implementiert und über die jeweiligen Libcloud-Module\footnote{\url{https://libcloud.readthedocs.io/en/latest/supported_providers.html}} die Kommunikation mit Cloud-Providern abwickelt. Unsere Klasse \emph{DockerCloud} nutzt zum Beispiel Libclouds \emph{DockerContainerDriver}. Entsprechendes gilt für OpenStack und AWS. Da alle zentralen Schnittstellen unabhängig vom gewählten Provider bereitstehen, ist der Zugriff für Anwendungen transparent.
 	
 	\item[App] verwaltet die Verbindungen der einzelnen Anwendungskomponenten mithilfe von Vorlagen: Essenzielle, globale Dienste ohne weitere Abhängigkeiten werden zuerst ausgerollt, dies können zum Beispiel Lastverteilungssysteme sein. Anschließend folgen die Primärdienste, später die redundanten Komponenten. Dabei beachtet \emph{App} die gewünschte Anzahl an Instanzen und beauftragt den Scheduler mit der Suche nach dem passendsten Ressourcen-Anbieter.
 	
-	\item[Service] Ein Service ist eine einzeln zu startende Komponente einer verteilten Anwendung. Der Zugehörigkeit zu einer größeren Anwendung ist sich die Service-Klasse allerdings nicht bewusst -- Sie ist nur ein Container für die ausgefüllte Vorlage mit Laufzeitkonfiguration und die Verbindung zur ausführenden Cloud.
+	\item[Service] ist eine einzeln zu startende Komponente einer verteilten Anwendung. Der Zugehörigkeit zu einer größeren Anwendung ist sich die Service-Klasse allerdings nicht bewusst. Sie ist nur ein Container für die ausgefüllte Vorlage mit Laufzeitkonfiguration und die Verbindung zur ausführenden Cloud.
 	
 	\item[Template] Cloud-Zugangsdaten und Anwendungsvorlagen liegen als einfache Textdateien mit YAML-Syntax im Verzeichnis des Brokers. Ausgeführte Pläne speichert er zusätzlich im Unterverzeichnis \emph{deployments}. Die genaue Spezifikation hierzu haben wir in \autoref{sec:service-schema} erarbeitet.
 	
 	Während des Deployments füllt der Broker iterativ alle Platzhalter in den Vorlagen. Beispiel: Nach dem Start eines zentralen Lastverteilungsdienstes ist dessen IP-Adresse bekannt und wird allen weiteren Instanzen mitgegeben. Im Gegensatz zu solchen globalen Variablen speichern wir Parameter redundanter Dienste nur temporär zur Weitergabe an die Infrastruktur-Provider.
 	
-	Technische Grundlage sind Jinja2\footnote{\url{http://jinja.pocoo.org/}} als Vorlagensprache und ruamel.yaml\footnote{\url{https://yaml.readthedocs.io/en/latest/}} als moderne YAML-Python-Implementierung. Das iterative Ausfüllen der Vorlagen erreichen wir durch die eigene Implementierung der Klasse \emph{IgnoreMissingAttribute}.
+	Technische Basis sind Jinja2\footnote{\url{http://jinja.pocoo.org/}} als Vorlagensprache und ruamel.yaml\footnote{\url{https://yaml.readthedocs.io/en/latest/}} als moderne YAML-Python-Implementierung. Das iterative Ausfüllen der Vorlagen erreichen wir durch die eigene Implementierung der Klasse \emph{IgnoreMissingAttribute}.
 	
 	\begin{figure}[ht]
 		\centering
@@ -60,14 +60,14 @@ Der Prototyp ist vereinfacht und demonstriert eine Teilmenge des möglichen Konz
 		\label{fig:broker-architecture}
 	\end{figure}
 			
-	\item[Scheduler] nimmt verfügbare Clouds und eine Servicevorlage mit Qualitätskriterien entgegen. Aus der Liste verfügbarer Ressourcen filtert die Planungseinheit alle grundsätzlich passenden Einträge. Anschließend gewichtet er die übrigen Clouds nach weichen Kriterien wie der erwarteten Performance oder dem voraussichtlichen Preis. Das passendste Ergebnis liefert er als konkreten Deploymentvorschlag zurück an die Klasse \emph{App}. Der Scheduler übernimmt gleichzeitig die Funktion des Monitors: Er überprüft in jedem Brokering-Zyklus die vorhandenen Dienste auf Einhaltung der Qualitätskriterien.
+	\item[Scheduler] nimmt verfügbare Clouds und eine Servicevorlage mit Qualitätskriterien entgegen. Aus der Liste verfügbarer Ressourcen filtert die Planungseinheit alle grundsätzlich passenden Einträge. Anschließend gewichtet er die übrigen Clouds nach weichen Kriterien wie der erwarteten Performance oder dem voraussichtlichen Preis. Das optimale Ergebnis liefert er als konkreten Deploymentvorschlag zurück an die Klasse \emph{App}. Der Scheduler übernimmt gleichzeitig die Funktion des Monitors: Er überprüft in jedem Brokering-Zyklus die vorhandenen Dienste auf Einhaltung der Qualitätskriterien.
 
-	\item[Logger und Tracer] Während des Regelbetriebs würde der Logger komponentenübergreifend alle Ereignisse festhalten. In unserem Prototyp ist die Tracing-Funktion wichtiger: Jede mit \emph{@traced()} dekorierte Methode liefert beim Aufruf ihren Namen und Parameter sowie das zugehörige Objekt; nach der Ausführung den Rückgabewert. Diese Funktion war bisher nicht verfügbar und ist daher eine vollständige Eigenentwicklung.
+	\item[Logger und Tracer] würden während des Regelbetriebs komponentenübergreifend alle Ereignisse festhalten. In unserem Prototyp ist die Tracing-Funktion wichtiger: Jede mit \emph{@traced()} dekorierte Methode liefert beim Aufruf ihren Namen und Parameter sowie das zugehörige Objekt, nach der Ausführung den Rückgabewert. Diese Funktion war bisher nicht verfügbar und ist daher eine vollständige Eigenentwicklung.
 	
 	Wir verfolgen hierüber die erfolgreiche Anmeldung an Cloud-Providern, eingelesene SLO- und Anwendungsvorlagen, erstellte Ausführungspläne, Libcloud-HTTP-Anfragen und -Antworten, Leistungsmessungen und Fehlermeldungen.	
 	
-	\item[Image-Repository] Die vorbereiteten Container- und System-Images werden im Verzeichnis \emph{images/} bereitgehalten. Je nach Ausführungsumgebung und Aufbau der Anwendungen benötigen wir für jede Cloud und jeden Service ein eigenes Image: Für die Testanwendung Hyrise-R ergibt dies je zwei Cloud-Init-Images und zwei Docker-Container. \autoref{sec:hyrise-r} erläutert die Details.
+	\item[Image-Repository] hält die vorbereiteten Container- und System-Images im Verzeichnis \emph{images/} bereit. Je nach Ausführungsumgebung und Aufbau der Anwendungen benötigen wir für jede Cloud und jeden Service ein eigenes Image: Für die Testanwendung Hyrise-R ergibt dies je zwei Cloud-Init-Images und zwei Docker-Container. \autoref{sec:hyrise-r} erläutert die Details.
 	
-	Für Weiterentwicklungen ist ein separates Image-Repository denkbar. Notwendig ist dies aber nicht: Jedes Image wir nur einmal zu jedem Provider übertragen und ist anschließend über die lokale Image-Verwaltung wie OpenStack Glance verfügbar. Für öffentliche Projekte bietet sich außerdem Docker Hub als zentraler Speicherplatz für Container an.
+	Für Weiterentwicklungen ist ein separates Image-Repository denkbar. Notwendig ist das aber nicht -- Jedes Image wir nur einmal zu jedem Provider übertragen und ist anschließend über die lokale Image-Verwaltung wie OpenStack Glance verfügbar. Für öffentliche Projekte bietet sich außerdem Docker Hub als zentraler Speicherplatz für Container an.
 	
 \end{description}

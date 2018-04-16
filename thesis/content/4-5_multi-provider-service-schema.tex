@@ -1,6 +1,6 @@
 \section{Multi-Provider-Service-Schema}
 \label{sec:service-schema}
-\todo{YAML-Auszüge nach vorn schieben}
+
 Konfigurationsdateien sind im aktuellen Prototyp die einzige Benutzerschnittstelle. Sie liefern vielfältige Angaben: 
 
 \begin{enumerate}
@@ -11,18 +11,23 @@ Konfigurationsdateien sind im aktuellen Prototyp die einzige Benutzerschnittstel
 
 Alle von Nutzern anpassbaren Dateien folgen der vereinfachten Auszeichnungssprache YAML \emph{(YAML Ain't Markup Language)} zur datenorientierten Speicherung mithilfe von (assoziativen) Listen und Einzelwerten. Im Gegensatz zu XML oder JSON sind die resultierenden Konfigurationsdateien für Menschen einfacher lesbar. Gleichzeitig existieren Interpreter für sämtliche verbreiteten Sprachen und Systeme. Durch die zeilenbasierte Speicherung einzelner Werte sind YAML-Dateien außerdem über Git versionierbar. Entsprechend hat sich der YAML-Standard als Konfigurationssyntax im Cloud- und DevOps-Kontext durchgesetzt; genutzt wird er zum Beispiel auch von AWS-Angeboten, Docker Compose oder Travis-CI. Als offener, menschen- und maschinenlesbarer Standard schafft YAML Portabilität.
 
-\begin{listing}[ht]	
+\begin{listing}[!h]	
 	\inputminted[]{yaml}{./src/provider.sample.yaml}
-	\caption{Provider-Definition und Zugangsdaten. Der Broker liest alle eingetragenen Accounts automatisch ein und berücksichtigt sie bei der initialen Service-Bereitstellung sowie in Optimierungsläufen. Public-Clouds benötigen nur Zugangsdaten wie Benutzername und Passwort -- alle weiteren Informationen erfragt der Broker dynamisch zur Laufzeit vom Provider. In Private-Cloud-Umgebungen ist dies nicht immer möglich: Details zur Verfügbarkeit, geografische Lage und Kosten müssen manuell eingepflegt oder vom Monitoring festgestellt werden.}
+	\caption{Provider-Definition und Zugangsdaten. Der Broker liest alle eingetragenen Accounts automatisch ein und berücksichtigt sie bei der initialen Service-Bereitstellung sowie in Optimierungsläufen. Public-Clouds benötigen nur Zugangsdaten wie Benutzername und Passwort -- alle weiteren Informationen erfragt der Broker dynamisch zur Laufzeit vom Provider. In Private-Cloud-Umgebungen ist das nicht immer möglich: Details zur Verfügbarkeit, geografische Lage und Kosten müssen manuell eingepflegt oder vom Monitoring festgestellt werden.}
 	\label{listing:provider}
 \end{listing}
 
 Ausschnitt \ref{listing:provider} zeigt die Definition der Serviceprovider: Public-Cloud-Angebote benötigen nur Angaben zur Authentifizierung, alle weiteren Informationen ruft Libcloud dynamisch zur Laufzeit ab. Dies können zum Beispiel aktuelle Preisinformationen, verfügbare Ressourcen und Geostandorte sein. Für private Infrastrukturen müssen diese Daten möglicherweise manuell eingetragen werden -- es liegt an den IT-Verantwortlichen und der Buchhaltung, die anfallenden Kosten einer OpenStack-Instanz zu berechnen. Verfügbarkeitsstatistiken können direkt hinterlegt oder vom Broker berechnet werden. Obligatorisch ist die Angabe eines technischen Providers wie \emph{docker} oder \emph{ecs} und einer eindeutigen ID.
 
-Services und SLOs sollen providerübergreifend und abstrakt definiert werden. In \autoref{sec:service-definition} haben wir hierzu den Standard TOSCA ausgewählt: Durch zweckmäßige Basistypen und Vererbung lassen sich übliche Webanwendungstopologien mit Qualitätsvereinbarungen kombinieren. Auch hier können wir YAML einsetzen. Dazu implementieren wir eine Untermenge von TOSCA-Simple und definieren Basistypen für Services und importierbare Qualitätsziele. Nutzer können anschließend eigene Wünsche einbringen, durch Importe ergänzen oder Werte und Variablen manuell überschreiben. Ausschnitt \autoref{listing:hyrise-r} zeigt die Definition für einen Hyrise-R-Dispatcher. Alle verbliebenen Variablen füllt der Broker dynamisch während der Planumsetzung. Zum Beispiel legt er fest, welcher Service-Teil, auf welchem Provider, mit welchem Instanz-Typen, bereitgestellt wird. Technisch basieren die Variablen auf der Jinja2-Syntax. 
+Services und SLOs sollen providerübergreifend und abstrakt definiert werden. In \autoref{sec:service-definition} haben wir hierzu den Standard TOSCA ausgewählt: Durch zweckmäßige Basistypen und Vererbung lassen sich übliche Webanwendungstopologien mit Qualitätsvereinbarungen kombinieren. Auch hier können wir YAML einsetzen. Dazu implementieren wir eine Untermenge von TOSCA-Simple und definieren Basistypen für Services und importierbare Qualitätsziele. Nutzer können anschließend eigene Wünsche einbringen, durch Importe ergänzen oder Werte und Variablen manuell überschreiben. Ausschnitt \ref{listing:hyrise-r} zeigt die Definition für einen Hyrise-R-Dispatcher. Alle verbliebenen Variablen füllt der Broker dynamisch während der Planumsetzung. Zum Beispiel legt er fest, welcher Service-Teil, auf welchem Provider, mit welchem Instanz-Typen, bereitgestellt wird. Technisch basieren die Variablen auf der Jinja2-Syntax.
+
+\begin{listing}[!h]	
+	\inputminted[firstline=15]{yaml}{./src/hyrise-r.sample.yaml}
+	\caption{Providerübergreifende Servicevorlage. Der Ausschnitt zeigt die Definition des zentralen \emph{Hyrise-R-Dispatcher}-Dienstes. Nicht zu sehen sind Metadaten und die übrigen Anwendungsbestandteile. Parameter werden zur Laufzeit vom Broker eingesetzt.}
+	\label{listing:hyrise-r}
+\end{listing}
 
 Ausgeführte Pläne speichert der Broker mit ausgefüllten Variablen, Anwendungskennung und einer UUID als YAML-Dokumentation. Denkbar wäre auch eine Sicherung des Brokerergebnisses als CAMP-Plan, dieser wäre kompatibel mit anderen offenen Cloud-Management-Systemen. Diese Kooperation könnte ein Thema für weitere Arbeiten sein. Der Broker vergibt den gestarteten Instanzen außerdem Metainformationen als Labels, der Betrieb ist zustandslos: Aus den Zugangsinformationen zur Cloud-Infrastruktur und den Informationen der gestarteten Instanzen lassen sich die Anwendungen jederzeit rekonstruieren. Die Basisdefinitionen der Services liefern weitere Instruktionen zur Zustandsprüfung auf Service-Ebene und Reaktionen im Fehlerfall. Die folgende Auflistung erläutert alle Bestandteile unserer providerübergreifenden Servicedefininition:
-
 
 \begin{description}
 	
@@ -53,12 +58,6 @@ Ausgeführte Pläne speichert der Broker mit ausgefüllten Variablen, Anwendungs
 	\item[Wartung] Im Gegensatz zu einem einfachen Broker kümmert sich die Cloud-Management-Plattform auch um den ordnungsgemäßen Weiterbetrieb einer Anwendung. Wir definieren daher eine rudimentäre Überprüfung der Funktionsfähigkeit wie folgt: In einem bestimmten Intervall soll die CMP eine HTTP-Schnittstelle ansprechen. Kommt auch nach drei Versuchen keine gültige Antwort, gilt die Service-Instanz als verloren und wird neu gestartet. Über weitere SLOs lässt sich das Verhalten anpassen. Für Hyrise existiert kein Stopp-Kommando, der Dispatcher erkennt abgeschaltete Knoten selbstständig.
 	
 \end{description}
-
-\begin{listing}[ht]	
-	\inputminted[firstline=15]{yaml}{./src/hyrise-r.sample.yaml}
-	\caption{Providerübergreifende Servicevorlage. Der Ausschnitt zeigt die Definition des zentralen \emph{Hyrise-R-Dispatcher}-Dienstes. Nicht zu sehen sind Metadaten und die übrigen Anwendungsbestandteile. Parameter werden zur Laufzeit vom Broker eingesetzt.}
-	\label{listing:hyrise-r}
-\end{listing}
 
 \noindent
 Am Beispiel von OpenStack, AWS und Hyrise-R haben wir die Definition von providerübergreifenden Services und Qualitätsvereinbarungen in einem offenen YAML-Standard beschrieben. Das nächste Kapitel zeigt eine konkrete Teststellung und versucht unsere Forschungshypothese zu validieren.
