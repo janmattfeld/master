@@ -1,38 +1,27 @@
-%In der Schlussbetrachtung gibt es einen Rückblick, in dem Motivation und Thesen aus der Einleitung wieder aufgegriffen und abgerundet werden. Antworten auf in der Problemstellung aufgeworfene Fragen werden kurz und prägnant zusammengefasst. Ebenso sollte ein Ausblick auf offen gebliebene Fragen sowie auf interessante Fragestellungen, die sich aus der Arbeit ergeben, gegeben werden. Ein persönlich begründetes Fazit aus eigener Perspektive ist an dieser Stelle ebenfalls sinnvoll.
-%
-
 \chapter{Zusammenfassung und Ausblick}
+
+Cloud-Angebote spielen eine entscheidende Rolle in den aktuellen und zukünftigen IT-Strategien Unternehmen aller Größen. Besonders attraktiv sind die höhere Flexibilität und mögliche Kosteneinsparungen. Gleichzeitig entstehen größere Herausforderungen bei Zuverlässigkeit und Vertraulichkeit sowie Portabilität der eigenen Daten und Anwendungen. Mit dem Inkrafttreten der Datenschutz-Grundverordnung und immer neuen Datenlecks\footnote{\url{https://www.mcafee.com/enterprise/en-us/solutions/lp/cloud-security-report-stats.html}} ist das Thema hochaktuell.
+
+Durch die Nutzung mehrerer Anbieter und der intelligenten Kombination von Private- und Public-Cloud-Infrastruktur möchten wir diesen Herausforderungen entgegentreten. Cloud-Kunden müssen in der Lage sein, ihre Anforderungen anbieter- und technikunabhängig zu formulieren. Eine technische Lösung sollte anschließend automatisiert die Einhaltung von geforderten Datenschutz-, Qualitäts- und Kostenzielen sicherstellen.
+
+Wir haben einen Überblick über aktuelle kommerzielle und akademische Multi-Cloud-Projekte gegeben. Dabei haben wir divergente Cloud-Schnittstellen und SLA-Standards als größte Risiken identifiziert. Als Lösungsvorschlag entwickelten wir einen Multi-Cloud-Broker und implementierten ihn prototypisch. Dabei dient das bestehende TOSCA-Simple-Schema zur Anwendungs- und SLA-Spezi\-fi\-ka\-tion. Die Leistungsfähigkeit der Lösung haben wir anschließend in einem Testaufbau mit OpenStack, AWS und Hyrise-R demonstriert.
+
+Innerhalb von zwei zentralen Testfällen platzieren wir einen Hyrise-R-Cluster über Technik- und Anbietergrenzen hinweg: Dabei beachten wir einfache Regeln zur Redundanz, aber auch komplexere Qualitätsvorgaben wie einen bestimmten Anfrage-Durchsatz. Zusätzlich sind dem Broker Geostandorte der Rechenzentren bekannt, er berücksichtigt also auch aktuelle Datenschutzvorschriften. Abschließend wählt er den kostengünstigsten Anbieter, der alle übrigen Kriterien erfüllt. Dieses Leistungsspektrum macht das Konzept einzigartig und auch kommerziell interessant.
+
+Während Verwaltung und Betrieb verteilter Cloud-Anwendungen deutlich vereinfacht oder sogar erst ermöglicht wurden, ergaben sich größere Herausforderungen bei der Integration verschiedener Cloud-Provider. Besonders Public-Cloud-Angebote wie AWS können sich als Kostentreiber herausstellen, da keine besonderen Rabatte für einen Testbetrieb existieren. Kostengünstiger, aber technisch aufwendiger ist die Bereitstellung eines aussagekräftigen Private-Cloud-Testbeds mit OpenStack. Für beide Fälle haben wir Automatisierungen mithilfe von Platzhaltern und Containern vorgestellt. Von einem Einsatz der Multi-Cloud-Bibliothek Libcloud müssen wir abraten -- statt der erhofften Harmonisierung verschiedener Schnittstellen und Leistungsklassen, bringt die Drittbibliothek einige neue Fehlerquellen.
+
+Insgesamt entsteht aber eine größere Unabhängigkeit von einem einzelnen Cloud-Anbieter. Zusätzlich zur sichergestellten Vertraulichkeit und möglichen Preisvorteilen ergeben sich weitere Vorteile:
 
 \begin{description}
 	
 	\item[Notfallplan] Bei Ausfall der gesamten Ausführungsplattform kann eine Migration zu einem anderen Anbieter erfolgen.
 	
-	\item[Abfangen von Lastspitzen] Zusätzliche Service-Instanzen auf externen Ressourcen bearbeiten bei Bedarf weitere Anfragen.
+	\item[Abfangen von Lastspitzen] Zusätzliche Service-Instanzen auf externen Ressourcen bearbeiten bei Bedarf weitere Anfragen (\emph{Cloud-Bursting}).
 	
-	\item[Lebenszyklus-Verwaltung] Typischerweise durchläuft eine neue Service-Version die Phasen Entwicklung, Test, Qualitätssicherung und Produktion. Hierfür existieren oft unterschiedliche Ausführungsumgebungen.
+	\item[Lebenszyklus-Verwaltung] Typischerweise durchläuft eine neue Anwendungsversion die Phasen Entwicklung, Test, Qualitätssicherung und Produktion. Hierfür existieren oft unterschiedliche Ausführungsumgebungen, die wir automatisiert ansprechen.
 	
 \end{description}
 
-%Rightscale Video: https://www.rightscale.com/solutions/problems-we-solve/self-service-it
+Während die Portierung bestehender Anwendungen und die Definition der Dienste und SLAs weit fortgeschritten ist, ergeben sich weitere Anforderungen für den produktiven Einsatz als CMP: Aktuell besitzt der Broker keinerlei Authentifizierung, auch eine grafische Anzeige fehlt. Denkbar wäre auch ein Discovery-Dienst wie Zookeeper zur einfacheren Verwaltung der verteilten Anwendungen.
 
-Einheitliche Standards zu Services, SLAs und Kommunikation.
-
-Policys innerhalb von Instanzen 
-%(allow SSH, check for security vulnerabilities)
-
-Policys auf Datenebene
-
-Ausbau zu einer produktiven CMP
-Identity
-Discovery
-Monitoring
-Dashboard
-CAMP-Pläne zum Austausch mit weiteren Cloud-Management-Plattformen.
-
-Trend: Serverless
-
-Migrationshürden von Apps auf die CMP: OS Version, SSL-Zertifikate, statische und virtuelle IPs, Lizenzen, Load Balancing, Clustering, Bandbreite, Mandantenfähigkeit.
-
-Failover-Handling nicht definiert. Im Moment: Bereitstellung eines Services mit der gleichen Adresse bei Ausfall. Weitere Arbeit auf Anwendungsebene (Hyrise-R) nötig. Oder Ausgliederung der Service-Discovery an ein externes Tool.
-
-Überwachung der SLAs und Durchsetzen von Schadensersatz.
+Weitere Forschungsmöglichkeiten existieren vor allem in Bezug auf das Brokering: Möglich sind die Einführung von vertikaler Skalierung, Beachtung von Staffelpreisen und die Optimierung mehrerer Anwendungen gleichzeitig. Eine Lastverteilung auf Datenebene findet aktuell nicht statt, damit bietet das Projekt allerdings eine gute Ergänzung zu den bisherigen Beiträgen im SSICLOPS-Projekt.

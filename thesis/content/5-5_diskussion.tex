@@ -1,21 +1,17 @@
 \section{Stärken und Herausforderungen}
 
-%verschiedene OpenStack-Versionen haben unterschiedliche Schnittstellen. Auch dies kann über die Middleware abgefangen werden. RefStack testet API, Rally testet performance und führt tempest-Tests aus.
+Wir haben erfolgreich eine interaktive, verteilte Anwendung dynamisch auf verschiedenen Clouds mehrerer Provider verteilt. Dabei beachten wir Qualitätsvereinbarungen und greifen auf Metadaten wie Geo-Standorte und aktuelle Preise zu. Mit dieser Kombination ist der Multi-Cloud-Broker in seinem Forschungsumfeld einzigartig.
 
+Während der einleitenden Hintergrundrecherche sind die vielfältigen Cloud-Standards und Eigenentwicklungen aufgefallen. Egal ob für Schnittstellen Anwendungsvorlagen oder Qualitätsvereinbarungen -- das Standardisierungschaos verhindert effektiv eine einheitliche Plattform. Die Wahl des existierenden Frameworks TOSCA-Simple als kombinierte Anwendungs- und SLA-Beschreibung ist deshalb zweckmäßig: Die Konfigurationsdateien sind sowohl versionierbar als auch leicht menschen- und maschinenlesbar. Der Standard orientiert sich an aktuellen Cloud- und DevOps-Konfigurationstechniken, bleibt aber providerübergreifend gültig.
 
-Aufwand einer Multi-Cloud-Strategie
+Weniger eindeutig ist die Erfahrung mit der Multi-Cloud-Bibliothek Apache Libcloud. Da keiner der Public-Cloud-Provider einen offenen Standard wie CAMP unterstützt, müssen wir die proprietären Schnittstellen jedes einzelnen Anbieters implementieren. Zusätzlich unterscheiden sich die Infrastrukturarchitekturen und verfügbare Leistungsklassen teils deutlich. Libcloud verspricht sowohl Schnittstellen als auch Leistungsklassen zu harmonisieren. Letzteres ist allerdings gar nicht für alle Provider implementiert, Änderungen werden nicht zeitnah in Libcloud eingepflegt. Wir haben für jeden Anbieter eine eigene Libcloud-Adapter-Klasse konstruiert. Allein diese Notwendigkeit macht die Herausforderungen deutlich: Trotz Abstraktion müssen Provider-Interna bekannt sein. Libcloud ist außerdem eine zusätzliche Fehlerquelle, gerade im Zusammenhang mit OpenStack sind zahlreiche Bugreports jahrelang offen\footnote{\url{https://issues.apache.org/jira/browse/LIBCLOUD-840}}\footnote{\url{https://issues.apache.org/jira/browse/LIBCLOUD-904}}\footnote{\url{https://issues.apache.org/jira/browse/LIBCLOUD-912}}. Abschließend ist eine direkte Integration der nativen Provider-SDKs vielversprechender. Auch diese müssen regelmäßig aktualisiert werden, sind jedoch zuverlässiger als ein Drittanbieter.
 
-Umsetzung der Policys
-- Apps gemeinsam betrachten und optimieren
-- Services gemeinsam betrachten und optimieren
+Testing ist, wie in jedem anderen Softwareprojekt, auch mit einer Multi-Cloud-Strategie essenziell. Unsere Versuche haben auch hier Herausforderungen gezeigt: Kommerzielle Angebote wie AWS bieten keinen speziellen Testbetrieb, Kosten fallen wie beim regulären Einsatz an. In einer testgetriebenen Entwicklung entsteht dadurch eine Kostenfalle. Um diese zu umgehen, bieten sich Platzhalter an. Für AWS zum Beispiel LocalStack. Deutlich aufwendiger ist die Erstellung eines OpenStack-Testbeds, falls dieses nicht ohnehin schon als Teil der Private-Cloud-Strategie vorhanden ist. In jedem Fall entsteht ein erheblicher Mehraufwand, je mehr unterschiedliche Anbieter und Architekturen unterstützt werden sollen.
 
-Potenzial
+Die Portierung bestehender Eigenentwicklungen wie Hyrise für aktuelle Ausführungsumgebungen ist vergleichsweise unproblematisch. Wir haben die C++-Anwendung in ein Ubuntu-Cloud-Image und einen Docker-Container integriert. Größte Herausforderung sind eingeschränkte Rechte innerhalb von Containern, die NUMA-Funktionen verhindern können. Wir haben den Quellcode entsprechend angepasst. Die weitere Konfiguration erfolgt über Standards wie cloud-init und Dockerfiles, dadurch sind die entstandenen Images providerübergreifend nutzbar.
 
-Vorteile durch Multi-Cloud-Bibliotheken
+Viel Raum für weitere Forschungsarbeiten bieten das Brokering und die Strategien zur Skalierung sowie Lastverteilung. Der aktuelle Prototyp betrachtet nur eine einzelne Anwendung gleichzeitig. Für eine maximale Kostenersparnis sollte eine Optimierung aber über Anwendungsgrenzen hinweg erfolgen. Auch die Bestimmung von nötigen Cloud-Ressourcen ist aktuell rein statisch: Wir legen vorab einen nötigen Instanztyp pro Anbieter fest. Die Skalierung erfolgt anschließend horizontal, wir schalten bei Bedarf also weitere Instanzen hinzu, anstatt die Ressourcen einer bestehenden zu erhöhen. Upscaling könnte, je nach Preisstaffelung, größere Kosteneinsparungen bringen.
 
-Aufwand für ein Multi-Cloud-Testbed
+Zum Einsatz als echte Cloud-Management-Plattform fehlen noch weitere Eigenschaften wie zum Beispiel Redundanz des Brokers selbst. Diese Einschränkung gilt auch für Hyrise-R, dessen Dispatcher und Master nur einmal je Cluster existieren können. Wir begegnen dieser Einschränkung mit der zustandslosen Auslegung des Brokers. Allein aus den Cloudzugangsdaten und den Labels bestehender Instanzen kann er zu verwaltende Anwendungen rekonstruieren. 
 
-Redundanz fehlt: Auch die CMP muss in einer vertrauenswürdigen Umgebung repliziert werden und synchronisieren. Dem Hyrise-R-Dispatcher fehlt diese Funktion ebenso.
-
-% See IETF Inter Cloud Framework Requirements and Diagram S.26
-%Cloud Services Layers (Logical) (Intercloud Communication)
+Der Prototyp provisioniert anbieterübergreifend Ressourcen, verteilt Anwendungen und skaliert sie nach benutzerdefinierten Qualitätsanforderungen. Wir haben damit einen entscheidenden Beitrag zur Portabilität, Zuverlässigkeit und Vertraulichkeit in Cloud-Umgebungen geliefert. Der Broker schafft zusätzliche Sicherheit durch automatisierte Verwaltung der Anwendungen und ihrer (geografischen) Grenzen. Der Aufwand einer Multi-Cloud-Strategie ist dadurch deutlich reduziert.
