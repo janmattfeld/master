@@ -64,12 +64,12 @@ teardown(filter='all')
 \end{minted}
 
 \noindent
-Um die, in \autoref{cha:implementierung} vorgestellten, Strategien zu Platzierung und anschließender Skalierung zu überprüfen, definieren wir zwei umfangreichere Testfälle, siehe \autoref{tab:testcases}. Der gerade diskutierte Hyrise-R-Benchmark dient dabei zur Bestimmung der Durchsatz-Qualitätsvereinbarung. Gleichzeitig nutzen wir alle definierten Komponenten des Brokers sowie unsere kombinierten Anwendungs- und SLA-Vorlagen.
+Um die, in \autoref{cha:implementierung} vorgestellten, Strategien zu Platzierung und anschließender Skalierung zu überprüfen, definieren wir zwei umfangreichere Testfälle, siehe \autoref{tab:testcases}. Der gerade diskutierte Hyrise-R-Benchmark dient dabei zur Bestimmung der Durchsatz-Qualitätsvereinbarung. Gleichzeitig nutzen wir alle definierten Komponenten des Brokers sowie unsere kombinierten Anwendungs- und SLA-Vorlagen.  Welche Stärken und weiteren Herausforderungen der Test zeigt, diskutiert der nächste Abschnitt.
 
 \begin{table}[h!]
 \centering%
-\caption{Testfälle der beiden zentralen Broker-Funktionen.}
-\ra{1.3}
+\ra{1.3}%
+\caption{Testfälle der beiden zentralen Broker-Funktionen.}%
 \begin{tabularx}{\textwidth}{LLLLL}%
 \toprule%
 %
@@ -80,8 +80,6 @@ Test Case & Clouds & Policies & SLAs & Optimization\\%
 Placement & OpenStack, AWS ECS & Geo, Replication & -- & Pricing\\%
 Scaling   & OpenStack, AWS ECS & Geo, Replication, Workload & Throughput & Pricing\\%
 \bottomrule%
-\label{tab:testcases}
 \end{tabularx}
+\label{tab:testcases}
 \end{table}
-
-Wir haben damit erfolgreich eine interaktive, verteilte Anwendung dynamisch auf verschiedenen Clouds mehrerer Provider verteilt. Dabei beachten wir Qualitätsvereinbarungen und greifen auf Metadaten wie Geo-Standorte und aktuelle Preise zu. Mit dieser Kombination ist der Multi-Cloud-Broker in seinem Forschungsumfeld einzigartig. Welche Stärken und weitere Herausforderungen der Test zeigt, diskutiert der nächste Abschnitt.
