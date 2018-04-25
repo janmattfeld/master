@@ -1,27 +1,51 @@
-\documentclass{scrreprt} % <= Druckversion: "scrbook", Bildschirmversion: "scrreprt"
+\documentclass{scrbook} % <= Druckversion: "scrbook", Bildschirmversion: "scrreprt"
 \newcommand\bcor{12mm} % <= Bindungskorrektur für Druckversion
 \usepackage{osm-thesis}
 
-
 \usepackage{ellipsis} % Leerraumoptimierung
+\usepackage{microtype}
+\usepackage{enumitem} % Aufzählungen mit A, B, C ...
+\usepackage{subcaption}
+
+\usepackage[multiple]{footmisc} % Trennung mehrerer Fußnoten durch Kommata
+% Requires \usepackage[hyperfootnotes=false,...]{hyperref}, see https://tex.stackexchange.com/a/35060
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Tabellen
 \usepackage{booktabs} % Tabellenstriche unterschiedlicher Stärke
 \usepackage{tabularx} % Automatische Zeilenumbrüche
 \usepackage{tablefootnote}
 \newcolumntype{L}{>{\raggedright\arraybackslash}X}% Linksbündige Spalte ohne Trennung
 \newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
-\usepackage{minted} % Farbige Hervorhebung von Quellcode
-\RequirePackage{csquotes} % Loaded later because of minted
-\usepackage{enumitem} % Aufzählungen mit A, B, C...
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage[edges]{forest} % Verzeichnisbäume
+% Quellcode
+\usepackage{minted} % Farbige Hervorhebung von Quellcode
+\RequirePackage{csquotes} % Loaded later because of minted
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Keine Einrückung nach Aufzählungen
+\usepackage{etoolbox}
+\makeatletter
+\newcommand*\NoIndentAfterEnv[1]{%
+	\AfterEndEnvironment{#1}{\par\@afterindentfalse\@afterheading}}
+\makeatother
+
+\NoIndentAfterEnv{enumerate}
+\NoIndentAfterEnv{itemize}
+\NoIndentAfterEnv{description}
+\NoIndentAfterEnv{verse}
+\NoIndentAfterEnv{minted}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Verzeichnisbäume
+\usepackage[edges]{forest}
 
 \definecolor{folderbg}{RGB}{124,166,198}
 \definecolor{folderborder}{RGB}{110,144,169}
 \newlength\Size
 \setlength\Size{4pt}
 
-% TODO Use real icons
 \tikzset{%
 	folder/.pic={%
 		\filldraw [draw=folderborder, top color=folderbg!50, bottom color=folderbg] (-1.05*\Size,0.2\Size+5pt) rectangle ++(.75*\Size,-0.2\Size-5pt);
@@ -56,16 +80,10 @@
 	pic me set={directory}{folder},
 	pic me set={file}{file},
 }
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\usepackage[multiple]{footmisc} % Trennung mehrerer Fußnoten durch Kommata
-% Requires \usepackage[hyperfootnotes=false,...]{hyperref}, see https://tex.stackexchange.com/a/35060
-
-\usepackage{wrapfig}
-\usepackage{subcaption}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Import SVG directly via Inkscape-pdf_tex-Export
+\pdfsuppresswarningpagegroup=1
 \usepackage{import}
 \graphicspath{{images/}}
 \newcommand{\executeiffilenewer}[3]{%
@@ -80,7 +98,6 @@
 	\input{#1.pdf_tex}%
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 % ABOUT
 \newcommand{\hpitype}{Masterarbeit}
 \newcommand{\hpiauthor}{Jan-Henrich Mattfeld}
@@ -115,7 +132,7 @@
 	\pagenumbering{roman}
 	\include{content/titlepage}
 	\ifisbook\cleardoubleemptypage\fi
-	% \include{content/abstract}
+	 \include{content/abstract}
 	\tableofcontents
 	\cleardoublepage
 

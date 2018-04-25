@@ -15,16 +15,6 @@ Aus der gerade beschriebenen Brokering-Strategie und den bisherigen technischen 
 	
 \end{description}
 
-\begin{figure}
-	\centering	
-	\def\svgwidth{0.95\textwidth}
-	{\tiny \textsf{
-	\includesvg{images/broker-cycle}}}
-	\caption{Vereinfachte Arbeitsweise des Multi-Cloud-Brokers als Regelkreis: (1) Sammeln der SLAs, Anwendungsvorlagen und Nutzeränderungen (2) Sammeln der Metainformationen aller Cloud-Provider, (3) Optimierungsplanung und Ausführung auf den Cloud-Infrastrukturen, (4) Sammeln der Laufzeitinformationen der Anwendungen.}
-	\label{fig:cycle}
-\end{figure}
-
-%Ausführlicher Regelkreis mit einzelnen Parametern und Teilschritten.
 \begin{minipage}[b]{0.45\linewidth}
 \begin{flushleft}
 \begin{enumerate}
@@ -79,3 +69,12 @@ Aus der gerade beschriebenen Brokering-Strategie und den bisherigen technischen 
 
 \noindent
 Aus der abstrakten Definition der Komponenten und des Brokeringmechanismus lässt sich noch nicht ganz ein Prototyp bauen. Zusätzlich benötigen wir eine formale Definition der Cloudzugangsdaten, Anwendungen und SLAs. Nach deren Einführung beschreiben wir Multi-Cloud-Bibliotheken und anschließend die Implementierung.
+
+\begin{figure}
+	\centering	
+	\def\svgwidth{\textwidth}
+	{\footnotesize \textsf{
+			\includesvg{images/broker-cycle}}}
+	\caption{Vereinfachte Arbeitsweise des Multi-Cloud-Brokers als Regelkreis: (1) Sammeln der SLAs, Anwendungsvorlagen und Nutzeränderungen (2) Sammeln der Metainformationen aller Cloud-Provider, (3) Optimierungsplanung und Ausführung auf den Cloud-Infrastrukturen, (4) Sammeln der Laufzeitinformationen der Anwendungen.}
+	\label{fig:cycle}
+\end{figure}

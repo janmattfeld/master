@@ -27,7 +27,7 @@ Als Metrik zur Bewertung des Brokerings gilt -- neben Einhaltung der SLOs -- die
 
 Die Hyrise-HTTP-Schnittstelle empfängt Anfragen im JSON-Format. Die minimale Anfrage \emph{NoOp} startet keine Datenbankoperation, durchläuft aber alle Datenbankkomponenten von HTTP-Handling über Parser bis Ausführungseinheit. Als erster Funktionstest würde diese Anfrage genügen. Wir möchten allerdings den gesamten Cluster testen, und nutzen daher eine echte, hinreichend komplexe Anfrage. Deren Bearbeitung benötigt genug Zeit, damit der Dispatcher sie auf alle Knoten aufteilen kann. Den vorhandenen Python-Code überarbeiten und parallelisieren wir. Die Anzahl der Knoten lässt eine bestimmte Performance erwarten -- für einen gültigen Test muss die Anzahl der Anfragen mindestens der Anzahl Knoten entsprechen:
 
-\begin{minted}{python3}
+\begin{minted}[samepage=true]{python3}
 queries = [(host, port, query)] * num_nodes
 start_time = time.time()
 with multiprocessing.dummy.Pool(num_threads) as pool:
@@ -39,7 +39,7 @@ Um sowohl OLTP- als auch OLAP-Fähigkeiten der In-Memory-Datenbank zu überprüf
 
 Die Beispieldatenbank enthält eine Auftragshistorie mit knapp 300\,000 Datensätzen. Jede Zeile besteht aus sieben zufälligen Integer-, zwei String- und einem Float-Wert. So ergibt sich eine Rohgröße von 21,3\,MB. Die folgende Beispielanfrage\footnote{\url{https://db.in.tum.de/research/projects/CHbenCHmark/}} zeigt alle Bestellungen eines bestimmten Zeitraumes, sowie Summe, Gesamt- und Durchschnittswert aller enthaltenen Posten. Sie dient uns als \emph{Smoke-Test} -- liefert der Hyrise-R-Cluster eine valide Antwort im vorgegebenen Zeitrahmen, ist die generelle Funktionsfähigkeit gegeben, und das Deployment erfolgreich abgeschlossen:
 
-\begin{minted}{sql}
+\begin{minted}[samepage=true]{sql}
 SELECT ol_number,
        SUM(ol_quantity) AS sum_qty,
        SUM(ol_amount)   AS sum_amount,
@@ -52,18 +52,15 @@ GROUP BY ol_number
 ORDER BY ol_number
 \end{minted}
 
-%To-do: Konkreter Test, SLOs: Verlinken aus vorherigem Abschnitt. Forschungshypothese: Steigerung von  Datensicherheit, Vertraulichkeit und Portabilität.
-
-\noindent
 Das folgende Minimalbeispiel ist der Smoke-Test unseres Prototyps:
-\begin{minted}{python}
+
+\begin{minted}[samepage=true]{python}
 init_clouds(filter=['ecs', 'openstack'])
 deploy_app('hyrise')
 validate_throughput('hyrise')
 teardown(filter='all')
 \end{minted}
 
-\noindent
 Um die, in \autoref{cha:implementierung} vorgestellten, Strategien zu Platzierung und anschließender Skalierung zu überprüfen, definieren wir zwei umfangreichere Testfälle, siehe \autoref{tab:testcases}. Der gerade diskutierte Hyrise-R-Benchmark dient dabei zur Bestimmung der Durchsatz-Qualitätsvereinbarung. Gleichzeitig nutzen wir alle definierten Komponenten des Brokers sowie unsere kombinierten Anwendungs- und SLA-Vorlagen.  Welche Stärken und weiteren Herausforderungen der Test zeigt, diskutiert der nächste Abschnitt.
 
 \begin{table}[h!]

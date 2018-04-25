@@ -3,7 +3,7 @@
 
 Der Broker soll die einzelnen Services einer Anwendung auf die verfügbaren Cloud-Ressourcen verteilen. Dabei muss er die verschiedenen Anforderungen der Anwendung und der benutzerdefinierten Qualitätsziele beachten, um eine erste Vorauswahl geeigneter Clouds zu treffen. Anschließend muss diese Liste anhand weiterer Kriterien optimiert und priorisiert werden. Hierzu zeigen wir mehrere Ansätze und entwickeln eine Strategie für den Multi-Cloud-Broker, die wir anhand von Pseudocode erläutern.
 
-Zu Beginn der Servicemodellierung müssen minimale Hard- und Softwareanforderungen definiert werden. Der Scheduler bildet diese Anforderungen später auf geeignete Cloud-Instanzen der verschiedenen Anbieter ab. Weitere harte Kriterien sind Geo-Standorte anhand der Gesetzgebung, Verschlüsselung und Redundanz. Hinzu kommen dynamische SLO-Metriken wie die Latenz aus verschiedenen Regionen, Durchsatz als Anfragen pro Sekunde und die tatsächliche Verfügbarkeit. Um die Ressourcennutzung zu optimieren, bevorzugen wir eigene Infrastruktur der Private Clouds. Aus den geeigneten Drittanbietern wählen wir den jeweils günstigsten.
+Zu Beginn der Servicemodellierung müssen minimale Hard- und Softwareanforderungen definiert werden. Der Scheduler bildet diese Anforderungen später auf geeignete Cloud-Instanzen der verschiedenen Anbieter ab. Weitere harte Kriterien sind Geo-Standorte anhand der Gesetzgebung, Verschlüsselung und Redundanz. Hinzu kommen dynamische SLO-Metriken wie die Latenz aus verschiedenen Regionen, Durchsatz als Anfragen pro Sekunde und die tatsächliche Verfügbarkeit. Um die Ressourcennutzung zu optimieren, bevorzugen wir eigene Infrastruktur der Private-Clouds. Aus den geeigneten Drittanbietern wählen wir den jeweils günstigsten.
 
 \begin{listing}[ht]
 \begin{minted}{python}
@@ -14,7 +14,7 @@ def place_service(clouds, service_template, sla):
   offered_clouds = filter(c.instance in req_instance_types, clouds)
   offered_regions = filter(c.location in req_regions, offered_clouds)
 	
-  offered_prices = sorted(offered_availability, key=k['price'])
+  offered_prices = sorted(offered_regions, key=k['price'])
   allocated_place = offered_prices[0]
 	
   if allocated_place is None:
@@ -36,7 +36,7 @@ def scale(clouds, app_template, sla):
   is_overprovisioned = len(running_instances) >= sla.replication_factor + 1
   meets_throughput = benchmark(app_template, sla) >= sla.throughput
 
-  if is_replicated and meets_throughput and is_overprovisioned:
+  if meets_throughput and is_overprovisioned:
     expensive_idle = sorted(idle_instances, key=i['price'], reverse=True)
     expensive_idle[0].shutdown()
   elif not is_replicated or not meets_throughput:
