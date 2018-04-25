@@ -1,0 +1,153 @@
+From dev-return-9277-apmail-deltacloud-dev-archive=deltacloud.apache.org@deltacloud.apache.org  Fri May 10 15:17:46 2013
+Return-Path: <dev-return-9277-apmail-deltacloud-dev-archive=deltacloud.apache.org@deltacloud.apache.org>
+X-Original-To: apmail-deltacloud-dev-archive@www.apache.org
+Delivered-To: apmail-deltacloud-dev-archive@www.apache.org
+Received: from mail.apache.org (hermes.apache.org [140.211.11.3])
+	by minotaur.apache.org (Postfix) with SMTP id A3B47FD1C
+	for <apmail-deltacloud-dev-archive@www.apache.org>; Fri, 10 May 2013 15:17:46 +0000 (UTC)
+Received: (qmail 17780 invoked by uid 500); 10 May 2013 15:17:46 -0000
+Delivered-To: apmail-deltacloud-dev-archive@deltacloud.apache.org
+Received: (qmail 17722 invoked by uid 500); 10 May 2013 15:17:45 -0000
+Mailing-List: contact dev-help@deltacloud.apache.org; run by ezmlm
+Precedence: bulk
+List-Help: <mailto:dev-help@deltacloud.apache.org>
+List-Unsubscribe: <mailto:dev-unsubscribe@deltacloud.apache.org>
+List-Post: <mailto:dev@deltacloud.apache.org>
+List-Id: <dev.deltacloud.apache.org>
+Reply-To: dev@deltacloud.apache.org
+Delivered-To: mailing list dev@deltacloud.apache.org
+Received: (qmail 17704 invoked by uid 99); 10 May 2013 15:17:45 -0000
+Received: from nike.apache.org (HELO nike.apache.org) (192.87.106.230)
+    by apache.org (qpsmtpd/0.29) with ESMTP; Fri, 10 May 2013 15:17:45 +0000
+X-ASF-Spam-Status: No, hits=-5.0 required=5.0
+	tests=RCVD_IN_DNSWL_HI,SPF_HELO_PASS,SPF_PASS
+X-Spam-Check-By: apache.org
+Received-SPF: pass (nike.apache.org: domain of mandreou@redhat.com designates 209.132.183.28 as permitted sender)
+Received: from [209.132.183.28] (HELO mx1.redhat.com) (209.132.183.28)
+    by apache.org (qpsmtpd/0.29) with ESMTP; Fri, 10 May 2013 15:17:38 +0000
+Received: from int-mx12.intmail.prod.int.phx2.redhat.com (int-mx12.intmail.prod.int.phx2.redhat.com [10.5.11.25])
+	by mx1.redhat.com (8.14.4/8.14.4) with ESMTP id r4AFHGSI032633
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK);
+	Fri, 10 May 2013 11:17:16 -0400
+Received: from [10.36.112.23] (ovpn-112-23.ams2.redhat.com [10.36.112.23])
+	by int-mx12.intmail.prod.int.phx2.redhat.com (8.14.4/8.14.4) with ESMTP id r4AFHDNg030254;
+	Fri, 10 May 2013 11:17:15 -0400
+Message-ID: <518D0F79.4000901@redhat.com>
+Date: Fri, 10 May 2013 18:17:13 +0300
+From: "marios@redhat.com" <mandreou@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:17.0) Gecko/20130402 Thunderbird/17.0.5
+MIME-Version: 1.0
+To: dev@deltacloud.apache.org
+CC: Community Management mailing list for the Aeolus Project <aeolus-comm-mgmt@lists.fedorahosted.org>
+Subject: [ANNOUNCE]: Red Hat and Apache Deltacloud
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.68 on 10.5.11.25
+X-Virus-Checked: Checked by ClamAV on apache.org
+
+Hi all:
+
+In case anyone was wondering why the mailing list has been quiet for the
+last few days, this e-mail will hopefully offer some explanation. Red
+Hat will be scaling back its sponsorship of the Apache Deltacloud
+project, effective immediately. In practice this means fewer Red Hat
+engineers will be working full time on Deltacloud. Red Hat created the
+Deltacloud project over 3 years ago and has provided *significant*
+support with a number of full time developers (also implying such things
+as travel and conference budget) through the Apache Software
+Foundation's incubation process and after Deltacloud became a top level
+Apache project.
+
+In those 3 years Apache Deltacloud has attracted a large community
+following, with contributions from many many people and organisations:
+
+* The IBM Smart Business Cloud driver was contributed by IBM developer
+Eric Woods - and another IBM engineer, Tong Li, contributed to the CIMI
+API exposed by Deltacloud
+
+* The Fujitsu Global Cloud Platform driver was provided and is
+maintainted by Fujitsu engineer Dies Koper, who has also made
+significant contributions to the CIMI API
+
+* Daniel Molina (an engineer on the OpenNebula project) contributed and
+maintains the OpenNebula driver for Deltacloud
+
+* Luciano Castro (an Aruba engineer) contributed and maintains the
+ArubaCloud driver - Luciano Castro
+
+* Sang-min Park, an engineer with Eucalyptus, contributed the Eucalyptus
+driver
+
+* Ivan Meredith, a Rimuhosting engineer, contributed the Rimuhosting driver
+
+* Countless contributions, bug fixes, feature requests, documentation
+contributed by many many individuals to whom I apologise for not being
+able to name exhaustively in the list above
+
+=========================
+
+Q: But Why?
+-----------
+A: Red Hat remains firmly committed to open source cloud technologies
+and will continue to participate and invest in a variety of projects,
+including Red Hat OpenStack, its community offering RDO and various
+other associated and related projects. At this time Red Hat has decided
+that Deltacloud has reached maturity and can rely on its own community
+as an independent Apache project. Red Hat's other open source cloud
+technology commitments mean that the engineering and QE teams previously
+dedicated to the Deltacloud project will be re-assigned to those efforts.
+
+=========================
+
+Q: Is Red Hat going to "kill Deltacloud".
+-----------------------------------------
+A: Red Hat cannot "kill Deltacloud"; Deltacloud is a top-level Apache
+project, with an active community of developers and users which goes far
+beyond Red Hat.
+
+=========================
+
+Q: What will happen with the Deltacloud CIMI implementation?
+------------------------------------------------------------
+A: The Deltacloud CIMI implementation remains, to our knowledge, the
+only current 'real-world' implementation of the DMTF CIMI specification.
+I expect that individuals/organisations wishing to expose the CIMI API
+in front of their own cloud services will continue to leverage Apache
+Deltacloud to this end and in the process contribute to and help to
+further develop the Deltacloud CIMI implementation. Red Hat will
+continue to participate in the DMTF Cloud Management Working Group that
+is developing the CIMI specification.
+
+=========================
+
+Q: What will happen with the Deltacloud release process/cycle?
+--------------------------------------------------------------
+A: The current monthly release cycle is unsustainable, at least right
+now. This was made possible by the outstanding engineering and QE team
+that Red Hat has sponsored to work full-time on the Deltacloud project.
+The release cycle moving forward will be determined by the community.
+
+=========================
+
+Q: Is Red Hat washing it's hands of Deltacloud altogether?
+----------------------------------------------------------
+A: NO, absolutely not. The Apache Deltacloud PMC will continue to have a
+number of Red Hat engineers and those that have previously worked on the
+project will continue to monitor issues/questions/patches on the mailing
+list/JIRA/irc - albeit at a reduced rate.
+
+=========================
+
+Q: What about the mailing list, irc, JIRA, community call?
+----------------------------------------------------------
+A: The mailing list and JIRA will remain in place as they are
+administered directly by the Apache Software Foundation. For now, the
+community calls will be put on hold, however anyone is free to organise
+and chair these calls moving forward.
+
+
+Please respond to this e-mail with any further questions you might have
+that aren't addressed above,
+
+all the best, marios
+
