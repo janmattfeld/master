@@ -7,27 +7,27 @@
 # Double quotes do not work here, as they are interpreted.
 #
 
-- id: amazonec2
-  text: Amazon EC2 (dev-aws@janmattfeld.de)
-  provider: ec2
-  auth:
-    region: us-east-1
-    access_id: AKIAIDOJJPUWARE6EECA
-    password: /nLlpN2KGt8oMtKHN4yIJsneof4VdX18hbFvpgHi
-
-#- id: dockerce
-#  text: Docker CE (localhost)
-#  provider: docker
+#- id: amazonec2
+#  text: Amazon EC2 (dev-aws@janmattfeld.de)
+#  provider: ec2
 #  auth:
-#    host: 127.0.0.1
-#    port: 4243
-#    username:
-#    password:
-#  location:
-#    country: de
-#  availability: 0.97
-#  cost: 1
-#  secure: False
+#    region: us-east-1
+#    access_id: AKIAIDOJJPUWARE6EECA
+#    password: /nLlpN2KGt8oMtKHN4yIJsneof4VdX18hbFvpgHi
+
+- id: dockerce
+  text: Docker CE (localhost)
+  provider: docker
+  auth:
+    host: 127.0.0.1
+    port: 4243
+    username:
+    password:
+  location:
+    country: de
+  availability: 0.97
+  cost: 1
+  secure: False
 
 #- id: devstack
 #  text: DevStack (Masterprojekt/172.20.5.51)
@@ -46,23 +46,23 @@
 #  security:
 #  availability:
 
-- id: openstack
-  text: OpenStack (Future SOC Lab)
-  provider: powervc
-  auth:
-    url: http://192.168.200.11:5000/v3/auth/tokens
-    base_url: http://192.168.200.11:8774/v2.1
-    version: 3.x_password
-    region_name: RegionOne
-    username: admin
-    password: admin
-    tenant_name: admin
-  location:
-    country: de
-  cost:
-  features:
-  security:
-  availability:
+#- id: openstack
+#  text: OpenStack (Future SOC Lab)
+#  provider: powervc
+#  auth:
+#    url: http://192.168.200.11:5000/v3/auth/tokens
+#    base_url: http://192.168.200.11:8774/v2.1
+#    version: 3.x_password
+#    region_name: RegionOne
+#    username: admin
+#    password: admin
+#    tenant_name: admin
+#  location:
+#    country: de
+#  cost:
+#  features:
+#  security:
+#  availability:
 
 #- id: powervc
 #  text: PowerVC (Future SOC Lab)

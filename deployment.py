@@ -62,7 +62,7 @@ def deploy_app(id='hyrise'):
 def destroy_app(id='hyrise'):
     """Remove all Instances of an Application"""
     # TODO: Find all instances of specific app
-    _clouds[1].clean_test_setup()
+    _clouds[0].clean_test_setup()
 
 
 def get_inventory():
@@ -71,16 +71,15 @@ def get_inventory():
 
 
 def get_throughput():
-    from query_hyrise import benchmark
+    from services.query_hyrise import benchmark
     dispatcher_ip = '127.0.0.1'
     dispatcher_port = 5099
-    return benchmark(dispatcher_ip, dispatcher_port, './queries/q1.json', num_threads=4, num_queries=4)
+    return benchmark(dispatcher_ip, dispatcher_port, './services/queries/q1.json', num_threads=4, num_queries=4)
 
 
 _init_clouds()
 deploy_app('hyrise')
 # We have to wait a bit for the containers to respond before destroying them again
 # So let's do the benchmark
-# get_throughput()
-# destroy_app('hyrise')
-#
+get_throughput()
+destroy_app('hyrise')

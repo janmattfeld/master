@@ -56,7 +56,7 @@ class Cloud:
         """List Containers"""
         return self._conn.list_containers(all=True)
 
-    def deploy_template(self, name, template):
+    def deploy_template(self, name, template, run_config):
         """Deploy Service Instance from Template"""
         return self.deploy(
             name,
@@ -191,7 +191,7 @@ class PowerVcCloud:
 
         # The PowerVC certificate is self-signed
         libcloud.security.VERIFY_SSL_CERT = False
-        libcloud.security.CA_CERTS_PATH = ['/home/tmp/PycharmProjects/untitled2/powervc.crt']
+        libcloud.security.CA_CERTS_PATH = ['powervc.crt']
 
         # The API endpoint returns host 'powervc', which is unknown to the FSOC DNS
         # Add to /etc/hosts: 192.168.42.252 powervc

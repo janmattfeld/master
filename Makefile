@@ -1,7 +1,24 @@
+.PHONY: all play init test stop clean
+
+all: test
+
+play:
+	asciinema play hyrise-r-demo.cast
+
 init:
-    pipenv install
+	pipenv install
 
 test:
-    py.test tests
+	python3.5 deployment.py
 
-.PHONY: init test
+stop:
+	docker ps \
+		--quiet \
+		--filter ancestor=$(NAME) \
+	| xargs \
+		--no-run-if-empty \
+		docker stop
+
+clean: stop
+	docker system prune \
+		--force
