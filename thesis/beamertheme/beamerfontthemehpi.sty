@@ -1,0 +1,52 @@
+\mode<presentation>
+
+%% General font defintions
+% Use standard latex font for formulas
+\beamer@suppressreplacementstrue
+% Use neosans as default sans serif font family
+\renewcommand{\sfdefault}{neosans}
+
+
+%% Styles for slide elements
+
+
+% Title frame
+% Presentation title
+% The Powerpoint slide master has 20pt with single spacing, but 25pt spacing looks more like it
+\setbeamerfont*{title}{size*={20}{25}}
+% Speaker
+\setbeamerfont*{author}{size*={14}{20}}
+% Institute
+\setbeamerfont*{institute}{size*={14}{20}}
+
+% Frame title
+% The Powerpoint slide master has 20pt with single spacing, but 25pt spacing looks more like it
+\setbeamerfont*{frametitle}{size*={20}{25}}
+
+% Standard frame text
+% 14pt and 20pt are the exact values from Powerpoint
+% This is how it should work:
+\setbeamerfont*{normal text}{size*={14}{20}}
+% But according to the manual this beamer font is currently ignored, thus we need to do:
+\AtBeginDocument{\usebeamerfont{normal text}}
+% Explicitly set normalsize and normalfont to our preferred size
+\renewcommand*{\normalsize}{\usebeamerfont{normal text}}
+\renewcommand*{\normalfont}{\usebeamerfont{normal text}}
+
+% Itemize and enumerate
+% Those elements use the same size as normal text
+\setbeamerfont*{itemize/enumerate body}{parent=normal text}
+\setbeamerfont*{itemize/enumerate subbody}{parent=normal text}
+\setbeamerfont*{itemize/enumerate subsubbody}{parent=normal text}
+
+% Sidebar
+% Speaker
+\setbeamerfont*{author in head/foot}{size*={10.5}{12.5}}
+% Date
+\setbeamerfont*{date in head/foot}{size*={10.5}{12.5}}
+% Presentation title
+\setbeamerfont*{title in head/foot}{size*={10.5}{12.5},series=\bfseries}
+% Frame number
+\setbeamerfont*{page number in head/foot}{size*={10.5}{12.5},series=\bfseries}
+
+\mode<all>

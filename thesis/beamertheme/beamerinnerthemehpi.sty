@@ -1,0 +1,23 @@
+\mode<presentation>
+
+% left margin of itemize and enumerate
+\setlength{\leftmargini}{0.7cm}
+
+% itemize
+% On first level: Use a filled square
+\setbeamertemplate{itemize item}{\tikz\fill[hpi-itemize] (0,0) rectangle (1ex,1ex);}
+% On second level: Use a square outline
+\setbeamertemplate{itemize subitem}{\tikz\draw[hpi-itemize] (0,0) rectangle (1ex,1ex);}
+% On third level: Use a dash
+\setbeamertemplate{itemize subsubitem}{\tikz{\useasboundingbox (0,0) rectangle (1ex,1ex);\draw[hpi-itemize] (0,0.6ex) -- (0.5em,0.6ex);}}
+
+% enumerate
+% On first level: Use number
+\setbeamertemplate{enumerate item}{\insertenumlabel.}
+% On second level: Use letter
+\setbeamertemplate{enumerate subitem}{\@alph\insertsubenumlabel)}
+% On third level: Use small roman numbers
+% In the Powerpoint slide master there is a headline format here, but we won't mess with semantics here in the same way
+\setbeamertemplate{enumerate subsubitem}{\romannumeral \insertsubsubenumlabel)}
+
+\mode<all>
