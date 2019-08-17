@@ -38,7 +38,3 @@ services:
 Die Leistungsfähigkeit der Lösung demonstrieren wir anschließend in einem Testaufbau mit [OpenStack](https://github.com/janmattfeld/DockStack), AWS, Docker und [Hyrise-R](https://github.com/janmattfeld/hyrise_nvm).
 
 ![Architecture](./thesis/images/hyrise-r-deployment-small.svg)
-
-## Demo
-
-[![asciicast](https://asciinema.org/a/ybXZmwKpOoSI6UP8gac868LYv.png)](https://asciinema.org/a/ybXZmwKpOoSI6UP8gac868LYv)
